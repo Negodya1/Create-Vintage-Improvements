@@ -1,0 +1,14 @@
+{
+	"type":"vintageimprovements:coiling",
+	"ingredients": [ {
+      "tag": "forge:rods/steel"
+    }
+  ],
+	"results": [
+		{
+			"item": "vintageimprovements:steel_spring",
+			"count": 1
+		}
+	],
+  "processingTime": 120
+}

@@ -1,0 +1,14 @@
+{
+	"type":"createaddition:rolling",
+	"input": {
+      	"tag": "forge:ingots/steel"
+	},
+	"result": {
+		"item": "vintageimprovements:steel_rod",
+		"count": 2
+	},
+	"conditions": [ {
+		"type": "forge:mod_loaded",
+		"modid": "createaddition"
+    } ]
+}

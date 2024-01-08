@@ -1,0 +1,14 @@
+{
+	"type":"vintageimprovements:coiling",
+	"ingredients": [ {
+      "tag": "forge:wires/steel"
+    }
+  ],
+	"results": [
+		{
+			"item": "vintageimprovements:small_steel_spring",
+			"count": 1
+		}
+	],
+  "processingTime": 60
+}

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "vintageimprovements:block/spring_coiling_machine/block",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "vintageimprovements:block/spring_coiling_machine/block"
+    },
+    "facing=south": {
+      "model": "vintageimprovements:block/spring_coiling_machine/block",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "vintageimprovements:block/spring_coiling_machine/block",
+      "y": 270
+    }
+  }
+}

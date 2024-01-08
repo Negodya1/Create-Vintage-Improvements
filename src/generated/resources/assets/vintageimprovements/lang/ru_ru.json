@@ -1,0 +1,61 @@
+{
+	"itemGroup.vintageimprovements": "Create: Винтажные Улучшения",
+	
+	"item.vintageimprovements.steel_rod": "Стальной стержень",
+	"item.vintageimprovements.desh_rod": "Дешовый стержень",
+	"item.vintageimprovements.ostrum_rod": "Острумовый стержень",
+	"item.vintageimprovements.calorite_rod": "Калоритовый стержень",
+	
+	"item.vintageimprovements.steel_wire": "Стальной провод",
+	"item.vintageimprovements.desh_wire": "Дешевый провод",
+	"item.vintageimprovements.ostrum_wire": "Острумовый провод",
+	"item.vintageimprovements.calorite_wire": "Калоритовый провод",
+	
+	"item.vintageimprovements.steel_spring": "Стальная пружина",
+	"item.vintageimprovements.desh_spring": "Дешевая пружина",
+	"item.vintageimprovements.ostrum_spring": "Острумовая пружина",
+	"item.vintageimprovements.calorite_spring": "Калоритовая пружина",
+	"item.vintageimprovements.iron_spring": "Железная пружина",
+	"item.vintageimprovements.golden_spring": "Золотая пружина",
+	"item.vintageimprovements.copper_spring": "Медная пружина",
+	
+	"item.vintageimprovements.small_steel_spring": "Малая стальная пружина",
+	"item.vintageimprovements.small_desh_spring": "Малая дешевая пружина",
+	"item.vintageimprovements.small_ostrum_spring": "Малая острумовая пружина",
+	"item.vintageimprovements.small_calorite_spring": "Малая калоритовая пружина",
+	"item.vintageimprovements.small_iron_spring": "Малая железная пружина",
+	"item.vintageimprovements.small_golden_spring": "Малая золотая пружина",
+	"item.vintageimprovements.small_copper_spring": "Малая медная пружина",
+	
+	"block.vintageimprovements.belt_grinder": "Ленточный гриндер",
+	"item.vintageimprovements.grinder_belt": "Лента гриндера",
+	"create.recipe.assembly.polishing": "Отполируйте на гриндере",
+	"vintageimprovements.recipe.polishing": "Полирование",
+	
+	"block.vintageimprovements.spring_coiling_machine": "Наматыватель пружин",
+	"item.vintageimprovements.spring_coiling_machine_wheel": "Колесо наматывателя",
+	"create.recipe.assembly.coiling": "Намотайте при помощи наматывателя пружин",
+	"vintageimprovements.recipe.coiling": "Наматывание",
+	
+	"vintageimprovements.ponder.belt_grinder_processing.header": "Обработкой предметов на ленточном гриндере",
+	"vintageimprovements.ponder.belt_grinder_processing.text_1": "Ленточные гриндеры могут обрабатывать множество предметов",
+	"vintageimprovements.ponder.belt_grinder_processing.text_2": "Обработанные предметы всегда движутся против подаваемого на гриндер вращения",
+	"vintageimprovements.ponder.belt_grinder_processing.text_3": "Некоторые рецепты требуют определённых об/мин",
+	"vintageimprovements.ponder.belt_grinder_processing.text_4": "Есть три скорости: Низкая (16 об/мин или меньше), Средняя (от 16 до 64 об/мин) и Высокая",
+	
+	
+	"vintageimprovements.ponder.spring_coiling_processing.header": "Обработкой предметов на наматывателе пружин",
+	"vintageimprovements.ponder.spring_coiling_processing.text_1": "Наматыватели пружин могут обрабатывать множество предметов",
+	"vintageimprovements.ponder.spring_coiling_processing.text_2": "Обработанные предметы всегда движутся в лицевую сторону устройства",
+	
+	"vintageimprovements.jei.text.required_speed": "Треб. Скорость:",
+	"vintageimprovements.jei.text.low": "Низкая",
+	"vintageimprovements.jei.text.medium": "Средняя",
+	"vintageimprovements.jei.text.high": "Высокая",
+	"vintageimprovements.jei.text.any": "Любая",
+	
+	"create.vintageimprovements.gui.goggles.low": "Низкая",
+	"create.vintageimprovements.gui.goggles.medium": "Средняя",
+	"create.vintageimprovements.gui.goggles.high": "Высокая",
+	"create.vintageimprovements.gui.goggles.current_speed": "Скорость:"
+}

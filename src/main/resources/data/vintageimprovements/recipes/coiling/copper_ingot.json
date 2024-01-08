@@ -1,0 +1,23 @@
+{
+	"type":"vintageimprovements:coiling",
+	"ingredients": [ {
+      "tag": "forge:ingots/copper"
+    }
+  ],
+	"results": [
+		{
+			"item": "vintageimprovements:copper_spring",
+			"count": 2
+		}
+	],
+  "processingTime": 120,
+  "conditions": [
+	{
+		"type": "forge:not",
+		"value": {
+			"type": "forge:mod_loaded",
+			"modid": "createaddition"
+		}
+	}
+  ]
+}

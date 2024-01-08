@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "vintageimprovements:block/belt_grinder/block",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "vintageimprovements:block/belt_grinder/block"
+    },
+    "facing=south": {
+      "model": "vintageimprovements:block/belt_grinder/block",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "vintageimprovements:block/belt_grinder/block",
+      "y": 270
+    }
+  }
+}
