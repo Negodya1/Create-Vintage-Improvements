@@ -7,7 +7,7 @@ import com.jozufozu.flywheel.backend.Backend;
 import com.jozufozu.flywheel.core.PartialModel;
 import com.jozufozu.flywheel.core.virtual.VirtualRenderWorld;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
+import com.mojang.math.Vector3f;
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderBlock;
 import com.negodya1.vintageimprovements.VintagePartialModels;
@@ -27,12 +27,12 @@ import com.simibubi.create.foundation.utility.VecHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
@@ -114,9 +114,9 @@ public class GrinderRenderer extends SafeBlockEntityRenderer<GrinderBlockEntity>
 
 				ms.scale(.5f, .5f, .5f);
 				if (alongZ)
-					ms.mulPose(Axis.YP.rotationDegrees(90));
-				ms.mulPose(Axis.XP.rotationDegrees(90));
-				itemRenderer.renderStatic(stack, ItemDisplayContext.FIXED, light, overlay, ms, buffer, be.getLevel(), 0);
+					ms.mulPose(Vector3f.YP.rotationDegrees(90));
+				ms.mulPose(Vector3f.XP.rotationDegrees(90));
+				itemRenderer.renderStatic(stack, ItemTransforms.TransformType.FIXED, light, overlay, ms, buffer, 0);
 				break;
 			}
 
@@ -125,6 +125,12 @@ public class GrinderRenderer extends SafeBlockEntityRenderer<GrinderBlockEntity>
 	}
 
 	protected SuperByteBuffer getRotatedModel(KineticBlockEntity be) {
+		/*BlockState state = be.getBlockState();
+		if (state.getValue(HORIZONTAL_FACING)
+			.getAxis()
+			.isHorizontal())
+			return CachedBufferer.partialFacing(AllPartialModels.SHAFT_HALF,
+				state.rotate(be.getLevel(), be.getBlockPos(), Rotation.CLOCKWISE_180));*/
 		return CachedBufferer.block(KineticBlockEntityRenderer.KINETIC_BLOCK,
 			getRenderedBlockState(be));
 	}

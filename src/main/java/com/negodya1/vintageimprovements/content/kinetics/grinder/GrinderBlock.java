@@ -11,7 +11,6 @@ import com.simibubi.create.AllShapes;
 import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
 import com.simibubi.create.content.kinetics.drill.DrillBlock;
 import com.simibubi.create.foundation.block.IBE;
-import com.simibubi.create.foundation.damageTypes.CreateDamageSources;
 import com.simibubi.create.foundation.placement.IPlacementHelper;
 import com.simibubi.create.foundation.placement.PlacementHelpers;
 import com.simibubi.create.foundation.placement.PlacementOffset;
@@ -99,11 +98,11 @@ public class GrinderBlock extends HorizontalKineticBlock implements IBE<GrinderB
 		super.updateEntityAfterFallOn(worldIn, entityIn);
 		if (!(entityIn instanceof ItemEntity))
 			return;
-		if (entityIn.level().isClientSide)
+		if (entityIn.level.isClientSide)
 			return;
 
 		BlockPos pos = entityIn.blockPosition();
-		withBlockEntityDo(entityIn.level(), pos, be -> {
+		withBlockEntityDo(entityIn.level, pos, be -> {
 			if (be.getSpeed() == 0)
 				return;
 			be.insertItem((ItemEntity) entityIn);

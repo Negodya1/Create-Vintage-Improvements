@@ -17,7 +17,6 @@ import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintageRecipes;
 import com.simibubi.create.AllRecipeTypes;
 import com.simibubi.create.AllSoundEvents;
-import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.belt.behaviour.DirectBeltInputBehaviour;
 import com.simibubi.create.content.processing.recipe.ProcessingInventory;
@@ -28,10 +27,11 @@ import com.simibubi.create.foundation.blockEntity.behaviour.filtering.FilteringB
 import com.simibubi.create.foundation.item.ItemHelper;
 import com.simibubi.create.foundation.recipe.RecipeConditions;
 import com.simibubi.create.foundation.recipe.RecipeFinder;
-import com.simibubi.create.foundation.utility.*;
+import com.simibubi.create.foundation.utility.AbstractBlockBreakQueue;
+import com.simibubi.create.foundation.utility.TreeCutter;
+import com.simibubi.create.foundation.utility.VecHelper;
 import com.simibubi.create.infrastructure.config.AllConfigs;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -40,7 +40,6 @@ import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
@@ -52,7 +51,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.StonecutterRecipe;
-import net.minecraft.world.level.block.BambooStalkBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CactusBlock;
 import net.minecraft.world.level.block.ChorusPlantBlock;
@@ -78,7 +76,7 @@ import static net.minecraft.world.level.block.state.properties.BlockStatePropert
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggleInformation {
+public class GrinderBlockEntity extends KineticBlockEntity {
 
 	private static final Object polishingRecipesKey = new Object();
 
@@ -214,7 +212,7 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 			}
 		}
 
-		BlockPos nextPos = worldPosition.offset(BlockPos.containing(itemMovement));
+		BlockPos nextPos = worldPosition.offset(itemMovement.x, itemMovement.y, itemMovement.z);
 		DirectBeltInputBehaviour behaviour = BlockEntityBehaviour.get(level, nextPos, DirectBeltInputBehaviour.TYPE);
 		if (behaviour != null) {
 			boolean changed = false;
@@ -379,7 +377,7 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 		Optional<PolishingRecipe> assemblyRecipe = SequencedAssemblyRecipe.getRecipe(level, inventory.getStackInSlot(0),
 			VintageRecipes.POLISHING.getType(), PolishingRecipe.class);
 		if (assemblyRecipe.isPresent() && filtering.test(assemblyRecipe.get()
-			.getResultItem(level.registryAccess())))
+			.getResultItem()))
 			return ImmutableList.of(assemblyRecipe.get());
 
 		Predicate<Recipe<?>> types = RecipeConditions.isOfType(VintageRecipes.POLISHING.getType());
@@ -441,31 +439,6 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 		inventory.recipeDuration = inventory.remainingTime;
 		inventory.appliedRecipe = false;
 		sendData();
-	}
-
-	@Override
-	public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
-		if (getSpeed() == 0) return false;
-
-		LangBuilder reqSpd = Lang.translate("vintageimprovements.gui.goggles.current_speed").add(Lang.text(" "));
-
-		int speedMode = Math.abs(getSpeed()) <= VintageConfig.lowSpeedValue ? 1 : (Math.abs(getSpeed()) <= VintageConfig.mediumSpeedValue ? 2 : 3);
-
-		switch (speedMode) {
-			case 2:
-				reqSpd.add(Lang.translate("vintageimprovements.gui.goggles.medium")).style(ChatFormatting.YELLOW).forGoggles(tooltip);
-				break;
-
-			case 3:
-				reqSpd.add(Lang.translate("vintageimprovements.gui.goggles.high")).style(ChatFormatting.RED).forGoggles(tooltip);
-				break;
-
-			default:
-				reqSpd.add(Lang.translate("vintageimprovements.gui.goggles.low")).style(ChatFormatting.GREEN).forGoggles(tooltip);
-				break;
-		}
-
-		return true;
 	}
 
 }

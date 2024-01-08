@@ -55,8 +55,8 @@ public class BeltGrinderScenes {
 			.placeNearTarget();
 		scene.idle(45);
 
-		ItemStack quartz = new ItemStack(AllItems.ROSE_QUARTZ);
-		ItemStack polished = new ItemStack(AllItems.POLISHED_ROSE_QUARTZ);
+		ItemStack quartz = new ItemStack(AllItems.ROSE_QUARTZ.get());
+		ItemStack polished = new ItemStack(AllItems.POLISHED_ROSE_QUARTZ.get());
 
 		Vec3 itemSpawn = util.vector.centerOf(grinderPos.above().west());
 		ElementLink<EntityElement> quartzItem = scene.world.createItemEntity(itemSpawn, util.vector.of(0, 0, 0), quartz);

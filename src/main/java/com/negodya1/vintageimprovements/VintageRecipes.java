@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingRecipe;
 import com.simibubi.create.AllTags;
+import net.minecraft.core.Registry;
 import org.jetbrains.annotations.Nullable;
 
 import com.negodya1.vintageimprovements.content.kinetics.grinder.PolishingRecipe;
@@ -14,14 +15,12 @@ import com.simibubi.create.content.processing.sequenced.SequencedAssemblyRecipeS
 import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
 import com.simibubi.create.foundation.utility.Lang;
 
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.ShapedRecipe;
-import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -102,7 +101,7 @@ public enum VintageRecipes implements IRecipeTypeInfo {
 
     private static class Registers {
         private static final DeferredRegister<RecipeSerializer<?>> SERIALIZER_REGISTER = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, VintageImprovements.MODID);
-        private static final DeferredRegister<RecipeType<?>> TYPE_REGISTER = DeferredRegister.create(Registries.RECIPE_TYPE, VintageImprovements.MODID);
+        private static final DeferredRegister<RecipeType<?>> TYPE_REGISTER = DeferredRegister.create(Registry.RECIPE_TYPE_REGISTRY, VintageImprovements.MODID);
     }
 
 }

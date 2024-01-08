@@ -86,11 +86,11 @@ public class CoilingBlock extends HorizontalKineticBlock implements IBE<CoilingB
 		super.updateEntityAfterFallOn(worldIn, entityIn);
 		if (!(entityIn instanceof ItemEntity))
 			return;
-		if (entityIn.level().isClientSide)
+		if (entityIn.level.isClientSide)
 			return;
 
 		BlockPos pos = entityIn.blockPosition();
-		withBlockEntityDo(entityIn.level(), pos, be -> {
+		withBlockEntityDo(entityIn.level, pos, be -> {
 			if (be.getSpeed() == 0)
 				return;
 			be.insertItem((ItemEntity) entityIn);

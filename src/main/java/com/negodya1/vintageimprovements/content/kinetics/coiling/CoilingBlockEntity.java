@@ -55,7 +55,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.StonecutterRecipe;
-import net.minecraft.world.level.block.BambooStalkBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CactusBlock;
 import net.minecraft.world.level.block.ChorusPlantBlock;
@@ -214,7 +213,7 @@ public class CoilingBlockEntity extends KineticBlockEntity {
 			}
 		}
 
-		BlockPos nextPos = worldPosition.offset(BlockPos.containing(itemMovement));
+		BlockPos nextPos = worldPosition.offset(itemMovement.x, itemMovement.y, itemMovement.z);
 		DirectBeltInputBehaviour behaviour = BlockEntityBehaviour.get(level, nextPos, DirectBeltInputBehaviour.TYPE);
 		if (behaviour != null) {
 			boolean changed = false;
@@ -339,7 +338,7 @@ public class CoilingBlockEntity extends KineticBlockEntity {
 		Optional<CoilingRecipe> assemblyRecipe = SequencedAssemblyRecipe.getRecipe(level, inventory.getStackInSlot(0),
 			VintageRecipes.COILING.getType(), CoilingRecipe.class);
 		if (assemblyRecipe.isPresent() && filtering.test(assemblyRecipe.get()
-			.getResultItem(level.registryAccess())))
+			.getResultItem()))
 			return ImmutableList.of(assemblyRecipe.get());
 
 		Predicate<Recipe<?>> types = RecipeConditions.isOfType(VintageRecipes.COILING.getType());
