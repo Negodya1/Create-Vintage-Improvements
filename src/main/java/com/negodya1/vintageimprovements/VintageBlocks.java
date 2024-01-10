@@ -2,10 +2,13 @@ package com.negodya1.vintageimprovements;
 
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingBlock;
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingGenerator;
+import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumChamberBlock;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.content.kinetics.BlockStressDefaults;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderBlock;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderGenerator;
+import com.simibubi.create.content.processing.AssemblyOperatorBlockItem;
+import com.simibubi.create.foundation.data.AssetLookup;
 import com.simibubi.create.foundation.data.SharedProperties;
 
 import static com.simibubi.create.AllMovementBehaviours.movementBehaviour;
@@ -44,6 +47,17 @@ public class VintageBlocks {
             .transform(BlockStressDefaults.setImpact(4.0))
             .item()
             .tag(AllTags.AllItemTags.CONTRAPTION_CONTROLLED.tag)
+            .transform(customItemModel())
+            .register();
+
+    public static final BlockEntry<VacuumChamberBlock> VACUUM_CHAMBER = MY_REGISTRATE.block("vacuum_chamber", VacuumChamberBlock::new)
+            .initialProperties(SharedProperties::stone)
+            .properties(p -> p.noOcclusion().color(MaterialColor.STONE))
+            .transform(axeOrPickaxe())
+            .blockstate((c, p) -> p.simpleBlock(c.getEntry(), AssetLookup.partialBaseModel(c, p)))
+            .addLayer(() -> RenderType::cutoutMipped)
+            .transform(BlockStressDefaults.setImpact(4.0))
+            .item(AssemblyOperatorBlockItem::new)
             .transform(customItemModel())
             .register();
 

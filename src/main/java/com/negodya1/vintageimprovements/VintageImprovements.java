@@ -204,7 +204,7 @@ public class VintageImprovements {
 
         @Override
         public ItemStack makeIcon() {
-            return new ItemStack(VintageImprovements.STEEL_ROD.get());
+            return new ItemStack(VintageBlocks.BELT_GRINDER.get());
         }
 
         public static final VintageCreativeTab instance = new VintageCreativeTab(CreativeModeTab.TABS.length, "vintageimprovements");

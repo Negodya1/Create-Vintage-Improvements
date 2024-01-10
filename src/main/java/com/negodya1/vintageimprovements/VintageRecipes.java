@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingRecipe;
+import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumizingRecipe;
 import com.simibubi.create.AllTags;
 import net.minecraft.core.Registry;
 import org.jetbrains.annotations.Nullable;
@@ -30,7 +31,8 @@ import net.minecraftforge.registries.RegistryObject;
 public enum VintageRecipes implements IRecipeTypeInfo {
 
     POLISHING(PolishingRecipe::new),
-    COILING(CoilingRecipe::new);
+    COILING(CoilingRecipe::new),
+    VACUUMIZING(VacuumizingRecipe::new);
     private final ResourceLocation id;
     private final RegistryObject<RecipeSerializer<?>> serializerObject;
     @Nullable
