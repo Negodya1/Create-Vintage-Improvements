@@ -13,16 +13,17 @@ import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintageRecipes;
 import com.negodya1.vintageimprovements.compat.jei.category.CoilingCategory;
 import com.negodya1.vintageimprovements.compat.jei.category.GrinderPolishingCategory;
+import com.negodya1.vintageimprovements.compat.jei.category.VacuumizingCategory;
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.PolishingRecipe;
+import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumizingRecipe;
 import com.simibubi.create.AllBlocks;
-import com.simibubi.create.Create;
 import com.simibubi.create.compat.jei.CreateJEI;
+import com.simibubi.create.compat.jei.DoubleItemIcon;
 import com.simibubi.create.compat.jei.ItemIcon;
 import com.simibubi.create.compat.jei.EmptyBackground;
 import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
-import com.simibubi.create.foundation.config.ConfigBase;
-import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
+import com.simibubi.create.content.processing.basin.BasinRecipe;
 import com.simibubi.create.infrastructure.config.AllConfigs;
 import com.simibubi.create.infrastructure.config.CRecipes;
 import mezz.jei.api.IModPlugin;
@@ -70,6 +71,14 @@ public class VintageJEI implements IModPlugin {
 				.itemIcon(VintageBlocks.SPRING_COILING_MACHINE.get())
 				.emptyBackground(177, 70)
 				.build("coiling", CoilingCategory::new));
+
+		ALL.add(builder(BasinRecipe.class)
+				.addTypedRecipes(VintageRecipes.VACUUMIZING::getType)
+				.catalyst(VintageBlocks.VACUUM_CHAMBER::get)
+				.catalyst(AllBlocks.BASIN::get)
+				.doubleItemIcon(VintageBlocks.VACUUM_CHAMBER.get(), AllBlocks.BASIN.get())
+				.emptyBackground(177, 103)
+				.build("vacuumizing", VacuumizingCategory::new));
 
 		ALL.forEach(registration::addRecipeCategories);
 	}
@@ -129,6 +138,11 @@ public class VintageJEI implements IModPlugin {
 
 		public CategoryBuilder<T> itemIcon(ItemLike item) {
 			icon(new ItemIcon(() -> new ItemStack(item)));
+			return this;
+		}
+
+		public CategoryBuilder<T> doubleItemIcon(ItemLike item1, ItemLike item2) {
+			icon(new DoubleItemIcon(() -> new ItemStack(item1), () -> new ItemStack(item2)));
 			return this;
 		}
 

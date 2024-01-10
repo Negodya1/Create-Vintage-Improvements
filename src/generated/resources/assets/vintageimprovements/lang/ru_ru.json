@@ -37,6 +37,10 @@
 	"create.recipe.assembly.coiling": "Намотайте при помощи наматывателя пружин",
 	"vintageimprovements.recipe.coiling": "Наматывание",
 	
+	"block.vintageimprovements.vacuum_chamber": "Вакуумная камера",
+	"create.recipe.assembly.vacuumizing": "Вакуумируйте в вакуумной камере",
+	"vintageimprovements.recipe.vacuumizing": "Вакуумирование",
+	
 	"vintageimprovements.ponder.belt_grinder_processing.header": "Обработкой предметов на ленточном гриндере",
 	"vintageimprovements.ponder.belt_grinder_processing.text_1": "Ленточные гриндеры могут обрабатывать множество предметов",
 	"vintageimprovements.ponder.belt_grinder_processing.text_2": "Обработанные предметы всегда движутся против подаваемого на гриндер вращения",
@@ -47,6 +51,9 @@
 	"vintageimprovements.ponder.spring_coiling_processing.header": "Обработкой предметов на наматывателе пружин",
 	"vintageimprovements.ponder.spring_coiling_processing.text_1": "Наматыватели пружин могут обрабатывать множество предметов",
 	"vintageimprovements.ponder.spring_coiling_processing.text_2": "Обработанные предметы всегда движутся в лицевую сторону устройства",
+	
+	"vintageimprovements.ponder.vacuum_chamber.header": "Обработкой предметов в вакуумной камере",
+	"vintageimprovements.ponder.vacuum_chamber.text_1": "Вакуумная камера и чаша открывают вам доступ к некоторым новым рецептам",
 	
 	"vintageimprovements.jei.text.required_speed": "Треб. Скорость:",
 	"vintageimprovements.jei.text.low": "Низкая",

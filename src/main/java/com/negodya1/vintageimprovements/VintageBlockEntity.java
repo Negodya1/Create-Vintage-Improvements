@@ -6,6 +6,9 @@ import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingRenderer
 import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderBlockEntity;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderInstance;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderRenderer;
+import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumChamberBlockEntity;
+import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumChamberInstance;
+import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumChamberRenderer;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 
 import static com.negodya1.vintageimprovements.VintageImprovements.MY_REGISTRATE;
@@ -23,6 +26,13 @@ public class VintageBlockEntity {
             .instance(() ->  CoilingInstance::new)
             .validBlocks(VintageBlocks.SPRING_COILING_MACHINE)
             .renderer(() -> CoilingRenderer::new)
+            .register();
+
+    public static final BlockEntityEntry<VacuumChamberBlockEntity> VACUUM = MY_REGISTRATE
+            .blockEntity("vacuum_chamber", VacuumChamberBlockEntity::new)
+            .instance(() ->  VacuumChamberInstance::new)
+            .validBlocks(VintageBlocks.VACUUM_CHAMBER)
+            .renderer(() -> VacuumChamberRenderer::new)
             .register();
 
     public static void register() {}
