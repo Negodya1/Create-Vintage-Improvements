@@ -9,20 +9,25 @@ import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 
 import com.negodya1.vintageimprovements.VintageBlocks;
+import com.negodya1.vintageimprovements.VintageConfig;
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintageRecipes;
 import com.negodya1.vintageimprovements.compat.jei.category.CoilingCategory;
 import com.negodya1.vintageimprovements.compat.jei.category.GrinderPolishingCategory;
+import com.negodya1.vintageimprovements.compat.jei.category.GrinderSandpaperPolishingCategory;
 import com.negodya1.vintageimprovements.compat.jei.category.VacuumizingCategory;
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.PolishingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumizingRecipe;
 import com.simibubi.create.AllBlocks;
+import com.simibubi.create.AllItems;
+import com.simibubi.create.AllRecipeTypes;
 import com.simibubi.create.compat.jei.CreateJEI;
 import com.simibubi.create.compat.jei.DoubleItemIcon;
 import com.simibubi.create.compat.jei.ItemIcon;
 import com.simibubi.create.compat.jei.EmptyBackground;
 import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
+import com.simibubi.create.content.equipment.sandPaper.SandPaperPolishingRecipe;
 import com.simibubi.create.content.processing.basin.BasinRecipe;
 import com.simibubi.create.infrastructure.config.AllConfigs;
 import com.simibubi.create.infrastructure.config.CRecipes;
@@ -79,6 +84,15 @@ public class VintageJEI implements IModPlugin {
 				.doubleItemIcon(VintageBlocks.VACUUM_CHAMBER.get(), AllBlocks.BASIN.get())
 				.emptyBackground(177, 103)
 				.build("vacuumizing", VacuumizingCategory::new));
+
+		if (VintageConfig.allowSandpaperPolishingOnGrinder) {
+			ALL.add(builder(SandPaperPolishingRecipe.class)
+					.addTypedRecipes(AllRecipeTypes.SANDPAPER_POLISHING::getType)
+					.catalyst(VintageBlocks.BELT_GRINDER::get)
+					.doubleItemIcon(VintageBlocks.BELT_GRINDER.get(), AllItems.SAND_PAPER)
+					.emptyBackground(177, 85)
+					.build("grinder_sandpaper_polishing", GrinderSandpaperPolishingCategory::new));
+		}
 
 		ALL.forEach(registration::addRecipeCategories);
 	}

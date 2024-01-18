@@ -31,6 +31,7 @@
 	"item.vintageimprovements.grinder_belt": "Лента гриндера",
 	"create.recipe.assembly.polishing": "Отполируйте на гриндере",
 	"vintageimprovements.recipe.polishing": "Полирование",
+	"vintageimprovements.recipe.grinder_sandpaper_polishing": "Полирование",
 	
 	"block.vintageimprovements.spring_coiling_machine": "Наматыватель пружин",
 	"item.vintageimprovements.spring_coiling_machine_wheel": "Колесо наматывателя",
