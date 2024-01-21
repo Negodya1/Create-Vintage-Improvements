@@ -145,7 +145,7 @@ dependencies {
     implementation fg.deobf("com.jozufozu.flywheel:flywheel-forge-${flywheel_minecraft_version}:${flywheel_version}")
     implementation fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
 
-    //implementation fg.deobf("curse.maven:createaddition-439890:4929703")
+    implementation fg.deobf("curse.maven:createaddition-439890:4929703")
 
     implementation fg.deobf("curse.maven:resourceful-lib-570073:4477753")
     implementation fg.deobf("curse.maven:resourceful-config-714059:4444198")

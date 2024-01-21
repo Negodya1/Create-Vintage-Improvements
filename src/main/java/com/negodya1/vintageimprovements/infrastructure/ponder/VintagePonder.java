@@ -24,6 +24,7 @@ public class VintagePonder {
 
         PonderRegistry.TAGS.forTag(AllPonderTags.KINETIC_APPLIANCES)
                 .add(VintageBlocks.BELT_GRINDER)
-                .add(VintageBlocks.SPRING_COILING_MACHINE);
+                .add(VintageBlocks.SPRING_COILING_MACHINE)
+                .add(VintageBlocks.VACUUM_CHAMBER);
     }
 }

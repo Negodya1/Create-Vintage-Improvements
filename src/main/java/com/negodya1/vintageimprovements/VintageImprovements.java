@@ -11,6 +11,7 @@ import com.simibubi.create.foundation.ponder.PonderRegistry;
 import com.simibubi.create.foundation.ponder.PonderStoryBoardEntry;
 import com.simibubi.create.infrastructure.ponder.AllPonderTags;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fml.loading.FMLPaths;
 import org.slf4j.Logger;
 
 import com.google.gson.Gson;
@@ -148,8 +149,10 @@ public class VintageImprovements {
     public VintageImprovements() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
+
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, VintageConfig.SPEC);
+        VintageConfig.loadConfig(VintageConfig.SPEC, FMLPaths.CONFIGDIR.get().resolve("vintageimprovements-common.toml"));
 
         MY_REGISTRATE.registerEventListeners(modEventBus);
 
@@ -165,12 +168,6 @@ public class VintageImprovements {
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
-
-        // Register the item to a creative tab
-        //modEventBus.addListener(this::addCreative);
-
-        // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, VintageConfig.SPEC);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

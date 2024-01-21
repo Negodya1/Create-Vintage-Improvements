@@ -17,6 +17,8 @@ import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintageRecipes;
 import com.simibubi.create.AllRecipeTypes;
 import com.simibubi.create.AllSoundEvents;
+import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
+import com.simibubi.create.content.equipment.sandPaper.SandPaperPolishingRecipe;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.belt.behaviour.DirectBeltInputBehaviour;
 import com.simibubi.create.content.processing.recipe.ProcessingInventory;
@@ -27,11 +29,10 @@ import com.simibubi.create.foundation.blockEntity.behaviour.filtering.FilteringB
 import com.simibubi.create.foundation.item.ItemHelper;
 import com.simibubi.create.foundation.recipe.RecipeConditions;
 import com.simibubi.create.foundation.recipe.RecipeFinder;
-import com.simibubi.create.foundation.utility.AbstractBlockBreakQueue;
-import com.simibubi.create.foundation.utility.TreeCutter;
-import com.simibubi.create.foundation.utility.VecHelper;
+import com.simibubi.create.foundation.utility.*;
 import com.simibubi.create.infrastructure.config.AllConfigs;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -40,6 +41,7 @@ import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
@@ -76,7 +78,7 @@ import static net.minecraft.world.level.block.state.properties.BlockStatePropert
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class GrinderBlockEntity extends KineticBlockEntity {
+public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggleInformation {
 
 	private static final Object polishingRecipesKey = new Object();
 
@@ -337,6 +339,43 @@ public class GrinderBlockEntity extends KineticBlockEntity {
 
 		Recipe<?> recipe = recipes.get(recipeIndex);
 
+		if (recipe.getType() == AllRecipeTypes.SANDPAPER_POLISHING.getType()) {
+			if (VintageConfig.speedLimitsForSandpaperPolishingRecipes != 0) {
+				int speed = (int)Math.abs(getSpeed());
+				boolean wrongLimit = false;
+
+				if (VintageConfig.speedLimitsForSandpaperPolishingRecipes == 1 && speed > VintageConfig.lowSpeedValue) wrongLimit = true;
+				if (VintageConfig.speedLimitsForSandpaperPolishingRecipes == 2 && (speed > VintageConfig.mediumSpeedValue || speed <= VintageConfig.lowSpeedValue)) wrongLimit = true;
+				if (VintageConfig.speedLimitsForSandpaperPolishingRecipes == 3 && speed <= VintageConfig.mediumSpeedValue) wrongLimit = true;
+
+				if (wrongLimit) {
+					if (VintageConfig.destroyOnWrongGrinderSpeed) inventory.clear();
+					return;
+				}
+			}
+
+			int rolls = inventory.getStackInSlot(0)
+					.getCount();
+			inventory.clear();
+
+			List<ItemStack> list = new ArrayList<>();
+			for (int roll = 0; roll < rolls; roll++) {
+				List<ItemStack> results = new LinkedList<ItemStack>();
+				if (recipe instanceof SandPaperPolishingRecipe)
+					results = ((SandPaperPolishingRecipe) recipe).rollResults();
+
+				for (int i = 0; i < results.size(); i++) {
+					ItemStack stack = results.get(i);
+					ItemHelper.addToList(stack, list);
+				}
+			}
+
+			for (int slot = 0; slot < list.size() && slot + 1 < inventory.getSlots(); slot++)
+				inventory.setStackInSlot(slot + 1, list.get(slot));
+
+			return;
+		}
+
 		PolishingRecipe polishingRecipe = (PolishingRecipe)recipe;
 
 		if (polishingRecipe.speedLimits != 0) {
@@ -354,7 +393,7 @@ public class GrinderBlockEntity extends KineticBlockEntity {
 		}
 
 		int rolls = inventory.getStackInSlot(0)
-			.getCount();
+				.getCount();
 		inventory.clear();
 
 		List<ItemStack> list = new ArrayList<>();
@@ -368,26 +407,40 @@ public class GrinderBlockEntity extends KineticBlockEntity {
 				ItemHelper.addToList(stack, list);
 			}
 		}
-		
-		for (int slot = 0; slot < list.size() && slot + 1 < inventory.getSlots(); slot++) 
+
+		for (int slot = 0; slot < list.size() && slot + 1 < inventory.getSlots(); slot++)
 			inventory.setStackInSlot(slot + 1, list.get(slot));
 	}
 
 	private List<? extends Recipe<?>> getRecipes() {
 		Optional<PolishingRecipe> assemblyRecipe = SequencedAssemblyRecipe.getRecipe(level, inventory.getStackInSlot(0),
-			VintageRecipes.POLISHING.getType(), PolishingRecipe.class);
+				VintageRecipes.POLISHING.getType(), PolishingRecipe.class);
 		if (assemblyRecipe.isPresent() && filtering.test(assemblyRecipe.get()
-			.getResultItem()))
+				.getResultItem()))
 			return ImmutableList.of(assemblyRecipe.get());
 
-		Predicate<Recipe<?>> types = RecipeConditions.isOfType(VintageRecipes.POLISHING.getType());
+		Predicate<Recipe<?>> types = RecipeConditions.isOfType(VintageRecipes.POLISHING.getType(),
+				VintageConfig.allowSandpaperPolishingOnGrinder ? AllRecipeTypes.SANDPAPER_POLISHING.getType() : null);
 
 		List<Recipe<?>> startedSearch = RecipeFinder.get(polishingRecipesKey, level, types);
-		return startedSearch.stream()
-			.filter(RecipeConditions.outputMatchesFilter(filtering))
-			.filter(RecipeConditions.firstIngredientMatches(inventory.getStackInSlot(0)))
-			.filter(r -> !VintageRecipes.shouldIgnoreInAutomation(r))
-			.collect(Collectors.toList());
+		startedSearch = startedSearch.stream()
+				.filter(RecipeConditions.outputMatchesFilter(filtering))
+				.filter(RecipeConditions.firstIngredientMatches(inventory.getStackInSlot(0)))
+				.filter(r -> !VintageRecipes.shouldIgnoreInAutomation(r))
+				.collect(Collectors.toList());
+
+		if (!VintageConfig.allowSandpaperPolishingOnGrinder) return startedSearch;
+
+		List<Recipe<?>> grinder = new ArrayList<>();
+		List<Recipe<?>> sandpaper = new ArrayList<>();
+
+		for (Recipe<?> recipe : startedSearch) {
+			if (recipe instanceof PolishingRecipe) grinder.add(recipe);
+			else sandpaper.add(recipe);
+		}
+
+		if (!grinder.isEmpty()) return grinder;
+		return sandpaper;
 	}
 
 	public void insertItem(ItemEntity entity) {
@@ -441,4 +494,30 @@ public class GrinderBlockEntity extends KineticBlockEntity {
 		sendData();
 	}
 
+	@Override
+	public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
+		super.addToGoggleTooltip(tooltip, isPlayerSneaking);
+
+		if (getSpeed() == 0) return false;
+
+		LangBuilder reqSpd = Lang.translate("vintageimprovements.gui.goggles.current_speed").add(Lang.text(" "));
+
+		int speedMode = Math.abs(getSpeed()) <= VintageConfig.lowSpeedValue ? 1 : (Math.abs(getSpeed()) <= VintageConfig.mediumSpeedValue ? 2 : 3);
+
+		switch (speedMode) {
+			case 2:
+				reqSpd.add(Lang.translate("vintageimprovements.gui.goggles.medium")).style(ChatFormatting.YELLOW).forGoggles(tooltip);
+				break;
+
+			case 3:
+				reqSpd.add(Lang.translate("vintageimprovements.gui.goggles.high")).style(ChatFormatting.RED).forGoggles(tooltip);
+				break;
+
+			default:
+				reqSpd.add(Lang.translate("vintageimprovements.gui.goggles.low")).style(ChatFormatting.GREEN).forGoggles(tooltip);
+				break;
+		}
+
+		return true;
+	}
 }
