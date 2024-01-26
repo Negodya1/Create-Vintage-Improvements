@@ -91,24 +91,9 @@ public class VacuumChamberBlockEntity extends BasinOperatingBlockEntity {
 		return offset + 7 / 16f;
 	}
 
-	public float getRenderedHeadRotationSpeed(float partialTicks) {
-		float speed = getSpeed();
-		if (running) {
-			if (runningTicks < 15) {
-				return speed;
-			}
-			if (runningTicks <= 20) {
-				return speed * 2;
-			}
-			return speed;
-		}
-		return speed / 2;
-	}
-
 	@Override
 	public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
 		super.addBehaviours(behaviours);
-		registerAwardables(behaviours, AllAdvancements.MIXER);
 	}
 
 	@Override

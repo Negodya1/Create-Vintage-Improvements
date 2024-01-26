@@ -1,0 +1,25 @@
+{
+	"type":"vintageimprovements:vibrating",
+	"ingredients": [ {
+      "item": "minecraft:flowering_azalea_leaves"
+    }
+  ],
+	"results": [
+		{
+			"item": "minecraft:stick",
+			"count": 1,
+			"chance": 0.04
+		},
+		{
+			"item": "minecraft:stick",
+			"count": 1,
+			"chance": 0.04
+		},
+		{
+			"item": "minecraft:flowering_azalea",
+			"count": 1,
+			"chance": 0.10
+		}
+	],
+  "processingTime": 300
+}

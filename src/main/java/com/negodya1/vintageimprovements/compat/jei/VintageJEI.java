@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import javax.annotation.Nonnull;
@@ -12,13 +13,12 @@ import com.negodya1.vintageimprovements.VintageBlocks;
 import com.negodya1.vintageimprovements.VintageConfig;
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintageRecipes;
-import com.negodya1.vintageimprovements.compat.jei.category.CoilingCategory;
-import com.negodya1.vintageimprovements.compat.jei.category.GrinderPolishingCategory;
-import com.negodya1.vintageimprovements.compat.jei.category.GrinderSandpaperPolishingCategory;
-import com.negodya1.vintageimprovements.compat.jei.category.VacuumizingCategory;
+import com.negodya1.vintageimprovements.compat.jei.category.*;
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.PolishingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumizingRecipe;
+import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingRecipe;
+import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingTableBlockEntity;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllRecipeTypes;
@@ -41,9 +41,14 @@ import mezz.jei.api.runtime.IIngredientManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.common.crafting.IShapedRecipe;
+
+import static com.simibubi.create.compat.jei.CreateJEI.consumeAllRecipes;
 
 @JeiPlugin
 public class VintageJEI implements IModPlugin {
@@ -85,6 +90,13 @@ public class VintageJEI implements IModPlugin {
 				.emptyBackground(177, 103)
 				.build("vacuumizing", VacuumizingCategory::new));
 
+		ALL.add(builder(VibratingRecipe.class)
+				.addTypedRecipes(VintageRecipes.VIBRATING::getType)
+				.catalyst(VintageBlocks.VIBRATING_TABLE::get)
+				.itemIcon(VintageBlocks.VIBRATING_TABLE)
+				.emptyBackground(177, 70)
+				.build("vibrating", VibratingCategory::new));
+
 		if (VintageConfig.allowSandpaperPolishingOnGrinder) {
 			ALL.add(builder(SandPaperPolishingRecipe.class)
 					.addTypedRecipes(AllRecipeTypes.SANDPAPER_POLISHING::getType)
@@ -92,6 +104,18 @@ public class VintageJEI implements IModPlugin {
 					.doubleItemIcon(VintageBlocks.BELT_GRINDER.get(), AllItems.SAND_PAPER)
 					.emptyBackground(177, 85)
 					.build("grinder_sandpaper_polishing", GrinderSandpaperPolishingCategory::new));
+		}
+
+		if (VintageConfig.allowUnpackingOnVibratingTable) {
+			ALL.add(builder(CraftingRecipe.class)
+					.addAllRecipesIf(r -> r instanceof CraftingRecipe && !(r instanceof IShapedRecipe<?>)
+									&& r.getIngredients()
+									.size() == 1
+									&& VibratingTableBlockEntity.canUnpack(r) && !AllRecipeTypes.shouldIgnoreInAutomation(r))
+					.catalyst(VintageBlocks.VIBRATING_TABLE::get)
+					.doubleItemIcon(VintageBlocks.VIBRATING_TABLE.get(), Blocks.IRON_BLOCK)
+					.emptyBackground(177, 70)
+					.build("unpacking", UnpackingCategory::new));
 		}
 
 		ALL.forEach(registration::addRecipeCategories);
@@ -168,6 +192,22 @@ public class VintageJEI implements IModPlugin {
 		public CategoryBuilder<T> emptyBackground(int width, int height) {
 			background(new EmptyBackground(width, height));
 			return this;
+		}
+
+		public CategoryBuilder<T> addAllRecipesIf(Predicate<Recipe<?>> pred) {
+			return addRecipeListConsumer(recipes -> consumeAllRecipes(recipe -> {
+				if (pred.test(recipe)) {
+					recipes.add((T) recipe);
+				}
+			}));
+		}
+
+		public CategoryBuilder<T> addAllRecipesIf(Predicate<Recipe<?>> pred, Function<Recipe<?>, T> converter) {
+			return addRecipeListConsumer(recipes -> consumeAllRecipes(recipe -> {
+				if (pred.test(recipe)) {
+					recipes.add(converter.apply(recipe));
+				}
+			}));
 		}
 
 		public CreateRecipeCategory<T> build(String name, CreateRecipeCategory.Factory<T> factory) {

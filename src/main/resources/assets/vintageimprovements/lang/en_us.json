@@ -1,0 +1,84 @@
+{
+	"itemGroup.vintageimprovements": "Create: Vintage Improvements",
+	
+	"item.vintageimprovements.steel_rod": "Steel Rod",
+	"item.vintageimprovements.desh_rod": "Desh Rod",
+	"item.vintageimprovements.ostrum_rod": "Ostrum Rod",
+	"item.vintageimprovements.calorite_rod": "Calorite Rod",
+	
+	"item.vintageimprovements.steel_wire": "Steel Wire",
+	"item.vintageimprovements.desh_wire": "Desh Wire",
+	"item.vintageimprovements.ostrum_wire": "Ostrum Wire",
+	"item.vintageimprovements.calorite_wire": "Calorite Wire",
+	"item.vintageimprovements.brass_wire": "Brass Wire",
+	
+	"item.vintageimprovements.steel_spring": "Steel Spring",
+	"item.vintageimprovements.desh_spring": "Desh Spring",
+	"item.vintageimprovements.ostrum_spring": "Ostrum Spring",
+	"item.vintageimprovements.calorite_spring": "Calorite Spring",
+	"item.vintageimprovements.iron_spring": "Iron Spring",
+	"item.vintageimprovements.golden_spring": "Golden Spring",
+	"item.vintageimprovements.copper_spring": "Copper Spring",
+	"item.vintageimprovements.brass_spring": "Brass Spring",
+	
+	"item.vintageimprovements.small_steel_spring": "Small Steel Spring",
+	"item.vintageimprovements.small_desh_spring": "Small Desh Spring",
+	"item.vintageimprovements.small_ostrum_spring": "Small Ostrum Spring",
+	"item.vintageimprovements.small_calorite_spring": "Small Calorite Spring",
+	"item.vintageimprovements.small_iron_spring": "Small Iron Spring",
+	"item.vintageimprovements.small_golden_spring": "Small Golden Spring",
+	"item.vintageimprovements.small_copper_spring": "Small Copper Spring",
+	"item.vintageimprovements.small_brass_spring": "Small Brass Spring",
+	
+	"block.vintageimprovements.belt_grinder": "Belt Grinder",
+	"item.vintageimprovements.grinder_belt": "Grinder Belt",
+	"create.recipe.assembly.polishing": "Polishing on Grinder",
+	"vintageimprovements.recipe.polishing": "Polishing",
+	"vintageimprovements.recipe.grinder_sandpaper_polishing": "Polishing",
+	
+	"block.vintageimprovements.spring_coiling_machine": "Spring Coiling Machine",
+	"item.vintageimprovements.spring_coiling_machine_wheel": "Spring Coiling Wheel",
+	"create.recipe.assembly.coiling": "Coiling on Spring Coiling Machine",
+	"vintageimprovements.recipe.coiling": "Coiling",
+	
+	"block.vintageimprovements.vacuum_chamber": "Vacuum Chamber",
+	"create.recipe.assembly.vacuumizing": "Vacuumize",
+	"vintageimprovements.recipe.vacuumizing": "Vacuumizing",
+	
+	"block.vintageimprovements.vibrating_table": "Vibrating Table",
+	"create.recipe.assembly.vibrating": "Vibrate",
+	"vintageimprovements.recipe.vibrating": "Vibrating",
+	"vintageimprovements.recipe.unpacking": "Unpacking",
+	
+	"vintageimprovements.ponder.belt_grinder_processing.header": "Processing Items on the Belt Grinder",
+	"vintageimprovements.ponder.belt_grinder_processing.text_1": "Belt Grinders can process a variety of items",
+	"vintageimprovements.ponder.belt_grinder_processing.text_2": "The processed item always moves against the rotational input to the grinder",
+	"vintageimprovements.ponder.belt_grinder_processing.text_3": "Some recipes requires certain RPM",
+	"vintageimprovements.ponder.belt_grinder_processing.text_4": "There are three speeds: Low (16 RPM or less), Medium (between 16 and 64 RPM) and High",
+	
+	"vintageimprovements.ponder.spring_coiling_processing.header": "Processing Items on the Spring Coiling Machine",
+	"vintageimprovements.ponder.spring_coiling_processing.text_1": "Spring Coiling Machines can process a variety of items",
+	"vintageimprovements.ponder.spring_coiling_processing.text_2": "The processed item always moves to the front of the coiling machine",
+	
+	"vintageimprovements.ponder.vacuum_chamber.header": "Processing Items with the Vacuum Chamber",
+	"vintageimprovements.ponder.vacuum_chamber.text_1": "With a Vacuum Chamber and Basin you obtain some new recipes",
+	
+	"vintageimprovements.ponder.vibrating_table.header": "Processing Items on the Vibrating Table",
+	"vintageimprovements.ponder.vibrating_table.text_1": "Vibrating Table can process a variety of items",
+	"vintageimprovements.ponder.vibrating_table.text_2": "Also Vibrating Table can unpack storage blocks",
+	"vintageimprovements.ponder.vibrating_table.text_3": "They can be powered from the side using shafts",
+	"vintageimprovements.ponder.vibrating_table.text_4": "Throw or Insert items at the top",
+	"vintageimprovements.ponder.vibrating_table.text_5": "After some time, the result can be obtained via Right-click",
+	"vintageimprovements.ponder.vibrating_table.text_6": "The outputs can also be extracted by automation",
+	
+	"vintageimprovements.jei.text.required_speed": "Required Speed:",
+	"vintageimprovements.jei.text.low": "Low",
+	"vintageimprovements.jei.text.medium": "Medium",
+	"vintageimprovements.jei.text.high": "High",
+	"vintageimprovements.jei.text.any": "Any",
+	
+	"create.vintageimprovements.gui.goggles.low": "Low",
+	"create.vintageimprovements.gui.goggles.medium": "Medium",
+	"create.vintageimprovements.gui.goggles.high": "High",
+	"create.vintageimprovements.gui.goggles.current_speed": "Speed:"
+}

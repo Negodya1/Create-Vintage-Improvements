@@ -129,6 +129,7 @@ public class VintageImprovements {
     public static final RegistryObject<Item> CALORITE_WIRE = ITEMS.register("calorite_wire", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> OSTRUM_WIRE = ITEMS.register("ostrum_wire", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> DESH_WIRE = ITEMS.register("desh_wire", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> BRASS_WIRE = ITEMS.register("brass_wire", () -> new Item(new Item.Properties()));
 
     public static final RegistryObject<Item> STEEL_SPRING = ITEMS.register("steel_spring", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> CALORITE_SPRING = ITEMS.register("calorite_spring", () -> new Item(new Item.Properties()));
@@ -137,6 +138,7 @@ public class VintageImprovements {
     public static final RegistryObject<Item> IRON_SPRING = ITEMS.register("iron_spring", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> GOLDEN_SPRING = ITEMS.register("golden_spring", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> COPPER_SPRING = ITEMS.register("copper_spring", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> BRASS_SPRING = ITEMS.register("brass_spring", () -> new Item(new Item.Properties()));
 
     public static final RegistryObject<Item> SMALL_STEEL_SPRING = ITEMS.register("small_steel_spring", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SMALL_CALORITE_SPRING = ITEMS.register("small_calorite_spring", () -> new Item(new Item.Properties()));
@@ -145,6 +147,7 @@ public class VintageImprovements {
     public static final RegistryObject<Item> SMALL_IRON_SPRING = ITEMS.register("small_iron_spring", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SMALL_GOLDEN_SPRING = ITEMS.register("small_golden_spring", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SMALL_COPPER_SPRING = ITEMS.register("small_copper_spring", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> SMALL_BRASS_SPRING = ITEMS.register("small_brass_spring", () -> new Item(new Item.Properties()));
 
     public static final RegistryObject<Item> GRINDER_BELT = ITEMS.register("grinder_belt", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SPRING_COILING_MACHINE_WHEEL = ITEMS.register("spring_coiling_machine_wheel", () -> new Item(new Item.Properties()));
@@ -159,6 +162,7 @@ public class VintageImprovements {
                 output.accept(OSTRUM_ROD.get());
                 output.accept(DESH_ROD.get());
 
+                output.accept(BRASS_WIRE.get());
                 output.accept(STEEL_WIRE.get());
                 output.accept(CALORITE_WIRE.get());
                 output.accept(OSTRUM_WIRE.get());
@@ -173,6 +177,7 @@ public class VintageImprovements {
                 output.accept(IRON_SPRING.get());
                 output.accept(GOLDEN_SPRING.get());
                 output.accept(COPPER_SPRING.get());
+                output.accept(BRASS_SPRING.get());
                 output.accept(STEEL_SPRING.get());
                 output.accept(CALORITE_SPRING.get());
                 output.accept(OSTRUM_SPRING.get());
@@ -181,12 +186,14 @@ public class VintageImprovements {
                 output.accept(SMALL_IRON_SPRING.get());
                 output.accept(SMALL_GOLDEN_SPRING.get());
                 output.accept(SMALL_COPPER_SPRING.get());
+                output.accept(SMALL_BRASS_SPRING.get());
                 output.accept(SMALL_STEEL_SPRING.get());
                 output.accept(SMALL_CALORITE_SPRING.get());
                 output.accept(SMALL_OSTRUM_SPRING.get());
                 output.accept(SMALL_DESH_SPRING.get());
 
                 output.accept(VintageBlocks.VACUUM_CHAMBER.get());
+                output.accept(VintageBlocks.VIBRATING_TABLE.get());
             }).build());
 
     public VintageImprovements() {

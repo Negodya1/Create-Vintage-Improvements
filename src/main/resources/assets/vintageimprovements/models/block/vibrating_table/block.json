@@ -1,0 +1,80 @@
+{
+	"credit": "Made with Blockbench",
+	"ambientocclusion": false,
+	"textures": {
+		"6": "vintageimprovements:block/vibrating_table",
+		"8": "create:block/andesite_casing",
+		"9": "create:block/gearbox",
+		"particle": "block/stripped_spruce_log"
+	},
+	"elements": [
+		{
+			"name": "piston_core",
+			"from": [4, 4, 3],
+			"to": [12, 10, 13],
+			"faces": {
+				"north": {"uv": [4, 6, 12, 12], "texture": "#9"},
+				"east": {"uv": [2, 5, 7, 8], "texture": "#6"},
+				"south": {"uv": [4, 6, 12, 12], "texture": "#9"},
+				"west": {"uv": [2, 5, 7, 8], "texture": "#6"},
+				"up": {"uv": [8, 3.5, 13, 7.5], "rotation": 270, "texture": "#6"}
+			}
+		},
+		{
+			"name": "base",
+			"from": [0, 0, 0],
+			"to": [5, 7, 16],
+			"faces": {
+				"north": {"uv": [13.5, 0, 16, 3.5], "texture": "#6"},
+				"east": {"uv": [0, 2, 16, 9], "texture": "#8"},
+				"south": {"uv": [8, 0, 10.5, 3.5], "texture": "#6"},
+				"west": {"uv": [8, 0, 16, 3.5], "texture": "#6"},
+				"up": {"uv": [0, 0, 16, 5], "rotation": 270, "texture": "#8"},
+				"down": {"uv": [0, 5, 16, 0], "rotation": 90, "texture": "#8"}
+			}
+		},
+		{
+			"name": "base",
+			"from": [11, 0, 0],
+			"to": [16, 7, 16],
+			"faces": {
+				"north": {"uv": [8, 0, 10.5, 3.5], "texture": "#6"},
+				"east": {"uv": [8, 0, 16, 3.5], "texture": "#6"},
+				"south": {"uv": [13.5, 0, 16, 3.5], "texture": "#6"},
+				"west": {"uv": [0, 2, 16, 9], "texture": "#8"},
+				"up": {"uv": [0, 5, 16, 0], "rotation": 270, "texture": "#8"},
+				"down": {"uv": [0, 16, 16, 11], "rotation": 90, "texture": "#8"}
+			}
+		},
+		{
+			"name": "base",
+			"from": [5, 0, 0],
+			"to": [8, 5, 16],
+			"faces": {
+				"north": {"uv": [12, 1, 13.5, 3.5], "texture": "#6"},
+				"south": {"uv": [10.5, 1, 12, 3.5], "texture": "#6"},
+				"up": {"uv": [0, 11, 16, 14], "rotation": 270, "texture": "#8"},
+				"down": {"uv": [0, 5, 16, 8], "rotation": 90, "texture": "#8"}
+			}
+		},
+		{
+			"name": "base",
+			"from": [8, 0, 0],
+			"to": [11, 5, 16],
+			"faces": {
+				"north": {"uv": [10.5, 1, 12, 3.5], "texture": "#6"},
+				"south": {"uv": [12, 1, 13.5, 3.5], "texture": "#6"},
+				"up": {"uv": [0, 5, 16, 2], "rotation": 270, "texture": "#8"},
+				"down": {"uv": [0, 8, 16, 11], "rotation": 90, "texture": "#8"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "base",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"children": [0, 1, 2, 3, 4]
+		}
+	]
+}

@@ -26,7 +26,8 @@ public class VintagePartialModels {
 		COILING_WHEEL = block("spring_coiling_machine/coiling_part_wheel"),
 		COILING_SPRING = block("spring_coiling_machine/coiling_part_spring"),
 		VACUUM_COG = block("vacuum_chamber/cog"),
-		VACUUM_PIPE = block("vacuum_chamber/head");
+		VACUUM_PIPE = block("vacuum_chamber/head"),
+		VIBRATING_TABLE = block("vibrating_table/head");
 
 	private static PartialModel block(String path) {
 		return new PartialModel(VintageImprovements.asResource("block/" + path));

@@ -1,0 +1,30 @@
+{
+	"type":"vintageimprovements:vibrating",
+	"ingredients": [ {
+      "item": "minecraft:dark_oak_leaves"
+    }
+  ],
+	"results": [
+		{
+			"item": "minecraft:stick",
+			"count": 1,
+			"chance": 0.04
+		},
+		{
+			"item": "minecraft:stick",
+			"count": 1,
+			"chance": 0.04
+		},
+		{
+			"item": "minecraft:dark_oak_sapling",
+			"count": 1,
+			"chance": 0.10
+		},
+		{
+			"item": "minecraft:apple",
+			"count": 1,
+			"chance": 0.01
+		}
+	],
+  "processingTime": 300
+}

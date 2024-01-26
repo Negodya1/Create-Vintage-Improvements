@@ -1,0 +1,14 @@
+{
+	"type":"vintageimprovements:coiling",
+	"ingredients": [ {
+      "tag": "forge:wires/brass"
+    }
+  ],
+	"results": [
+		{
+			"item": "vintageimprovements:small_brass_spring",
+			"count": 1
+		}
+	],
+  "processingTime": 60
+}
