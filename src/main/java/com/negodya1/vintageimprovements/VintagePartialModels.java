@@ -20,13 +20,14 @@ public class VintagePartialModels {
 
 	public static final PartialModel
 
-		GRINDER_BELT_ACTIVE = block("belt_grinder/belt_active"),
-		GRINDER_BELT_INACTIVE = block("belt_grinder/belt_inactive"),
-		GRINDER_BELT_REVERSED = block("belt_grinder/belt_reversed"),
-		COILING_WHEEL = block("spring_coiling_machine/coiling_part_wheel"),
-		COILING_SPRING = block("spring_coiling_machine/coiling_part_spring"),
-		VACUUM_COG = block("vacuum_chamber/cog"),
-		VACUUM_PIPE = block("vacuum_chamber/head");
+			GRINDER_BELT_ACTIVE = block("belt_grinder/belt_active"),
+			GRINDER_BELT_INACTIVE = block("belt_grinder/belt_inactive"),
+			GRINDER_BELT_REVERSED = block("belt_grinder/belt_reversed"),
+			COILING_WHEEL = block("spring_coiling_machine/coiling_part_wheel"),
+			COILING_SPRING = block("spring_coiling_machine/coiling_part_spring"),
+			VACUUM_COG = block("vacuum_chamber/cog"),
+			VACUUM_PIPE = block("vacuum_chamber/head"),
+			VIBRATING_TABLE = block("vibrating_table/head");
 
 	private static PartialModel block(String path) {
 		return new PartialModel(VintageImprovements.asResource("block/" + path));

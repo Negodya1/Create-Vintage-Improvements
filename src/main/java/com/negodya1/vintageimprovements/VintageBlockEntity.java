@@ -9,6 +9,9 @@ import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderRenderer
 import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumChamberBlockEntity;
 import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumChamberInstance;
 import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumChamberRenderer;
+import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingTableBlockEntity;
+import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingTableInstance;
+import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingTableRenderer;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 
 import static com.negodya1.vintageimprovements.VintageImprovements.MY_REGISTRATE;
@@ -33,6 +36,13 @@ public class VintageBlockEntity {
             .instance(() ->  VacuumChamberInstance::new)
             .validBlocks(VintageBlocks.VACUUM_CHAMBER)
             .renderer(() -> VacuumChamberRenderer::new)
+            .register();
+
+    public static final BlockEntityEntry<VibratingTableBlockEntity> VIBRATION = MY_REGISTRATE
+            .blockEntity("vibration", VibratingTableBlockEntity::new)
+            .instance(() -> VibratingTableInstance::new)
+            .validBlocks(VintageBlocks.VIBRATING_TABLE)
+            .renderer(() -> VibratingTableRenderer::new)
             .register();
 
     public static void register() {}

@@ -125,6 +125,7 @@ public class VintageImprovements {
     public static final RegistryObject<Item> CALORITE_WIRE = ITEMS.register("calorite_wire", () -> new Item(new Item.Properties().tab(VintageCreativeTab.instance)));
     public static final RegistryObject<Item> OSTRUM_WIRE = ITEMS.register("ostrum_wire", () -> new Item(new Item.Properties().tab(VintageCreativeTab.instance)));
     public static final RegistryObject<Item> DESH_WIRE = ITEMS.register("desh_wire", () -> new Item(new Item.Properties().tab(VintageCreativeTab.instance)));
+    public static final RegistryObject<Item> BRASS_WIRE = ITEMS.register("brass_wire", () -> new Item(new Item.Properties().tab(VintageCreativeTab.instance)));
 
     public static final RegistryObject<Item> STEEL_SPRING = ITEMS.register("steel_spring", () -> new Item(new Item.Properties().tab(VintageCreativeTab.instance)));
     public static final RegistryObject<Item> CALORITE_SPRING = ITEMS.register("calorite_spring", () -> new Item(new Item.Properties().tab(VintageCreativeTab.instance)));
@@ -133,6 +134,7 @@ public class VintageImprovements {
     public static final RegistryObject<Item> IRON_SPRING = ITEMS.register("iron_spring", () -> new Item(new Item.Properties().tab(VintageCreativeTab.instance)));
     public static final RegistryObject<Item> GOLDEN_SPRING = ITEMS.register("golden_spring", () -> new Item(new Item.Properties().tab(VintageCreativeTab.instance)));
     public static final RegistryObject<Item> COPPER_SPRING = ITEMS.register("copper_spring", () -> new Item(new Item.Properties().tab(VintageCreativeTab.instance)));
+    public static final RegistryObject<Item> BRASS_SPRING = ITEMS.register("brass_spring", () -> new Item(new Item.Properties().tab(VintageCreativeTab.instance)));
 
     public static final RegistryObject<Item> SMALL_STEEL_SPRING = ITEMS.register("small_steel_spring", () -> new Item(new Item.Properties().tab(VintageCreativeTab.instance)));
     public static final RegistryObject<Item> SMALL_CALORITE_SPRING = ITEMS.register("small_calorite_spring", () -> new Item(new Item.Properties().tab(VintageCreativeTab.instance)));
@@ -141,6 +143,7 @@ public class VintageImprovements {
     public static final RegistryObject<Item> SMALL_IRON_SPRING = ITEMS.register("small_iron_spring", () -> new Item(new Item.Properties().tab(VintageCreativeTab.instance)));
     public static final RegistryObject<Item> SMALL_GOLDEN_SPRING = ITEMS.register("small_golden_spring", () -> new Item(new Item.Properties().tab(VintageCreativeTab.instance)));
     public static final RegistryObject<Item> SMALL_COPPER_SPRING = ITEMS.register("small_copper_spring", () -> new Item(new Item.Properties().tab(VintageCreativeTab.instance)));
+    public static final RegistryObject<Item> SMALL_BRASS_SPRING = ITEMS.register("small_brass_spring", () -> new Item(new Item.Properties().tab(VintageCreativeTab.instance)));
 
     public static final RegistryObject<Item> GRINDER_BELT = ITEMS.register("grinder_belt", () -> new Item(new Item.Properties().tab(VintageCreativeTab.instance)));
     public static final RegistryObject<Item> SPRING_COILING_MACHINE_WHEEL = ITEMS.register("spring_coiling_machine_wheel", () -> new Item(new Item.Properties().tab(VintageCreativeTab.instance)));
