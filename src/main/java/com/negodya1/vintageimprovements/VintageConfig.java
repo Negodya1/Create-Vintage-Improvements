@@ -1,6 +1,5 @@
 package com.negodya1.vintageimprovements;
 
-import com.blamejared.crafttweaker.api.recipe.handler.IRecipeHandler;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -48,6 +47,10 @@ public class VintageConfig {
             .comment("Allows unpacking storage blocks crafts on vibrating table")
             .define("allowUnpackingOnVibratingTable", true);
 
+    private static final ForgeConfigSpec.BooleanValue ALLOW_LEAVES_VIBRATING_ON_VIBRATING_TABLE = BUILDER
+            .comment("Allows vibrating leaves on vibrating table to get matching drops")
+            .define("allowVibratingLeaves", true);
+
     public static final ForgeConfigSpec SPEC = BUILDER.build();
 
     public static boolean destroyOnWrongGrinderSpeed;
@@ -60,6 +63,7 @@ public class VintageConfig {
     public static double vacuumChamberStressImpact;
     public static double vibratingTableStressImpact;
     public static boolean allowUnpackingOnVibratingTable;
+    public static boolean allowVibratingLeaves;
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event) {
@@ -73,6 +77,7 @@ public class VintageConfig {
         vacuumChamberStressImpact = VACUUM_CHAMBER_STRESS_IMPACT.get();
         vibratingTableStressImpact = VIBRATING_TABLE_STRESS_IMPACT.get();
         allowUnpackingOnVibratingTable = ALLOW_UNPACKING_ON_VIBRATING_TABLE.get();
+        allowVibratingLeaves = ALLOW_LEAVES_VIBRATING_ON_VIBRATING_TABLE.get();
     }
 
     public static void loadConfig(ForgeConfigSpec spec, java.nio.file.Path path) {

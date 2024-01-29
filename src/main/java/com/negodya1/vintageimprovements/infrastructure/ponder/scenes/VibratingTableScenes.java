@@ -59,6 +59,13 @@ public class VibratingTableScenes {
 				.placeNearTarget();
 		scene.idle(50);
 
+		scene.overlay.showText(40)
+				.attachKeyFrame()
+				.text("Or vibrate leaves to get matched drops, the chances are the same as using hoe with Fortune III")
+				.pointAt(tableTop)
+				.placeNearTarget();
+		scene.idle(50);
+
 		scene.world.showSection(cogs, Direction.DOWN);
 		scene.idle(10);
 		scene.world.setKineticSpeed(tableSelect, 32);

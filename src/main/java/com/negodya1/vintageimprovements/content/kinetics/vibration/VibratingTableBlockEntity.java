@@ -5,6 +5,7 @@ import com.negodya1.vintageimprovements.VintageBlocks;
 import com.negodya1.vintageimprovements.VintageConfig;
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintageRecipes;
+import com.negodya1.vintageimprovements.compat.jei.category.assemblies.AssemblyVibrating;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.PolishingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingRecipe;
 import com.simibubi.create.AllSoundEvents;
@@ -16,8 +17,10 @@ import com.simibubi.create.content.processing.sequenced.SequencedAssemblyRecipe;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import com.simibubi.create.foundation.blockEntity.behaviour.filtering.FilteringBehaviour;
 import com.simibubi.create.foundation.item.ItemHelper;
+import com.simibubi.create.foundation.item.SmartInventory;
 import com.simibubi.create.foundation.recipe.RecipeConditions;
 import com.simibubi.create.foundation.recipe.RecipeFinder;
+import com.simibubi.create.foundation.utility.BlockHelper;
 import com.simibubi.create.foundation.utility.Lang;
 import com.simibubi.create.foundation.utility.LangBuilder;
 import com.simibubi.create.foundation.utility.VecHelper;
@@ -37,6 +40,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -45,17 +49,22 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -79,20 +88,22 @@ import static net.minecraft.world.level.block.state.properties.BlockStatePropert
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class VibratingTableBlockEntity extends KineticBlockEntity {
-	public ItemStackHandler inputInv;
-	public ItemStackHandler outputInv;
+	public SmartInventory inputInv;
+	public SmartInventory outputInv;
 	public LazyOptional<IItemHandler> capability;
 	public int timer;
 	private VibratingRecipe lastRecipe;
 	private ItemStack playEvent;
+	boolean lastRecipeIsAssembly;
 
-	public static final TagKey<Item> storageTags = ItemTags.create(new ResourceLocation("forge", "storage_blocks"));
+	public static final TagKey<Item> storageTag = ItemTags.create(new ResourceLocation("forge", "storage_blocks"));
+	public static final TagKey<Item> leavesTag = ItemTags.create(new ResourceLocation("minecraft", "leaves"));
 
 	public VibratingTableBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
 
-		inputInv = new ItemStackHandler(1);
-		outputInv = new ItemStackHandler(9);
+		inputInv = new SmartInventory(1, this);
+		outputInv = new SmartInventory(9, this);
 		capability = LazyOptional.of(VibratingTableInventoryHandler::new);
 		playEvent = ItemStack.EMPTY;
 	}
@@ -112,6 +123,7 @@ public class VibratingTableBlockEntity extends KineticBlockEntity {
 		compound.putInt("Timer", timer);
 		compound.put("InputInventory", inputInv.serializeNBT());
 		compound.put("OutputInventory", outputInv.serializeNBT());
+		compound.putBoolean("LastRecipeIsAssembly", lastRecipeIsAssembly);
 		super.write(compound, clientPacket);
 
 		if (!clientPacket || playEvent.isEmpty())
@@ -126,6 +138,7 @@ public class VibratingTableBlockEntity extends KineticBlockEntity {
 		timer = compound.getInt("Timer");
 		inputInv.deserializeNBT(compound.getCompound("InputInventory"));
 		outputInv.deserializeNBT(compound.getCompound("OutputInventory"));
+		lastRecipeIsAssembly = compound.getBoolean("LastRecipeIsAssembly");
 		if (compound.contains("PlayEvent"))
 			playEvent = ItemStack.of(compound.getCompound("PlayEvent"));
 	}
@@ -195,16 +208,20 @@ public class VibratingTableBlockEntity extends KineticBlockEntity {
 			return;
 
 		RecipeWrapper inventoryIn = new RecipeWrapper(inputInv);
-		if (lastRecipe == null || (!lastRecipe.matches(inventoryIn, level) && (!VintageConfig.allowUnpackingOnVibratingTable || inputInv.getStackInSlot(0).is(storageTags)))) {
+		if (lastRecipe == null || (!lastRecipe.matches(inventoryIn, level)) || lastRecipeIsAssembly) {
 			Optional<VibratingRecipe> assemblyRecipe = SequencedAssemblyRecipe.getRecipe(level, inventoryIn,
 					VintageRecipes.VIBRATING.getType(), VibratingRecipe.class);
 			if (assemblyRecipe.isPresent()) {
 				lastRecipe = assemblyRecipe.get();
 				timer = lastRecipe.getProcessingDuration();
 				if (timer == 0) timer = 100;
+				lastRecipeIsAssembly = true;
+
 				sendData();
 				return;
 			}
+
+			lastRecipeIsAssembly = false;
 
 			Optional<VibratingRecipe> recipe = VintageRecipes.VIBRATING.find(inventoryIn, level);
 			if (!recipe.isPresent()) {
@@ -250,7 +267,7 @@ public class VibratingTableBlockEntity extends KineticBlockEntity {
 	public static <C extends Container> boolean canUnpack(Recipe<C> recipe) {
 		if (!(recipe instanceof CraftingRecipe) || !VintageConfig.allowUnpackingOnVibratingTable) return false;
 		NonNullList<Ingredient> ingredients = recipe.getIngredients();
-		if (ingredients.size() == 1) return ingredients.get(0).getItems()[0].is(storageTags);
+		if (ingredients.size() == 1) return ingredients.get(0).getItems()[0].is(storageTag);
 		return false;
 	}
 
@@ -270,10 +287,14 @@ public class VibratingTableBlockEntity extends KineticBlockEntity {
 		if (VintageRecipes.VIBRATING.find(inventoryIn, level)
 				.isPresent()) return true;
 
-		return tester.getStackInSlot(0).is(storageTags) && VintageConfig.allowUnpackingOnVibratingTable;
+		if (VintageConfig.allowVibratingLeaves && VintageRecipes.LEAVES_VIBRATING.find(inventoryIn, level)
+				.isPresent()) return true;
+
+		return (tester.getStackInSlot(0).is(storageTag) && VintageConfig.allowUnpackingOnVibratingTable);
 	}
 
 	private void process() {
+
 		RecipeWrapper inventoryIn = new RecipeWrapper(inputInv);
 
 		if (lastRecipe == null || !lastRecipe.matches(inventoryIn, level)) {
@@ -294,7 +315,7 @@ public class VibratingTableBlockEntity extends KineticBlockEntity {
 				}
 			}
 
-			if (!found && VintageConfig.allowUnpackingOnVibratingTable) {
+			if (!found && VintageConfig.allowUnpackingOnVibratingTable && inputInv.getStackInSlot(0).is(storageTag)) {
 				List<CraftingRecipe> recipes = level.getRecipeManager().getAllRecipesFor(RecipeType.CRAFTING);
 				for (CraftingRecipe recipe : recipes) {
 					if (recipe.getIngredients().size() > 1) continue;
@@ -319,6 +340,31 @@ public class VibratingTableBlockEntity extends KineticBlockEntity {
 						}
 					}
 				}
+			}
+
+			if (!found && VintageConfig.allowVibratingLeaves && inputInv.getStackInSlot(0).is(leavesTag)) {
+				ItemStack stackInSlot = inputInv.getStackInSlot(0);
+
+				if (stackInSlot.getItem() instanceof BlockItem) {
+					Block leaves = Block.byItem(stackInSlot.getItem());
+
+					ItemStack hoe = Items.DIAMOND_HOE.getDefaultInstance();
+					hoe.enchant(Enchantments.BLOCK_FORTUNE, 3);
+
+					List<ItemStack> list = Block.getDrops(leaves.defaultBlockState(), (ServerLevel) level, this.worldPosition, null, null, hoe.copy());
+
+					for (ItemStack result : list) {
+						ItemHandlerHelper.insertItemStacked(outputInv, result, false);
+					}
+				}
+
+				stackInSlot.shrink(1);
+				inputInv.setStackInSlot(0, stackInSlot);
+
+				sendData();
+				setChanged();
+
+				return;
 			}
 
 			if (!found) return;

@@ -200,7 +200,7 @@ public class VibratingTableRenderer extends SafeBlockEntityRenderer<VibratingTab
 		boolean moving = context.getAnimationSpeed() != 0;
 		boolean shouldAnimate =
 			(context.contraption.stalled && horizontal) || (!context.contraption.stalled && !backwards && moving);
-/*
+
 		SuperByteBuffer superBuffer = CachedBufferer.partial(VintagePartialModels.VIBRATING_TABLE, state);
 
 		superBuffer.transform(matrices.getModel())
@@ -214,7 +214,7 @@ public class VibratingTableRenderer extends SafeBlockEntityRenderer<VibratingTab
 
 		superBuffer.unCentre()
 			.light(matrices.getWorld(), ContraptionRenderDispatcher.getContraptionWorldLight(context, renderWorld))
-			.renderInto(matrices.getViewProjection(), buffer.getBuffer(RenderType.cutoutMipped()));*/
+			.renderInto(matrices.getViewProjection(), buffer.getBuffer(RenderType.cutoutMipped()));
 	}
 
 }

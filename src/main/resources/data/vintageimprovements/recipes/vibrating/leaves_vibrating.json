@@ -1,0 +1,11 @@
+{
+	"type":"vintageimprovements:leaves_vibrating",
+	"ingredients": [ {
+      "tag": "minecraft:leaves"
+    }
+  ],
+	"results": [
+	
+	],
+  "processingTime": 300
+}
