@@ -16,6 +16,7 @@ import com.negodya1.vintageimprovements.VintageRecipes;
 import com.negodya1.vintageimprovements.compat.jei.category.*;
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.PolishingRecipe;
+import com.negodya1.vintageimprovements.content.kinetics.vibration.LeavesVibratingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingTableBlockEntity;
 import com.simibubi.create.AllBlocks;
@@ -118,6 +119,15 @@ public class VintageJEI implements IModPlugin {
 					.doubleItemIcon(VintageBlocks.VIBRATING_TABLE.get(), Blocks.IRON_BLOCK)
 					.emptyBackground(177, 70)
 					.build("unpacking", UnpackingCategory::new));
+		}
+
+		if (VintageConfig.allowVibratingLeaves) {
+			ALL.add(builder(LeavesVibratingRecipe.class)
+					.addTypedRecipes(VintageRecipes.LEAVES_VIBRATING::getType)
+					.catalyst(VintageBlocks.VIBRATING_TABLE::get)
+					.doubleItemIcon(VintageBlocks.VIBRATING_TABLE.get(), Blocks.OAK_LEAVES)
+					.emptyBackground(177, 70)
+					.build("leaves_vibrating", LeavesVibratingCategory::new));
 		}
 
 		ALL.forEach(registration::addRecipeCategories);
