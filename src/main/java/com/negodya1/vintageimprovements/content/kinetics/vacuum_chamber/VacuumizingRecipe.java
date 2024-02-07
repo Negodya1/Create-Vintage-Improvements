@@ -2,7 +2,7 @@ package com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber;
 
 import com.negodya1.vintageimprovements.VintageBlocks;
 import com.negodya1.vintageimprovements.VintageRecipes;
-import com.negodya1.vintageimprovements.compat.jei.category.AssemblyVacuumizing;
+import com.negodya1.vintageimprovements.compat.jei.category.assemblies.AssemblyVacuumizing;
 import com.simibubi.create.compat.jei.category.sequencedAssembly.SequencedAssemblySubCategory;
 import com.simibubi.create.content.processing.basin.BasinRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder.ProcessingRecipeParams;

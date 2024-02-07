@@ -1,7 +1,6 @@
 package com.negodya1.vintageimprovements.compat.jei.category.assemblies;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.negodya1.vintageimprovements.compat.jei.category.animations.AnimatedCoiling;
 import com.negodya1.vintageimprovements.compat.jei.category.animations.AnimatedVibratingTable;
 import com.simibubi.create.compat.jei.category.sequencedAssembly.SequencedAssemblySubCategory;
 import com.simibubi.create.content.processing.sequenced.SequencedRecipe;

@@ -14,6 +14,7 @@ import com.negodya1.vintageimprovements.VintageConfig;
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintageRecipes;
 import com.negodya1.vintageimprovements.compat.jei.category.*;
+import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugationRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.PolishingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.LeavesVibratingRecipe;
@@ -105,6 +106,13 @@ public class VintageJEI implements IModPlugin {
 				.itemIcon(VintageBlocks.VIBRATING_TABLE)
 				.emptyBackground(177, 70)
 				.build("vibrating", VibratingCategory::new));
+
+		ALL.add(builder(CentrifugationRecipe.class)
+				.addTypedRecipes(VintageRecipes.CENTRIFUGATION::getType)
+				.catalyst(VintageBlocks.CENTRIFUGE::get)
+				.itemIcon(VintageBlocks.CENTRIFUGE)
+				.emptyBackground(177, 103)
+				.build("centrifugation", CentrifugationCategory::new));
 
 		if (VintageConfig.allowUnpackingOnVibratingTable) {
 			ALL.add(builder(CraftingRecipe.class)

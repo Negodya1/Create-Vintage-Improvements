@@ -5,10 +5,7 @@ import com.mojang.math.Axis;
 import com.negodya1.vintageimprovements.VintageBlocks;
 import com.negodya1.vintageimprovements.VintagePartialModels;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderBlock;
-import com.simibubi.create.AllBlocks;
-import com.simibubi.create.AllPartialModels;
 import com.simibubi.create.compat.jei.category.animations.AnimatedKinetics;
-import com.simibubi.create.content.kinetics.saw.SawBlock;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Direction;

@@ -2,7 +2,6 @@ package com.negodya1.vintageimprovements.content.kinetics.vibration;
 
 import com.negodya1.vintageimprovements.VintageBlocks;
 import com.negodya1.vintageimprovements.VintageRecipes;
-import com.negodya1.vintageimprovements.compat.jei.category.AssemblyCoiling;
 import com.negodya1.vintageimprovements.compat.jei.category.assemblies.AssemblyVibrating;
 import com.simibubi.create.compat.jei.category.sequencedAssembly.SequencedAssemblySubCategory;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipe;

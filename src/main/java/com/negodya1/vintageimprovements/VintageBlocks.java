@@ -1,5 +1,9 @@
 package com.negodya1.vintageimprovements;
 
+import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugeBlock;
+import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugeGenerator;
+import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugeItem;
+import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugeStructuralBlock;
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingBlock;
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingGenerator;
 import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumChamberBlock;
@@ -11,9 +15,9 @@ import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderBlock;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderGenerator;
 import com.simibubi.create.content.processing.AssemblyOperatorBlockItem;
 import com.simibubi.create.foundation.data.AssetLookup;
+import com.simibubi.create.foundation.data.BlockStateGen;
 import com.simibubi.create.foundation.data.SharedProperties;
 
-import static com.simibubi.create.AllMovementBehaviours.movementBehaviour;
 import static com.simibubi.create.foundation.data.ModelGen.customItemModel;
 import static com.simibubi.create.foundation.data.TagGen.axeOrPickaxe;
 
@@ -75,6 +79,28 @@ public class VintageBlocks {
             .tag(AllTags.AllItemTags.CONTRAPTION_CONTROLLED.tag)
             .transform(customItemModel())
             .register();
+
+    public static final BlockEntry<CentrifugeBlock> CENTRIFUGE = MY_REGISTRATE.block("centrifuge", CentrifugeBlock::new)
+            .initialProperties(SharedProperties::stone)
+            .addLayer(() -> RenderType::cutoutMipped)
+            .properties(p -> p.mapColor(MapColor.DIRT))
+            .transform(axeOrPickaxe())
+            .blockstate(new CentrifugeGenerator()::generate)
+            .transform(BlockStressDefaults.setImpact(VintageConfig.CENTRIFUGE_STRESS_IMPACT.get()))
+            .item(CentrifugeItem::new)
+            .tag(AllTags.AllItemTags.CONTRAPTION_CONTROLLED.tag)
+            .transform(customItemModel())
+            .register();
+
+    public static final BlockEntry<CentrifugeStructuralBlock> CENTRIFUGE_STRUCTURAL =
+            MY_REGISTRATE.block("centrifuge_structure", CentrifugeStructuralBlock::new)
+                    .initialProperties(SharedProperties::wooden)
+                    .blockstate((c, p) -> p.getVariantBuilder(c.get())
+                            .forAllStatesExcept(BlockStateGen.mapToAir(p), CentrifugeStructuralBlock.FACING))
+                    .properties(p -> p.noOcclusion().mapColor(MapColor.DIRT))
+                    .transform(axeOrPickaxe())
+                    .lang("Centrifuge")
+                    .register();
 
     public static void register() {}
 }

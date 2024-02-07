@@ -1,4 +1,4 @@
-package com.negodya1.vintageimprovements.compat.jei.category;
+package com.negodya1.vintageimprovements.compat.jei.category.assemblies;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.negodya1.vintageimprovements.compat.jei.category.animations.AnimatedGrinder;

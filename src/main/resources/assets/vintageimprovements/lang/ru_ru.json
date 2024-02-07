@@ -51,6 +51,10 @@
 	"vintageimprovements.recipe.unpacking": "Распаковка",
 	"vintageimprovements.recipe.leaves_vibrating": "Вибрирование листьев",
 	
+	"block.vintageimprovements.centrifuge": "Центрифуга",
+	"create.recipe.assembly.centrifugation": "Обработайте в центрифуге",
+	"vintageimprovements.recipe.centrifugation": "Центрифугирование",
+	
 	"vintageimprovements.ponder.belt_grinder_processing.header": "Обработкой предметов на ленточном гриндере",
 	"vintageimprovements.ponder.belt_grinder_processing.text_1": "Ленточные гриндеры могут обрабатывать множество предметов",
 	"vintageimprovements.ponder.belt_grinder_processing.text_2": "Обработанные предметы всегда движутся против подаваемого на гриндер вращения",
@@ -73,6 +77,14 @@
 	"vintageimprovements.ponder.vibrating_table.text_6": "После некоторого времени результат можно забрать кликнув ПКМ",
 	"vintageimprovements.ponder.vibrating_table.text_7": "Продукты также можно вывести автоматически",
 	
+	"vintageimprovements.ponder.centrifuge.header": "Обработкой предметов и жидкостей в центрифуге",
+	"vintageimprovements.ponder.centrifuge.text_1": "Центрифуга может обрабатывать множество предметов и жидкостей",
+	"vintageimprovements.ponder.centrifuge.text_2": "Перед работой центрифуги необходимо установить на неё 4 чаши",
+	"vintageimprovements.ponder.centrifuge.text_3": "Центрифуга принимает вращение от валов сверху или снизу",
+	"vintageimprovements.ponder.centrifuge.text_4": "Предметы и жидкости могут быть помещены внутрь только если центрифуга остановлена",
+	"vintageimprovements.ponder.centrifuge.text_5": "Результат можно забрать кликнув ПКМ или посредством автоматизации...",
+	"vintageimprovements.ponder.centrifuge.text_6": "...но только если центрифуга остановлена",
+	
 	"vintageimprovements.jei.text.required_speed": "Треб. Скорость:",
 	"vintageimprovements.jei.text.low": "Низкая",
 	"vintageimprovements.jei.text.medium": "Средняя",
@@ -89,5 +101,7 @@
 	"create.vintageimprovements.gui.goggles.low": "Низкая",
 	"create.vintageimprovements.gui.goggles.medium": "Средняя",
 	"create.vintageimprovements.gui.goggles.high": "Высокая",
-	"create.vintageimprovements.gui.goggles.current_speed": "Скорость:"
+	"create.vintageimprovements.gui.goggles.current_speed": "Скорость:",
+	
+	"create.vintageimprovements.gui.goggles.not_enough_basins": "Для работы центрифуги недостаточно чаш. Добавьте ещё"
 }

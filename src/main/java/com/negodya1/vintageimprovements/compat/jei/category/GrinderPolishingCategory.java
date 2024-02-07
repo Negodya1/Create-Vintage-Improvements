@@ -3,7 +3,6 @@ package com.negodya1.vintageimprovements.compat.jei.category;
 import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import javax.swing.*;
 
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.compat.jei.category.animations.AnimatedGrinder;
@@ -12,10 +11,8 @@ import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
 import com.simibubi.create.content.processing.recipe.ProcessingOutput;
 import com.simibubi.create.foundation.gui.AllGuiTextures;
 
-import com.simibubi.create.foundation.utility.Color;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
-import mezz.jei.api.helpers.IColorHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import net.minecraft.client.Minecraft;

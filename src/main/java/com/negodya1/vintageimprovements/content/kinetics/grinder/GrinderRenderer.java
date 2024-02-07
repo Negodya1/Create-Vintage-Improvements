@@ -1,6 +1,5 @@
 package com.negodya1.vintageimprovements.content.kinetics.grinder;
 
-import static net.minecraft.world.level.block.state.properties.BlockStateProperties.FACING;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
 import com.jozufozu.flywheel.backend.Backend;
@@ -8,10 +7,7 @@ import com.jozufozu.flywheel.core.PartialModel;
 import com.jozufozu.flywheel.core.virtual.VirtualRenderWorld;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import com.negodya1.vintageimprovements.VintageImprovements;
-import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderBlock;
 import com.negodya1.vintageimprovements.VintagePartialModels;
-import com.simibubi.create.AllPartialModels;
 import com.simibubi.create.content.contraptions.behaviour.MovementContext;
 import com.simibubi.create.content.contraptions.render.ContraptionMatrices;
 import com.simibubi.create.content.contraptions.render.ContraptionRenderDispatcher;
@@ -34,7 +30,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 

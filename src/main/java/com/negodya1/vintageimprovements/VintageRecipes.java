@@ -3,6 +3,7 @@ package com.negodya1.vintageimprovements;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugationRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumizingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.LeavesVibratingRecipe;
@@ -13,7 +14,6 @@ import org.jetbrains.annotations.Nullable;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.PolishingRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder.ProcessingRecipeFactory;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeSerializer;
-import com.simibubi.create.content.processing.sequenced.SequencedAssemblyRecipeSerializer;
 import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
 import com.simibubi.create.foundation.utility.Lang;
 
@@ -24,7 +24,6 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.ShapedRecipe;
-import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -37,7 +36,8 @@ public enum VintageRecipes implements IRecipeTypeInfo {
     COILING(CoilingRecipe::new),
     VACUUMIZING(VacuumizingRecipe::new),
     VIBRATING(VibratingRecipe::new),
-    LEAVES_VIBRATING(LeavesVibratingRecipe::new);
+    LEAVES_VIBRATING(LeavesVibratingRecipe::new),
+    CENTRIFUGATION(CentrifugationRecipe::new);
     private final ResourceLocation id;
     private final RegistryObject<RecipeSerializer<?>> serializerObject;
     @Nullable

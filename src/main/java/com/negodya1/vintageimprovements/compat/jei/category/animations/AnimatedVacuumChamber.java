@@ -5,7 +5,6 @@ import com.mojang.math.Axis;
 import com.negodya1.vintageimprovements.VintageBlocks;
 import com.negodya1.vintageimprovements.VintagePartialModels;
 import com.simibubi.create.AllBlocks;
-import com.simibubi.create.AllPartialModels;
 import com.simibubi.create.compat.jei.category.animations.AnimatedKinetics;
 import com.simibubi.create.foundation.utility.AnimationTickHolder;
 

@@ -159,6 +159,9 @@ dependencies {
     implementation fg.deobf("curse.maven:botarium-704113:4831434")
     implementation fg.deobf("curse.maven:ad-astra-635042:4894852")
 
+    implementation fg.deobf("curse.maven:jade-324717:4986594")
+    implementation fg.deobf("curse.maven:jade-addons-583345:4925840")
+
     //implementation fg.deobf("curse.maven:embeddium-908741:4984832")
 }
 

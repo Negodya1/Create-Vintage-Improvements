@@ -3,7 +3,6 @@ package com.negodya1.vintageimprovements.compat.jei.category.animations;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.negodya1.vintageimprovements.VintageBlocks;
-import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintagePartialModels;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderBlock;
 import com.simibubi.create.compat.jei.category.animations.AnimatedKinetics;

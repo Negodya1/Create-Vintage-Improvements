@@ -1,20 +1,7 @@
 package com.negodya1.vintageimprovements;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.jozufozu.flywheel.core.PartialModel;
-import com.simibubi.create.content.fluids.FluidTransportBehaviour;
-import com.simibubi.create.foundation.utility.Couple;
-import com.simibubi.create.foundation.utility.Iterate;
-import com.simibubi.create.foundation.utility.Lang;
-
-import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.DyeColor;
+import com.simibubi.create.Create;
 
 public class VintagePartialModels {
 
@@ -27,14 +14,12 @@ public class VintagePartialModels {
 		COILING_SPRING = block("spring_coiling_machine/coiling_part_spring"),
 		VACUUM_COG = block("vacuum_chamber/cog"),
 		VACUUM_PIPE = block("vacuum_chamber/head"),
-		VIBRATING_TABLE = block("vibrating_table/head");
+		VIBRATING_TABLE = block("vibrating_table/head"),
+		CENTRIFUGE_BEAMS = block("centrifuge/head"),
+		BASIN = block("centrifuge/basin");
 
 	private static PartialModel block(String path) {
 		return new PartialModel(VintageImprovements.asResource("block/" + path));
-	}
-
-	private static PartialModel entity(String path) {
-		return new PartialModel(VintageImprovements.asResource("entity/" + path));
 	}
 
 	public static void init() {

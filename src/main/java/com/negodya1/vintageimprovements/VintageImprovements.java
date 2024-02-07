@@ -1,96 +1,38 @@
 package com.negodya1.vintageimprovements;
 
-import java.util.Random;
-
 import com.negodya1.vintageimprovements.infrastructure.ponder.VintagePonder;
-import com.negodya1.vintageimprovements.infrastructure.ponder.scenes.BeltGrinderScenes;
-import com.simibubi.create.AllSoundEvents;
-import com.simibubi.create.AllTags;
-import com.simibubi.create.foundation.ponder.PonderRegistrationHelper;
-import com.simibubi.create.foundation.ponder.PonderRegistry;
-import com.simibubi.create.foundation.ponder.PonderStoryBoardEntry;
-import com.simibubi.create.infrastructure.ponder.AllPonderTags;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.fml.loading.FMLPaths;
 import org.slf4j.Logger;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.mojang.logging.LogUtils;
-import com.simibubi.create.api.behaviour.BlockSpoutingBehaviour;
-import com.simibubi.create.compat.Mods;
-import com.simibubi.create.compat.computercraft.ComputerCraftProxy;
-import com.simibubi.create.compat.curios.Curios;
-import com.simibubi.create.content.contraptions.ContraptionMovementSetting;
-import com.simibubi.create.content.decoration.palettes.AllPaletteBlocks;
-import com.simibubi.create.content.equipment.potatoCannon.BuiltinPotatoProjectileTypes;
-import com.simibubi.create.content.fluids.tank.BoilerHeaters;
-import com.simibubi.create.content.kinetics.TorquePropagator;
-import com.simibubi.create.content.kinetics.fan.processing.AllFanProcessingTypes;
-import com.simibubi.create.content.kinetics.mechanicalArm.AllArmInteractionPointTypes;
-import com.simibubi.create.content.redstone.displayLink.AllDisplayBehaviours;
-import com.simibubi.create.content.redstone.link.RedstoneLinkNetworkHandler;
-import com.simibubi.create.content.schematics.ServerSchematicLoader;
-import com.simibubi.create.content.trains.GlobalRailwayManager;
-import com.simibubi.create.content.trains.bogey.BogeySizes;
-import com.simibubi.create.content.trains.track.AllPortalTracks;
-import com.simibubi.create.foundation.advancement.AllAdvancements;
-import com.simibubi.create.foundation.advancement.AllTriggers;
-import com.simibubi.create.foundation.block.CopperRegistries;
-import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.foundation.item.ItemDescription;
 import com.simibubi.create.foundation.item.KineticStats;
 import com.simibubi.create.foundation.item.TooltipHelper.Palette;
 import com.simibubi.create.foundation.item.TooltipModifier;
-import com.simibubi.create.foundation.utility.AttachedRegistry;
-import com.simibubi.create.infrastructure.command.ServerLagger;
-import com.simibubi.create.infrastructure.config.AllConfigs;
-import com.simibubi.create.infrastructure.data.CreateDatagen;
-import com.simibubi.create.infrastructure.worldgen.AllFeatures;
-import com.simibubi.create.infrastructure.worldgen.AllPlacementModifiers;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-import com.mojang.logging.LogUtils;
 import com.negodya1.vintageimprovements.foundation.data.VintageRegistrate;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import org.slf4j.Logger;
-
-import com.negodya1.vintageimprovements.VintageBlocks;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(VintageImprovements.MODID)
@@ -193,7 +135,10 @@ public class VintageImprovements {
                 output.accept(SMALL_DESH_SPRING.get());
 
                 output.accept(VintageBlocks.VACUUM_CHAMBER.get());
+
                 output.accept(VintageBlocks.VIBRATING_TABLE.get());
+
+                output.accept(VintageBlocks.CENTRIFUGE.get());
             }).build());
 
     public VintageImprovements() {

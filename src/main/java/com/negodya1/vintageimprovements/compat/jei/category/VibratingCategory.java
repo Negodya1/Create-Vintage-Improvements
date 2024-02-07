@@ -6,8 +6,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.negodya1.vintageimprovements.compat.jei.category.animations.AnimatedVibratingTable;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingRecipe;
-import com.simibubi.create.compat.jei.category.animations.AnimatedMillstone;
-import com.simibubi.create.content.kinetics.crusher.AbstractCrushingRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingOutput;
 import com.simibubi.create.foundation.gui.AllGuiTextures;
 import com.simibubi.create.compat.jei.category.CreateRecipeCategory;

@@ -7,8 +7,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 
-import javax.swing.plaf.ButtonUI;
-
 @Mod.EventBusSubscriber(modid = VintageImprovements.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class VintageConfig {
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
@@ -51,6 +49,11 @@ public class VintageConfig {
             .comment("Allows vibrating leaves on vibrating table to get matching drops")
             .define("allowVibratingLeaves", true);
 
+    public static final ForgeConfigSpec.DoubleValue CENTRIFUGE_STRESS_IMPACT = BUILDER
+            .comment("Centrifuge")
+            .comment("Value of stress impact for Centrifuge")
+            .defineInRange("CentrifugeStressImpact", 2.0, 0.0, 1024.0);
+
     public static final ForgeConfigSpec SPEC = BUILDER.build();
 
     public static boolean destroyOnWrongGrinderSpeed;
@@ -64,6 +67,7 @@ public class VintageConfig {
     public static double vibratingTableStressImpact;
     public static boolean allowUnpackingOnVibratingTable;
     public static boolean allowVibratingLeaves;
+    public static double centrifugeStressImpact;
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event) {
@@ -78,6 +82,7 @@ public class VintageConfig {
         vibratingTableStressImpact = VIBRATING_TABLE_STRESS_IMPACT.get();
         allowUnpackingOnVibratingTable = ALLOW_UNPACKING_ON_VIBRATING_TABLE.get();
         allowVibratingLeaves = ALLOW_LEAVES_VIBRATING_ON_VIBRATING_TABLE.get();
+        centrifugeStressImpact = CENTRIFUGE_STRESS_IMPACT.get();
     }
 
     public static void loadConfig(ForgeConfigSpec spec, java.nio.file.Path path) {

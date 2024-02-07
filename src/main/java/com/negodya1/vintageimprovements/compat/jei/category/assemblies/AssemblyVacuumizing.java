@@ -1,18 +1,14 @@
-package com.negodya1.vintageimprovements.compat.jei.category;
+package com.negodya1.vintageimprovements.compat.jei.category.assemblies;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.negodya1.vintageimprovements.compat.jei.category.animations.AnimatedCoiling;
 import com.negodya1.vintageimprovements.compat.jei.category.animations.AnimatedVacuumChamber;
-import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumizingRecipe;
 import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
 import com.simibubi.create.compat.jei.category.sequencedAssembly.SequencedAssemblySubCategory;
 import com.simibubi.create.content.processing.sequenced.SequencedRecipe;
-import com.simibubi.create.foundation.utility.Lang;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 
 public class AssemblyVacuumizing extends SequencedAssemblySubCategory {

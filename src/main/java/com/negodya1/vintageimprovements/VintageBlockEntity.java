@@ -1,5 +1,9 @@
 package com.negodya1.vintageimprovements;
 
+import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugeBlockEntity;
+import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugeInstance;
+import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugeRenderer;
+import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugeStructuralBlockEntity;
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingBlockEntity;
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingInstance;
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingRenderer;
@@ -40,6 +44,18 @@ public class VintageBlockEntity {
             .instance(() -> VibratingTableInstance::new)
             .validBlocks(VintageBlocks.VIBRATING_TABLE)
             .renderer(() -> VibratingTableRenderer::new)
+            .register();
+
+    public static final BlockEntityEntry<CentrifugeBlockEntity> CENTRIFUGE = MY_REGISTRATE
+            .blockEntity("centrifuge", CentrifugeBlockEntity::new)
+            .instance(() -> CentrifugeInstance::new)
+            .validBlocks(VintageBlocks.CENTRIFUGE)
+            .renderer(() -> CentrifugeRenderer::new)
+            .register();
+
+    public static final BlockEntityEntry<CentrifugeStructuralBlockEntity> CENTRIFUGE_STRUCTURAL = MY_REGISTRATE
+            .blockEntity("centrifuge_structural", CentrifugeStructuralBlockEntity::new)
+            .validBlocks(VintageBlocks.CENTRIFUGE_STRUCTURAL)
             .register();
 
     public static void register() {}

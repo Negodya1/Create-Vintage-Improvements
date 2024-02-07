@@ -1,0 +1,218 @@
+package com.negodya1.vintageimprovements.content.kinetics.centrifuge;
+
+import java.util.*;
+import java.util.function.Supplier;
+
+import javax.annotation.Nonnull;
+
+import com.negodya1.vintageimprovements.VintageBlocks;
+import com.negodya1.vintageimprovements.VintageImprovements;
+import com.negodya1.vintageimprovements.VintageRecipes;
+import com.negodya1.vintageimprovements.compat.jei.category.assemblies.AssemblyCentrifugation;
+import com.negodya1.vintageimprovements.compat.jei.category.assemblies.AssemblyVibrating;
+import com.simibubi.create.AllRecipeTypes;
+import com.simibubi.create.compat.jei.category.sequencedAssembly.SequencedAssemblySubCategory;
+import com.simibubi.create.content.processing.burner.BlazeBurnerBlock.HeatLevel;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder;
+import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder.ProcessingRecipeParams;
+import com.simibubi.create.content.processing.sequenced.IAssemblyRecipe;
+import com.simibubi.create.foundation.blockEntity.behaviour.filtering.FilteringBehaviour;
+import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
+import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour.TankSegment;
+import com.simibubi.create.foundation.fluid.FluidIngredient;
+import com.simibubi.create.foundation.item.SmartInventory;
+import com.simibubi.create.foundation.recipe.DummyCraftingContainer;
+import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
+import com.simibubi.create.foundation.utility.Iterate;
+
+import com.simibubi.create.foundation.utility.Lang;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.wrapper.RecipeWrapper;
+
+public class CentrifugationRecipe extends ProcessingRecipe<SmartInventory> implements IAssemblyRecipe {
+
+	public static boolean apply(CentrifugeBlockEntity centrifuge, Recipe<?> recipe) {
+		return apply(centrifuge, recipe, false);
+	}
+
+	private static boolean apply(CentrifugeBlockEntity centrifuge, Recipe<?> recipe, boolean test) {
+		IItemHandlerModifiable availableItems = (IItemHandlerModifiable) centrifuge.getCapability(ForgeCapabilities.ITEM_HANDLER)
+				.orElse(null);
+		IFluidHandler availableFluids = centrifuge.getCapability(ForgeCapabilities.FLUID_HANDLER)
+				.orElse(null);
+
+		if (availableItems == null || availableFluids == null)
+			return false;
+
+		List<ItemStack> recipeOutputItems = new ArrayList<>();
+		List<FluidStack> recipeOutputFluids = new ArrayList<>();
+
+		List<Ingredient> ingredients = new LinkedList<>(recipe.getIngredients());
+		List<FluidIngredient> fluidIngredients = ((CentrifugationRecipe) recipe).getFluidIngredients();
+
+		for (boolean simulate : Iterate.trueAndFalse) {
+			if (!simulate && test)
+				return true;
+
+			int[] extractedItemsFromSlot = new int[availableItems.getSlots()];
+			int[] extractedFluidsFromTank = new int[availableFluids.getTanks()];
+
+			Ingredients: for (int i = 0; i < ingredients.size(); i++) {
+				Ingredient ingredient = ingredients.get(i);
+
+				for (int slot = 0; slot < availableItems.getSlots(); slot++) {
+					if (simulate && availableItems.getStackInSlot(slot)
+							.getCount() <= extractedItemsFromSlot[slot])
+						continue;
+					ItemStack extracted = availableItems.getStackInSlot(slot);
+
+					if (!ingredient.test(extracted))
+						continue;
+					if (!simulate)
+						extracted.shrink(1);
+
+					extractedItemsFromSlot[slot]++;
+					continue Ingredients;
+				}
+
+				// something wasn't found
+				return false;
+			}
+
+			boolean fluidsAffected = false;
+			FluidIngredients: for (int i = 0; i < fluidIngredients.size(); i++) {
+				FluidIngredient fluidIngredient = fluidIngredients.get(i);
+				int amountRequired = fluidIngredient.getRequiredAmount();
+
+				for (int tank = 0; tank < availableFluids.getTanks(); tank++) {
+					FluidStack fluidStack = availableFluids.getFluidInTank(tank);
+					if (simulate && fluidStack.getAmount() <= extractedFluidsFromTank[tank])
+						continue;
+					if (!fluidIngredient.test(fluidStack))
+						continue;
+					int drainedAmount = Math.min(amountRequired, fluidStack.getAmount());
+					if (!simulate) {
+						fluidStack.shrink(drainedAmount);
+						fluidsAffected = true;
+					}
+					amountRequired -= drainedAmount;
+					if (amountRequired != 0)
+						continue;
+					extractedFluidsFromTank[tank] += drainedAmount;
+					continue FluidIngredients;
+				}
+
+				// something wasn't found
+				return false;
+			}
+
+			if (fluidsAffected) {
+				centrifuge.getBehaviour(SmartFluidTankBehaviour.INPUT)
+						.forEach(TankSegment::onFluidStackChanged);
+				centrifuge.getBehaviour(SmartFluidTankBehaviour.OUTPUT)
+						.forEach(TankSegment::onFluidStackChanged);
+			}
+
+			if (simulate) {
+				if (recipe instanceof CentrifugationRecipe centrifugeRecipe) {
+					recipeOutputItems.addAll(centrifugeRecipe.rollResults());
+					recipeOutputFluids.addAll(centrifugeRecipe.getFluidResults());
+					recipeOutputItems.addAll(centrifugeRecipe.getRemainingItems(centrifuge.getInputInventory()));
+				} else {
+					recipeOutputItems.add(recipe.getResultItem(centrifuge.getLevel()
+							.registryAccess()));
+
+					if (recipe instanceof CraftingRecipe craftingRecipe) {
+						recipeOutputItems.addAll(craftingRecipe.getRemainingItems(new DummyCraftingContainer(availableItems, extractedItemsFromSlot)));
+					}
+				}
+			}
+
+			if (!centrifuge.acceptOutputs(recipeOutputItems, recipeOutputFluids, simulate))
+				return false;
+		}
+
+		return true;
+	}
+
+	protected CentrifugationRecipe(IRecipeTypeInfo type, ProcessingRecipeParams params) {
+		super(type, params);
+	}
+
+	public CentrifugationRecipe(ProcessingRecipeParams params) {
+		this(VintageRecipes.CENTRIFUGATION, params);
+	}
+
+	@Override
+	protected int getMaxInputCount() {
+		return 9;
+	}
+
+	@Override
+	protected int getMaxOutputCount() {
+		return 4;
+	}
+
+	@Override
+	protected int getMaxFluidInputCount() {
+		return 2;
+	}
+
+	@Override
+	protected int getMaxFluidOutputCount() {
+		return 2;
+	}
+
+	@Override
+	protected boolean canSpecifyDuration() {
+		return true;
+	}
+
+	@Override
+	public boolean matches(SmartInventory inv, @Nonnull Level worldIn) {
+		if (inv.isEmpty())
+			return false;
+		if (ingredients.isEmpty())
+			return !fluidIngredients.isEmpty();
+
+		for (Ingredient ingredient : ingredients)
+			if (inv.countItem(ingredient.getItems()[0].getItem()) < ingredient.getItems().length) return false;
+
+		return true;
+	}
+
+	@Override
+	public void addAssemblyIngredients(List<Ingredient> list) {}
+
+	@Override
+	@OnlyIn(Dist.CLIENT)
+	public Component getDescriptionForAssembly() {
+		return Lang.translateDirect("recipe.assembly.centrifugation");
+	}
+
+	@Override
+	public void addRequiredMachines(Set<ItemLike> list) {
+		list.add(VintageBlocks.CENTRIFUGE.get());
+	}
+
+	@Override
+	public Supplier<Supplier<SequencedAssemblySubCategory>> getJEISubCategory() {
+		return () -> AssemblyCentrifugation::new;
+	}
+
+}

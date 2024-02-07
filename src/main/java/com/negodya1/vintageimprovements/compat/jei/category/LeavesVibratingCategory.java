@@ -3,9 +3,7 @@ package com.negodya1.vintageimprovements.compat.jei.category;
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.compat.jei.category.animations.AnimatedVibratingTable;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.LeavesVibratingRecipe;
-import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingRecipe;
 import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
-import com.simibubi.create.content.processing.recipe.ProcessingOutput;
 import com.simibubi.create.foundation.gui.AllGuiTextures;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
@@ -16,7 +14,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.List;
 
 @ParametersAreNonnullByDefault
 public class LeavesVibratingCategory extends CreateRecipeCategory<LeavesVibratingRecipe> {

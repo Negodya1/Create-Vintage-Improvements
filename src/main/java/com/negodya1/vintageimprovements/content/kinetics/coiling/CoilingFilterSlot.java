@@ -6,7 +6,6 @@ import com.simibubi.create.foundation.blockEntity.behaviour.ValueBoxTransform;
 import com.simibubi.create.foundation.utility.VecHelper;
 
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.CollisionGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
