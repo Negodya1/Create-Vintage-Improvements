@@ -51,6 +51,10 @@
 	"vintageimprovements.recipe.unpacking": "Unpacking",
 	"vintageimprovements.recipe.leaves_vibrating": "Leaves Vibrating",
 	
+	"block.vintageimprovements.centrifuge": "Centrifuge",
+	"create.recipe.assembly.centrifugation": "Process in Centrifuge",
+	"vintageimprovements.recipe.centrifugation": "Centrifugation",
+	
 	"vintageimprovements.ponder.belt_grinder_processing.header": "Processing Items on the Belt Grinder",
 	"vintageimprovements.ponder.belt_grinder_processing.text_1": "Belt Grinders can process a variety of items",
 	"vintageimprovements.ponder.belt_grinder_processing.text_2": "The processed item always moves against the rotational input to the grinder",
@@ -73,6 +77,14 @@
 	"vintageimprovements.ponder.vibrating_table.text_6": "After some time, the result can be obtained via Right-click",
 	"vintageimprovements.ponder.vibrating_table.text_7": "The outputs can also be extracted by automation",
 	
+	"vintageimprovements.ponder.centrifuge.header": "Processing Items & Fluids in the Centrifuge",
+	"vintageimprovements.ponder.centrifuge.text_1": "Centrifuge can process a variety of items or fluids",
+	"vintageimprovements.ponder.centrifuge.text_2": "Before work you must install 4 Basins on Centrifuge",
+	"vintageimprovements.ponder.centrifuge.text_3": "They can be powered from the up or down using shafts",
+	"vintageimprovements.ponder.centrifuge.text_4": "Items and Fluids сan only be inserted when Centrifuge is stopped",
+	"vintageimprovements.ponder.centrifuge.text_5": "The result can be extracted via Right-click or automatization...",
+	"vintageimprovements.ponder.centrifuge.text_6": "...but only when Centrifuge is stopped",
+	
 	"vintageimprovements.jei.text.required_speed": "Required Speed:",
 	"vintageimprovements.jei.text.low": "Low",
 	"vintageimprovements.jei.text.medium": "Medium",
@@ -82,12 +94,14 @@
 	"vintageimprovements.jei.text.leaves_vibrating.text1": "You can vibrate",
 	"vintageimprovements.jei.text.leaves_vibrating.text2": "any leaves to",
 	"vintageimprovements.jei.text.leaves_vibrating.text3": "get match drops.",
-	"vintageimprovements.jei.text.leaves_vibrating.text4": "Chanses is the",
+	"vintageimprovements.jei.text.leaves_vibrating.text4": "Chances is the",
 	"vintageimprovements.jei.text.leaves_vibrating.text5": "same as using",
 	"vintageimprovements.jei.text.leaves_vibrating.text6": "Fortune III hoe.",
 	
 	"create.vintageimprovements.gui.goggles.low": "Low",
 	"create.vintageimprovements.gui.goggles.medium": "Medium",
 	"create.vintageimprovements.gui.goggles.high": "High",
-	"create.vintageimprovements.gui.goggles.current_speed": "Speed:"
+	"create.vintageimprovements.gui.goggles.current_speed": "Speed:",
+	
+	"create.vintageimprovements.gui.goggles.not_enough_basins": "For the Centrifuge work not enough Basins. Add"
 }

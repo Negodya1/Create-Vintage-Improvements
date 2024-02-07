@@ -200,7 +200,7 @@ public class VibratingTableBlockEntity extends KineticBlockEntity {
 			return;
 
 		RecipeWrapper inventoryIn = new RecipeWrapper(inputInv);
-		if (lastRecipe == null || (!lastRecipe.matches(inventoryIn, level)) || lastRecipeIsAssembly) {
+		if (lastRecipe == null || (!lastRecipe.matches(inventoryIn, level))) {
 			Optional<VibratingRecipe> assemblyRecipe = SequencedAssemblyRecipe.getRecipe(level, inventoryIn,
 					VintageRecipes.VIBRATING.getType(), VibratingRecipe.class);
 			if (assemblyRecipe.isPresent()) {
@@ -297,6 +297,7 @@ public class VibratingTableBlockEntity extends KineticBlockEntity {
 			if (assemblyRecipe.isPresent()) {
 				lastRecipe = assemblyRecipe.get();
 				found = true;
+				lastRecipeIsAssembly = true;
 			}
 
 			if (!found) {
@@ -367,6 +368,8 @@ public class VibratingTableBlockEntity extends KineticBlockEntity {
 		inputInv.setStackInSlot(0, stackInSlot);
 		lastRecipe.rollResults()
 				.forEach(stack -> ItemHandlerHelper.insertItemStacked(outputInv, stack, false));
+
+		if (lastRecipeIsAssembly) lastRecipe = null;
 
 		sendData();
 		setChanged();

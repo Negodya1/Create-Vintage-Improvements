@@ -3,6 +3,8 @@
     "vintageimprovements:belt_grinder",
 	"vintageimprovements:spring_coiling_machine",
 	"vintageimprovements:vacuum_chamber",
-	"vintageimprovements:vibrating_table"
+	"vintageimprovements:vibrating_table",
+	"vintageimprovements:centrifuge",
+	"vintageimprovements:centrifuge_structure"
   ]
 }

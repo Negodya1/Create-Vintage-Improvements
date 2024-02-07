@@ -2,10 +2,7 @@ package com.negodya1.vintageimprovements.infrastructure.ponder;
 
 import com.negodya1.vintageimprovements.VintageBlocks;
 import com.negodya1.vintageimprovements.VintageImprovements;
-import com.negodya1.vintageimprovements.infrastructure.ponder.scenes.BeltGrinderScenes;
-import com.negodya1.vintageimprovements.infrastructure.ponder.scenes.SpringCoilingScenes;
-import com.negodya1.vintageimprovements.infrastructure.ponder.scenes.VacuumChamberScenes;
-import com.negodya1.vintageimprovements.infrastructure.ponder.scenes.VibratingTableScenes;
+import com.negodya1.vintageimprovements.infrastructure.ponder.scenes.*;
 import com.simibubi.create.foundation.ponder.PonderRegistrationHelper;
 import com.simibubi.create.foundation.ponder.PonderRegistry;
 import com.simibubi.create.infrastructure.ponder.AllPonderTags;
@@ -25,6 +22,9 @@ public class VintagePonder {
 
         HELPER.forComponents(VintageBlocks.VIBRATING_TABLE)
                 .addStoryBoard("vibrating_table/processing", VibratingTableScenes::processing, AllPonderTags.KINETIC_APPLIANCES);
+
+        HELPER.forComponents(VintageBlocks.CENTRIFUGE)
+                .addStoryBoard("centrifuge/processing", CentrifugeScenes::processing, AllPonderTags.KINETIC_APPLIANCES);
 
         PonderRegistry.TAGS.forTag(AllPonderTags.KINETIC_APPLIANCES)
                 .add(VintageBlocks.BELT_GRINDER)
