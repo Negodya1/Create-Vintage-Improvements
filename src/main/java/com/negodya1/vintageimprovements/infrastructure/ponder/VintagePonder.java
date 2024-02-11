@@ -26,11 +26,15 @@ public class VintagePonder {
         HELPER.forComponents(VintageBlocks.CENTRIFUGE)
                 .addStoryBoard("centrifuge/processing", CentrifugeScenes::processing, AllPonderTags.KINETIC_APPLIANCES);
 
+        HELPER.forComponents(VintageBlocks.CURVING_PRESS)
+                .addStoryBoard("curving_press/processing", CurvingPressScenes::processing, AllPonderTags.KINETIC_APPLIANCES);
+
         PonderRegistry.TAGS.forTag(AllPonderTags.KINETIC_APPLIANCES)
                 .add(VintageBlocks.BELT_GRINDER)
                 .add(VintageBlocks.SPRING_COILING_MACHINE)
                 .add(VintageBlocks.VACUUM_CHAMBER)
                 .add(VintageBlocks.VIBRATING_TABLE)
-                .add(VintageBlocks.CENTRIFUGE);
+                .add(VintageBlocks.CENTRIFUGE)
+                .add(VintageBlocks.CURVING_PRESS);
     }
 }

@@ -139,6 +139,8 @@ public class VintageImprovements {
                 output.accept(VintageBlocks.VIBRATING_TABLE.get());
 
                 output.accept(VintageBlocks.CENTRIFUGE.get());
+
+                output.accept(VintageBlocks.CURVING_PRESS.get());
             }).build());
 
     public VintageImprovements() {
@@ -168,14 +170,12 @@ public class VintageImprovements {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event) {
-
-    }
+    private void commonSetup(final FMLCommonSetupEvent event) {}
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-
+        VintageRecipesList.init(event.getServer());
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent

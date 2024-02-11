@@ -22,7 +22,7 @@ public class VintageConfig {
     private static final ForgeConfigSpec.BooleanValue ALLOW_SANDPAPER_POLISHING_ON_GRINDER = BUILDER
             .comment("Belt Grinder")
             .comment("Allows sandpaper crafts on belt grinder, when recipes collides belt grinder recipe have priority")
-            .define("allowSandpaperPolishingOnGrinder", false);
+            .define("allowSandpaperPolishingOnGrinder", true);
     private static final ForgeConfigSpec.IntValue SPEED_LIMITS_FOR_SANDPAPER_POLISHING_RECIPES = BUILDER
             .comment("Works only when \"allowSandpaperPolishingOnGrinder\" is true. Defines speed limits for sandpaper recipes on belt grinder")
             .defineInRange("speedLimitsForSandpaperPolishingRecipes", 1, 0, 3);
@@ -54,6 +54,15 @@ public class VintageConfig {
             .comment("Value of stress impact for Centrifuge")
             .defineInRange("CentrifugeStressImpact", 2.0, 0.0, 1024.0);
 
+    public static final ForgeConfigSpec.DoubleValue CURVING_PRESS_STRESS_IMPACT = BUILDER
+            .comment("Curving Press")
+            .comment("Value of stress impact for Curving Press")
+            .defineInRange("CurvingPressStressImpact", 8.0, 0.0, 1024.0);
+
+    public static final ForgeConfigSpec.BooleanValue ALLOW_AUTO_CURVING_RECIPES = BUILDER
+            .comment("Allows automatic recognize recipes for curving press")
+            .define("allowAutoCurvingRecipes", true);
+
     public static final ForgeConfigSpec SPEC = BUILDER.build();
 
     public static boolean destroyOnWrongGrinderSpeed;
@@ -68,6 +77,8 @@ public class VintageConfig {
     public static boolean allowUnpackingOnVibratingTable;
     public static boolean allowVibratingLeaves;
     public static double centrifugeStressImpact;
+    public static double curvingPressStressImpact;
+    public static boolean allowAutoCurvingRecipes;
 
     @SubscribeEvent
     static void onLoad(final ModConfigEvent event) {
@@ -83,6 +94,8 @@ public class VintageConfig {
         allowUnpackingOnVibratingTable = ALLOW_UNPACKING_ON_VIBRATING_TABLE.get();
         allowVibratingLeaves = ALLOW_LEAVES_VIBRATING_ON_VIBRATING_TABLE.get();
         centrifugeStressImpact = CENTRIFUGE_STRESS_IMPACT.get();
+        curvingPressStressImpact = CURVING_PRESS_STRESS_IMPACT.get();
+        allowAutoCurvingRecipes = ALLOW_AUTO_CURVING_RECIPES.get();
     }
 
     public static void loadConfig(ForgeConfigSpec spec, java.nio.file.Path path) {

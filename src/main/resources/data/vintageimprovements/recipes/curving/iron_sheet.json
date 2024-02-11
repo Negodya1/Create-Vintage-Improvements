@@ -1,0 +1,13 @@
+{
+  "type": "vintageimprovements:curving",
+  "ingredients": [
+    {
+      "tag": "forge:plates/iron"
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:bucket"
+    }
+  ]
+}

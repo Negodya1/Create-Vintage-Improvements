@@ -6,6 +6,7 @@ import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugeIt
 import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugeStructuralBlock;
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingBlock;
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingGenerator;
+import com.negodya1.vintageimprovements.content.kinetics.curving_press.CurvingPressBlock;
 import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumChamberBlock;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingTableBlock;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingTableGenerator;
@@ -100,6 +101,17 @@ public class VintageBlocks {
                     .properties(p -> p.noOcclusion().mapColor(MapColor.DIRT))
                     .transform(axeOrPickaxe())
                     .lang("Centrifuge")
+                    .register();
+
+    public static final BlockEntry<CurvingPressBlock> CURVING_PRESS =
+            MY_REGISTRATE.block("curving_press", CurvingPressBlock::new)
+                    .initialProperties(SharedProperties::stone)
+                    .properties(p -> p.noOcclusion().mapColor(MapColor.PODZOL))
+                    .transform(axeOrPickaxe())
+                    .blockstate(BlockStateGen.horizontalBlockProvider(true))
+                    .transform(BlockStressDefaults.setImpact(8.0))
+                    .item(AssemblyOperatorBlockItem::new)
+                    .transform(customItemModel())
                     .register();
 
     public static void register() {}

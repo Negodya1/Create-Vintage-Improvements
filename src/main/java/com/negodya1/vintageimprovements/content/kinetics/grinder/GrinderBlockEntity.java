@@ -32,6 +32,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
@@ -47,6 +48,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.StonecutterRecipe;
@@ -95,6 +97,14 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 		recipeIndex = 0;
 		invProvider = LazyOptional.of(() -> inventory);
 		playEvent = ItemStack.EMPTY;
+	}
+
+	public boolean canCraft(ItemStack stack) {
+		List<PolishingRecipe> recipes = level.getRecipeManager().getAllRecipesFor(VintageRecipes.POLISHING.getType());
+		for (PolishingRecipe recipe : recipes) {
+			if (recipe.getResultItem(RegistryAccess.EMPTY) == stack) return true;
+		}
+		return false;
 	}
 
 	@Override

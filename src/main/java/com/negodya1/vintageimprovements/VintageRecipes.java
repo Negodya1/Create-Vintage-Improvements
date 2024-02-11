@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 
 import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugationRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingRecipe;
+import com.negodya1.vintageimprovements.content.kinetics.curving_press.CurvingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumizingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.LeavesVibratingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingRecipe;
@@ -37,7 +38,8 @@ public enum VintageRecipes implements IRecipeTypeInfo {
     VACUUMIZING(VacuumizingRecipe::new),
     VIBRATING(VibratingRecipe::new),
     LEAVES_VIBRATING(LeavesVibratingRecipe::new),
-    CENTRIFUGATION(CentrifugationRecipe::new);
+    CENTRIFUGATION(CentrifugationRecipe::new),
+    CURVING(CurvingRecipe::new);
     private final ResourceLocation id;
     private final RegistryObject<RecipeSerializer<?>> serializerObject;
     @Nullable

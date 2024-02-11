@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "vintageimprovements:block/curving_press/block",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "vintageimprovements:block/curving_press/block"
+    },
+    "facing=south": {
+      "model": "vintageimprovements:block/curving_press/block",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "vintageimprovements:block/curving_press/block",
+      "y": 270
+    }
+  }
+}
