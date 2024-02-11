@@ -1,10 +1,7 @@
 package com.negodya1.vintageimprovements.content.kinetics.vibration;
 
 import com.google.common.collect.ImmutableList;
-import com.negodya1.vintageimprovements.VintageBlocks;
-import com.negodya1.vintageimprovements.VintageConfig;
-import com.negodya1.vintageimprovements.VintageImprovements;
-import com.negodya1.vintageimprovements.VintageRecipes;
+import com.negodya1.vintageimprovements.*;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.PolishingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingRecipe;
 import com.simibubi.create.AllSoundEvents;
@@ -309,7 +306,7 @@ public class VibratingTableBlockEntity extends KineticBlockEntity {
 			}
 
 			if (!found && VintageConfig.allowUnpackingOnVibratingTable && inputInv.getStackInSlot(0).is(storageTag)) {
-				List<CraftingRecipe> recipes = level.getRecipeManager().getAllRecipesFor(RecipeType.CRAFTING);
+				List<CraftingRecipe> recipes = VintageRecipesList.getUnpacking();
 				for (CraftingRecipe recipe : recipes) {
 					if (recipe.getIngredients().size() > 1) continue;
 

@@ -29,7 +29,8 @@ public class VintagePartialModels {
 			VACUUM_PIPE = block("vacuum_chamber/head"),
 			VIBRATING_TABLE = block("vibrating_table/head"),
 			CENTRIFUGE_BEAMS = block("centrifuge/head"),
-			BASIN = block("centrifuge/basin");
+			BASIN = block("centrifuge/basin"),
+			CURVING_HEAD = block("curving_press/head");
 
 	private static PartialModel block(String path) {
 		return new PartialModel(VintageImprovements.asResource("block/" + path));

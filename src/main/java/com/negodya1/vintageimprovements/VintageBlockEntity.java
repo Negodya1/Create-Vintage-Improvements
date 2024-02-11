@@ -7,6 +7,9 @@ import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugeSt
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingBlockEntity;
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingInstance;
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingRenderer;
+import com.negodya1.vintageimprovements.content.kinetics.curving_press.CurvingPressBlockEntity;
+import com.negodya1.vintageimprovements.content.kinetics.curving_press.CurvingPressInstance;
+import com.negodya1.vintageimprovements.content.kinetics.curving_press.CurvingPressRenderer;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderBlockEntity;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderInstance;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderRenderer;
@@ -59,6 +62,13 @@ public class VintageBlockEntity {
     public static final BlockEntityEntry<CentrifugeStructuralBlockEntity> CENTRIFUGE_STRUCTURAL = MY_REGISTRATE
             .blockEntity("centrifuge_structural", CentrifugeStructuralBlockEntity::new)
             .validBlocks(VintageBlocks.CENTRIFUGE_STRUCTURAL)
+            .register();
+
+    public static final BlockEntityEntry<CurvingPressBlockEntity> CURVING_PRESS = MY_REGISTRATE
+            .blockEntity("curving_press", CurvingPressBlockEntity::new)
+            .instance(() -> CurvingPressInstance::new)
+            .validBlocks(VintageBlocks.CURVING_PRESS)
+            .renderer(() -> CurvingPressRenderer::new)
             .register();
 
     public static void register() {}

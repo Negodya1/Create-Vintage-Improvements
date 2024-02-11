@@ -55,6 +55,11 @@
 	"create.recipe.assembly.centrifugation": "Process in Centrifuge",
 	"vintageimprovements.recipe.centrifugation": "Centrifugation",
 	
+	"block.vintageimprovements.curving_press": "Curving Press",
+	"create.recipe.assembly.curving": "Process in Curving Press",
+	"vintageimprovements.recipe.curving": "Curving",
+	"vintageimprovements.recipe.auto_curving": "Curving",
+	
 	"vintageimprovements.ponder.belt_grinder_processing.header": "Processing Items on the Belt Grinder",
 	"vintageimprovements.ponder.belt_grinder_processing.text_1": "Belt Grinders can process a variety of items",
 	"vintageimprovements.ponder.belt_grinder_processing.text_2": "The processed item always moves against the rotational input to the grinder",
@@ -84,6 +89,12 @@
 	"vintageimprovements.ponder.centrifuge.text_4": "Items and Fluids сan only be inserted when Centrifuge is stopped",
 	"vintageimprovements.ponder.centrifuge.text_5": "The result can be extracted via Right-click or automatization...",
 	"vintageimprovements.ponder.centrifuge.text_6": "...but only when Centrifuge is stopped",
+	
+	"vintageimprovements.ponder.curving_press.header": "Processing Items with the Curving Press",
+    "vintageimprovements.ponder.curving_press.text_1": "The Curving Press can process items provided beneath it",
+    "vintageimprovements.ponder.curving_press.text_2": "The Input items can be dropped or placed on a Depot under the Press",
+    "vintageimprovements.ponder.curving_press.text_3": "When items are provided on a belt...",
+    "vintageimprovements.ponder.curving_press.text_4": "The Press will hold and process them automatically",
 	
 	"vintageimprovements.jei.text.required_speed": "Required Speed:",
 	"vintageimprovements.jei.text.low": "Low",

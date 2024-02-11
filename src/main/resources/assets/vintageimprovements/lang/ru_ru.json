@@ -55,6 +55,11 @@
 	"create.recipe.assembly.centrifugation": "Обработайте в центрифуге",
 	"vintageimprovements.recipe.centrifugation": "Центрифугирование",
 	
+	"block.vintageimprovements.curving_press": "Гибочный пресс",
+	"create.recipe.assembly.curving": "Обработайте гибочным прессом",
+	"vintageimprovements.recipe.curving": "Сгибание",
+	"vintageimprovements.recipe.auto_curving": "Сгибание",
+	
 	"vintageimprovements.ponder.belt_grinder_processing.header": "Обработкой предметов на ленточном гриндере",
 	"vintageimprovements.ponder.belt_grinder_processing.text_1": "Ленточные гриндеры могут обрабатывать множество предметов",
 	"vintageimprovements.ponder.belt_grinder_processing.text_2": "Обработанные предметы всегда движутся против подаваемого на гриндер вращения",
@@ -84,6 +89,12 @@
 	"vintageimprovements.ponder.centrifuge.text_4": "Предметы и жидкости могут быть помещены внутрь только если центрифуга остановлена",
 	"vintageimprovements.ponder.centrifuge.text_5": "Результат можно забрать кликнув ПКМ или посредством автоматизации...",
 	"vintageimprovements.ponder.centrifuge.text_6": "...но только если центрифуга остановлена",
+	
+	"vintageimprovements.ponder.curving_press.header": "Обработкой предметов гибочными прессами",
+	"vintageimprovements.ponder.curving_press.text_1": "Гибочный пресс может обрабатывать предметы под собой",
+	"vintageimprovements.ponder.curving_press.text_2": "Подаваемые предметы должны быть брошены или помещены на депо под пресс",
+	"vintageimprovements.ponder.curving_press.text_3": "Когда предметы подаются на конвейере...",
+	"vintageimprovements.ponder.curving_press.text_4": "...пресс будет задерживать и сгибать их автоматически",
 	
 	"vintageimprovements.jei.text.required_speed": "Треб. Скорость:",
 	"vintageimprovements.jei.text.low": "Низкая",
