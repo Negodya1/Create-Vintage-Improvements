@@ -12,6 +12,7 @@ import com.simibubi.create.content.processing.basin.BasinRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingOutput;
 import com.simibubi.create.foundation.fluid.FluidIngredient;
 import com.simibubi.create.foundation.gui.AllGuiTextures;
+import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.ingredients.IIngredientType;
@@ -54,7 +55,8 @@ public class CentrifugationCategory extends CreateRecipeCategory<CentrifugationR
 			builder
 					.addSlot(RecipeIngredientRole.INPUT, 10 + xOffset, 5 + yOffset)
 					.setBackground(getRenderedSlot(), -1, -1)
-					.addFluidStack(input.getMatchingFluidStacks().get(0).getFluid(), input.getRequiredAmount());
+					.addIngredients(ForgeTypes.FLUID_STACK, withImprovedVisibility(input.getMatchingFluidStacks()))
+					.addTooltipCallback(addFluidTooltip(input.getRequiredAmount()));
 			i++;
 		}
 
@@ -77,7 +79,8 @@ public class CentrifugationCategory extends CreateRecipeCategory<CentrifugationR
 			builder
 					.addSlot(RecipeIngredientRole.OUTPUT, 128 + xOffset, 56 + yOffset)
 					.setBackground(getRenderedSlot(), -1, -1)
-					.addFluidStack(output.getFluid(), output.getAmount());
+					.addIngredient(ForgeTypes.FLUID_STACK, withImprovedVisibility(output))
+					.addTooltipCallback(addFluidTooltip(output.getAmount()));
 			i++;
 		}
 	}

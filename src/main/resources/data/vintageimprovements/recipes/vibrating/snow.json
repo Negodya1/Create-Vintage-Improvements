@@ -1,14 +1,15 @@
 {
 	"type":"vintageimprovements:vibrating",
-	"ingredients": [ {
-      "item": "minecraft:snow"
-    }
-  ],
-	"results": [
-	{
-		"item": "minecraft:snowball",
-		"count": 2
-	}
+	"ingredients": [ 
+		{
+			"item": "minecraft:snow"
+		}
 	],
-  "processingTime": 300
+	"results": [
+		{
+			"item": "minecraft:snowball",
+			"count": 2
+		}
+	],
+	"processingTime": 300
 }

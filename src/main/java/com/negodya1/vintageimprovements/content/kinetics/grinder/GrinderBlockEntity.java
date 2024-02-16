@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.collect.ImmutableList;
-import com.negodya1.vintageimprovements.VintageConfig;
 import com.negodya1.vintageimprovements.VintageRecipes;
+import com.negodya1.vintageimprovements.infrastructure.config.VintageConfig;
 import com.simibubi.create.AllRecipeTypes;
 import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
@@ -348,16 +348,16 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 		Recipe<?> recipe = recipes.get(recipeIndex);
 
 		if (recipe.getType() == AllRecipeTypes.SANDPAPER_POLISHING.getType()) {
-			if (VintageConfig.speedLimitsForSandpaperPolishingRecipes != 0) {
+			if (VintageConfig.server().recipes.speedLimitsForSandpaperPolishingRecipes.get() != 0) {
 				int speed = (int)Math.abs(getSpeed());
 				boolean wrongLimit = false;
 
-				if (VintageConfig.speedLimitsForSandpaperPolishingRecipes == 1 && speed > VintageConfig.lowSpeedValue) wrongLimit = true;
-				if (VintageConfig.speedLimitsForSandpaperPolishingRecipes == 2 && (speed > VintageConfig.mediumSpeedValue || speed <= VintageConfig.lowSpeedValue)) wrongLimit = true;
-				if (VintageConfig.speedLimitsForSandpaperPolishingRecipes == 3 && speed <= VintageConfig.mediumSpeedValue) wrongLimit = true;
+				if (VintageConfig.server().recipes.speedLimitsForSandpaperPolishingRecipes.get() == 1 && speed > VintageConfig.server().recipes.lowSpeedValue.get()) wrongLimit = true;
+				if (VintageConfig.server().recipes.speedLimitsForSandpaperPolishingRecipes.get() == 2 && (speed > VintageConfig.server().recipes.mediumSpeedValue.get() || speed <= VintageConfig.server().recipes.lowSpeedValue.get())) wrongLimit = true;
+				if (VintageConfig.server().recipes.speedLimitsForSandpaperPolishingRecipes.get() == 3 && speed <= VintageConfig.server().recipes.mediumSpeedValue.get()) wrongLimit = true;
 
 				if (wrongLimit) {
-					if (VintageConfig.destroyOnWrongGrinderSpeed) inventory.clear();
+					if (VintageConfig.server().recipes.destroyOnWrongGrinderSpeed.get()) inventory.clear();
 					return;
 				}
 			}
@@ -390,12 +390,12 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 			int speed = (int)Math.abs(getSpeed());
 			boolean wrongLimit = false;
 
-			if (polishingRecipe.speedLimits == 1 && speed > VintageConfig.lowSpeedValue) wrongLimit = true;
-			if (polishingRecipe.speedLimits == 2 && (speed > VintageConfig.mediumSpeedValue || speed <= VintageConfig.lowSpeedValue)) wrongLimit = true;
-			if (polishingRecipe.speedLimits == 3 && speed <= VintageConfig.mediumSpeedValue) wrongLimit = true;
+			if (polishingRecipe.speedLimits == 1 && speed > VintageConfig.server().recipes.lowSpeedValue.get()) wrongLimit = true;
+			if (polishingRecipe.speedLimits == 2 && (speed > VintageConfig.server().recipes.mediumSpeedValue.get() || speed <= VintageConfig.server().recipes.lowSpeedValue.get())) wrongLimit = true;
+			if (polishingRecipe.speedLimits == 3 && speed <= VintageConfig.server().recipes.mediumSpeedValue.get()) wrongLimit = true;
 
 			if (wrongLimit) {
-				if (VintageConfig.destroyOnWrongGrinderSpeed) inventory.clear();
+				if (VintageConfig.server().recipes.destroyOnWrongGrinderSpeed.get()) inventory.clear();
 				return;
 			}
 		}
@@ -428,7 +428,7 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 			return ImmutableList.of(assemblyRecipe.get());
 
 		Predicate<Recipe<?>> types = RecipeConditions.isOfType(VintageRecipes.POLISHING.getType(),
-				VintageConfig.allowSandpaperPolishingOnGrinder ? AllRecipeTypes.SANDPAPER_POLISHING.getType() : null);
+				VintageConfig.server().recipes.allowSandpaperPolishingOnGrinder.get() ? AllRecipeTypes.SANDPAPER_POLISHING.getType() : null);
 
 		List<Recipe<?>> startedSearch = RecipeFinder.get(polishingRecipesKey, level, types);
 		startedSearch = startedSearch.stream()
@@ -437,7 +437,7 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 				.filter(r -> !VintageRecipes.shouldIgnoreInAutomation(r))
 				.collect(Collectors.toList());
 
-		if (!VintageConfig.allowSandpaperPolishingOnGrinder) return startedSearch;
+		if (!VintageConfig.server().recipes.allowSandpaperPolishingOnGrinder.get()) return startedSearch;
 
 		List<Recipe<?>> grinder = new ArrayList<>();
 		List<Recipe<?>> sandpaper = new ArrayList<>();
@@ -510,7 +510,7 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 
 		LangBuilder reqSpd = Lang.translate("vintageimprovements.gui.goggles.current_speed").add(Lang.text(" "));
 
-		int speedMode = Math.abs(getSpeed()) <= VintageConfig.lowSpeedValue ? 1 : (Math.abs(getSpeed()) <= VintageConfig.mediumSpeedValue ? 2 : 3);
+		int speedMode = Math.abs(getSpeed()) <= VintageConfig.server().recipes.lowSpeedValue.get() ? 1 : (Math.abs(getSpeed()) <= VintageConfig.server().recipes.mediumSpeedValue.get() ? 2 : 3);
 
 		switch (speedMode) {
 			case 2:

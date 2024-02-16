@@ -6,6 +6,7 @@ import com.jozufozu.flywheel.backend.Backend;
 import com.jozufozu.flywheel.core.PartialModel;
 import com.jozufozu.flywheel.core.virtual.VirtualRenderWorld;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintagePartialModels;
 import com.simibubi.create.AllPartialModels;
 import com.simibubi.create.content.contraptions.behaviour.MovementContext;
@@ -26,6 +27,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
@@ -113,6 +115,7 @@ public class CoilingRenderer extends SafeBlockEntityRenderer<CoilingBlockEntity>
 				PartialModel partial = VintagePartialModels.COILING_SPRING;
 
 				SuperByteBuffer superBuffer = CachedBufferer.partial(partial, blockState);
+
 				float speed = -Math.abs(be.getSpeed());
 				float time = AnimationTickHolder.getRenderTime(be.getLevel());
 				float angle = ((time * speed * 6 / 10f) % 360);

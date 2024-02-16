@@ -10,7 +10,7 @@ license="${mod_license}"
     #updateJSONURL="https://change.me.example.invalid/updates.json"
     #displayURL="https://change.me.to.your.mods.homepage.example.invalid/"
     #logoFile="examplemod.png"
-    #credits=""
+    credits="Catchmons - zh_cn localization"
     authors="${mod_authors}"
     #displayTest="MATCH_VERSION"
 

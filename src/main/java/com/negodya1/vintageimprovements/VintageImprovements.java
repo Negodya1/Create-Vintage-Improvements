@@ -1,5 +1,6 @@
 package com.negodya1.vintageimprovements;
 
+import com.negodya1.vintageimprovements.infrastructure.config.VintageConfig;
 import com.negodya1.vintageimprovements.infrastructure.ponder.VintagePonder;
 import net.minecraftforge.fml.loading.FMLPaths;
 import org.slf4j.Logger;
@@ -149,9 +150,6 @@ public class VintageImprovements {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, VintageConfig.SPEC);
-        VintageConfig.loadConfig(VintageConfig.SPEC, FMLPaths.CONFIGDIR.get().resolve("vintageimprovements-common.toml"));
-
         MY_REGISTRATE.registerEventListeners(modEventBus);
 
         // Register the Deferred Register to the mod event bus so blocks get registered
@@ -170,7 +168,10 @@ public class VintageImprovements {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event) {}
+    private void commonSetup(final FMLCommonSetupEvent event) {
+        ModLoadingContext modLoadingContext = ModLoadingContext.get();
+        VintageConfig.register(modLoadingContext);
+    }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
