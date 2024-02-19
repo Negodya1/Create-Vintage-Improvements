@@ -51,18 +51,24 @@ public class VintageRecipesList {
             ItemStack item = null;
 
             NonNullList<Ingredient> in = recipe.getIngredients();
+            if (in.get(0).isEmpty()) continue;
 
             int matches = 0;
+            boolean it = false;
 
-            Bp: for (Ingredient i : in) {
-                for (ItemStack stack : i.getItems()) {
-                    if (item == null && stack.getItem() != ItemStack.EMPTY.getItem()) item = stack;
-                    if (stack.getItem() == item.getItem()) {
+            for (Ingredient i : in) {
+                it = !it;
+
+                if (it) {
+                    if (!i.isEmpty()) { if (item == null) item = i.getItems()[0]; }
+                    else continue Recipe;
+
+                    if (i.test(item)) {
                         matches++;
-                        continue Bp;
+                        continue;
                     }
-                    if (stack.getItem() != ItemStack.EMPTY.getItem()) continue Recipe;
                 }
+                if (!i.isEmpty()) continue Recipe;
             }
 
             if (matches != 3) continue;

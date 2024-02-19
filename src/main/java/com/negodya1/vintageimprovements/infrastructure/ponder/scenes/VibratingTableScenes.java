@@ -1,7 +1,6 @@
 package com.negodya1.vintageimprovements.infrastructure.ponder.scenes;
 
 import com.google.common.collect.ImmutableList;
-import com.negodya1.vintageimprovements.VintageConfig;
 import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumChamberBlockEntity;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingTableBlockEntity;
 import com.simibubi.create.AllBlocks;

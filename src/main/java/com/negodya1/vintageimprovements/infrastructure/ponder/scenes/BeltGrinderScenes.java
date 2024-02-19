@@ -1,7 +1,6 @@
 package com.negodya1.vintageimprovements.infrastructure.ponder.scenes;
 
 import com.negodya1.vintageimprovements.VintageBlocks;
-import com.negodya1.vintageimprovements.VintageConfig;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderBlockEntity;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;

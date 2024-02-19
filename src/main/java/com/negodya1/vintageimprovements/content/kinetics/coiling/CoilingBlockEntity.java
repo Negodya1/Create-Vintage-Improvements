@@ -13,7 +13,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
 
-import com.negodya1.vintageimprovements.VintageConfig;
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintageRecipes;
 

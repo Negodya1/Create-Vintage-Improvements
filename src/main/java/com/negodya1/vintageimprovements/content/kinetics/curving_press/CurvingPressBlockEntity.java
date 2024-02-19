@@ -3,10 +3,10 @@ package com.negodya1.vintageimprovements.content.kinetics.curving_press;
 import java.util.List;
 import java.util.Optional;
 
-import com.negodya1.vintageimprovements.VintageConfig;
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintageRecipes;
 import com.negodya1.vintageimprovements.VintageRecipesList;
+import com.negodya1.vintageimprovements.infrastructure.config.VintageConfig;
 import com.simibubi.create.AllRecipeTypes;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
@@ -59,7 +59,7 @@ public class CurvingPressBlockEntity extends KineticBlockEntity implements Curvi
 	@Override
 	protected AABB createRenderBoundingBox() {
 		return new AABB(worldPosition).expandTowards(0, -1.5, 0)
-			.expandTowards(0, 1, 0);
+				.expandTowards(0, 1, 0);
 	}
 
 	@Override
@@ -93,19 +93,24 @@ public class CurvingPressBlockEntity extends KineticBlockEntity implements Curvi
 		ItemStack item = null;
 
 		NonNullList<Ingredient> in = recipe.getIngredients();
+		if (in.get(0).isEmpty()) return false;
 
 		int matches = 0;
+		boolean it = false;
 
-		Bp: for (Ingredient i : in) {
-			for (ItemStack stack : i.getItems()) {
-				if (item == null && stack.getItem() != ItemStack.EMPTY.getItem()) item = stack;
-				if (stack.getItem() == item.getItem()) {
+		for (Ingredient i : in) {
+			it = !it;
+
+			if (it) {
+				if (!i.isEmpty()) { if (item == null) item = i.getItems()[0]; }
+				else return false;
+
+				if (i.test(item)) {
 					matches++;
-					continue Bp;
+					continue;
 				}
-				if (stack.getItem() != ItemStack.EMPTY.getItem()) return false;
 			}
-
+			if (!i.isEmpty()) return false;
 		}
 
 		if (matches != 3) return false;
@@ -114,7 +119,7 @@ public class CurvingPressBlockEntity extends KineticBlockEntity implements Curvi
 	}
 
 	private boolean tryToCurve(ItemEntity itemEntity, boolean simulate) {
-		if (!VintageConfig.allowAutoCurvingRecipes) return false;
+		if (!VintageConfig.server().recipes.allowAutoCurvingRecipes.get()) return false;
 
 		List<CraftingRecipe> recipes = VintageRecipesList.getCurving();
 		Recipe: for (CraftingRecipe recipe : recipes) {
@@ -148,8 +153,7 @@ public class CurvingPressBlockEntity extends KineticBlockEntity implements Curvi
 				if (itemCreated.isEmpty())
 					itemCreated = recipe.getResultItem().copy();
 				ItemEntity created =
-						new ItemEntity(level, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(),
-								new ItemStack(recipe.getResultItem().getItem()));
+						new ItemEntity(level, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), new ItemStack(recipe.getResultItem().getItem()));
 				created.setDefaultPickUpDelay();
 				created.setDeltaMovement(VecHelper.offsetRandomly(Vec3.ZERO, level.random, .05f));
 				level.addFreshEntity(created);
@@ -162,7 +166,7 @@ public class CurvingPressBlockEntity extends KineticBlockEntity implements Curvi
 	}
 
 	private boolean tryToCurve(List<ItemStack> outputList, ItemStack item, boolean simulate) {
-		if (!VintageConfig.allowAutoCurvingRecipes) return false;
+		if (!VintageConfig.server().recipes.allowAutoCurvingRecipes.get()) return false;
 
 		List<CraftingRecipe> recipes = VintageRecipesList.getCurving();
 		Recipe: for (CraftingRecipe recipe : recipes) {
@@ -208,14 +212,14 @@ public class CurvingPressBlockEntity extends KineticBlockEntity implements Curvi
 		if (canProcessInBulk() || item.getCount() == 1) {
 			RecipeApplier.applyRecipeOn(itemEntity, recipe.get());
 			itemCreated = itemEntity.getItem()
-				.copy();
+					.copy();
 		} else {
 			for (ItemStack result : RecipeApplier.applyRecipeOn(ItemHandlerHelper.copyStackWithSize(item, 1),
-				recipe.get())) {
+					recipe.get())) {
 				if (itemCreated.isEmpty())
 					itemCreated = result.copy();
 				ItemEntity created =
-					new ItemEntity(level, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), result);
+						new ItemEntity(level, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(), result);
 				created.setDefaultPickUpDelay();
 				created.setDeltaMovement(VecHelper.offsetRandomly(Vec3.ZERO, level.random, .05f));
 				level.addFreshEntity(created);
@@ -236,8 +240,8 @@ public class CurvingPressBlockEntity extends KineticBlockEntity implements Curvi
 		if (simulate)
 			return true;
 		pressingBehaviour.particleItems.add(input.stack);
-		List<ItemStack> outputs = RecipeApplier.applyRecipeOn(canProcessInBulk() ?
-				input.stack : ItemHandlerHelper.copyStackWithSize(input.stack, 1), recipe.get());
+		List<ItemStack> outputs = RecipeApplier.applyRecipeOn(
+				canProcessInBulk() ? input.stack : ItemHandlerHelper.copyStackWithSize(input.stack, 1), recipe.get());
 
 		for (ItemStack created : outputs) {
 			if (!created.isEmpty()) {
@@ -254,7 +258,7 @@ public class CurvingPressBlockEntity extends KineticBlockEntity implements Curvi
 
 	public Optional<CurvingRecipe> getRecipe(ItemStack item) {
 		Optional<CurvingRecipe> assemblyRecipe =
-			SequencedAssemblyRecipe.getRecipe(level, item, VintageRecipes.CURVING.getType(), CurvingRecipe.class);
+				SequencedAssemblyRecipe.getRecipe(level, item, VintageRecipes.CURVING.getType(), CurvingRecipe.class);
 		if (assemblyRecipe.isPresent())
 			return assemblyRecipe;
 

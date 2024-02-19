@@ -2,17 +2,13 @@
 	"type":"vintageimprovements:centrifugation",
 	"ingredients": [ 
 		{
-		  "item": "minecraft:mud"
+		  "item": "minecraft:honeycomb"
 		}
 	],
 	"results": [
 		{
-			"item": "minecraft:dirt",
-			"count": 1
-		},
-		{
-			"fluid": "minecraft:water",
-			"amount": 250
+			"fluid": "create:honey",
+			"amount": 100
 		}
 	],
 	"processingTime": 1000

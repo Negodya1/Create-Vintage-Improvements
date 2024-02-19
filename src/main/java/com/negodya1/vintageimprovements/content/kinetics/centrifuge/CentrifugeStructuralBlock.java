@@ -179,6 +179,7 @@ public class CentrifugeStructuralBlock extends DirectionalBlock implements IBE<C
 
 	@Override
 	public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
+		pLevel.removeBlockEntity(pPos);
 		if (stillValid(pLevel, pPos, pState, false))
 			pLevel.destroyBlock(getMaster(pLevel, pPos, pState), true);
 	}

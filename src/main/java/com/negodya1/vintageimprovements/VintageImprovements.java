@@ -2,6 +2,7 @@ package com.negodya1.vintageimprovements;
 
 import java.util.Random;
 
+import com.negodya1.vintageimprovements.infrastructure.config.VintageConfig;
 import com.negodya1.vintageimprovements.infrastructure.ponder.VintagePonder;
 import com.negodya1.vintageimprovements.infrastructure.ponder.scenes.BeltGrinderScenes;
 import com.simibubi.create.AllSoundEvents;
@@ -154,9 +155,6 @@ public class VintageImprovements {
 
         modEventBus.addListener(this::commonSetup);
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, VintageConfig.SPEC);
-        VintageConfig.loadConfig(VintageConfig.SPEC, FMLPaths.CONFIGDIR.get().resolve("vintageimprovements-common.toml"));
-
         MY_REGISTRATE.registerEventListeners(modEventBus);
 
         // Register the Deferred Register to the mod event bus so blocks get registered
@@ -169,8 +167,15 @@ public class VintageImprovements {
         VintageRecipes.register(modEventBus);
         VintagePartialModels.init();
 
+        onCtor();
+
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+    }
+
+    public static void onCtor() {
+        ModLoadingContext modLoadingContext = ModLoadingContext.get();
+        VintageConfig.register(modLoadingContext);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

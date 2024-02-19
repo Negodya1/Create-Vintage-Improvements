@@ -3,9 +3,9 @@ package com.negodya1.vintageimprovements.compat.jei.category;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.negodya1.vintageimprovements.VintageConfig;
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.compat.jei.category.animations.AnimatedGrinder;
+import com.negodya1.vintageimprovements.infrastructure.config.VintageConfig;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
 import com.simibubi.create.content.equipment.sandPaper.SandPaperPolishingRecipe;
@@ -65,7 +65,7 @@ public class GrinderSandpaperPolishingCategory extends CreateRecipeCategory<Sand
 
 		Minecraft.getInstance().font.draw(matrixStack,  Component.translatable(VintageImprovements.MODID + ".jei.text.required_speed"), 40, 75, 0xFFFFFF);
 
-		int speedLimits = VintageConfig.speedLimitsForSandpaperPolishingRecipes;
+		int speedLimits = VintageConfig.server().recipes.speedLimitsForSandpaperPolishingRecipes.get();
 		switch (speedLimits) {
 			case 1:
 				Minecraft.getInstance().font.draw(matrixStack,  Component.translatable(VintageImprovements.MODID + ".jei.text.low"), 128, 75, 0x00FF00);
