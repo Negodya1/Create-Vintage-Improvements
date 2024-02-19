@@ -179,6 +179,7 @@ public class CentrifugeStructuralBlock extends DirectionalBlock implements IBE<C
 
 	@Override
 	public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
+		pLevel.removeBlockEntity(pPos);
 		if (stillValid(pLevel, pPos, pState, false))
 			pLevel.destroyBlock(getMaster(pLevel, pPos, pState), true);
 	}
@@ -199,8 +200,8 @@ public class CentrifugeStructuralBlock extends DirectionalBlock implements IBE<C
 		if (stillValid(pLevel, pCurrentPos, pState, false)) {
 			BlockPos masterPos = getMaster(pLevel, pCurrentPos, pState);
 			if (!pLevel.getBlockTicks()
-					.hasScheduledTick(masterPos, AllBlocks.LARGE_WATER_WHEEL.get()))
-				pLevel.scheduleTick(masterPos, AllBlocks.LARGE_WATER_WHEEL.get(), 1);
+					.hasScheduledTick(masterPos, VintageBlocks.CENTRIFUGE.get()))
+				pLevel.scheduleTick(masterPos, VintageBlocks.CENTRIFUGE.get(), 1);
 			return pState;
 		}
 		if (!(pLevel instanceof Level level) || level.isClientSide())
@@ -235,8 +236,10 @@ public class CentrifugeStructuralBlock extends DirectionalBlock implements IBE<C
 
 	@Override
 	public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
-		if (!stillValid(pLevel, pPos, pState, false))
+		if (!stillValid(pLevel, pPos, pState, false)) {
+			getBlockEntity(pLevel, pPos);
 			pLevel.setBlockAndUpdate(pPos, Blocks.AIR.defaultBlockState());
+		}
 	}
 
 	@OnlyIn(Dist.CLIENT)

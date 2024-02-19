@@ -69,13 +69,13 @@ public class CentrifugeStructuralBlockEntity extends SmartBlockEntity {
 
     @Override
     public void invalidate() {
+        cbe = null;
         super.invalidate();
     }
 
     @Override
     public void destroy() {
         super.destroy();
-        cbe.destroy();
     }
 
     @Override

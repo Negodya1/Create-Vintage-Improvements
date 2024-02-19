@@ -164,13 +164,19 @@ public class VintageImprovements {
         VintageRecipes.register(modEventBus);
         VintagePartialModels.init();
 
+        onCtor();
+
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event) {
+    public static void onCtor() {
         ModLoadingContext modLoadingContext = ModLoadingContext.get();
         VintageConfig.register(modLoadingContext);
+    }
+
+    private void commonSetup(final FMLCommonSetupEvent event) {
+
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

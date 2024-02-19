@@ -338,6 +338,13 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 		return new Vec3(offset * (alongX ? 0 : 1), 0, offset * (alongX ? -1 : 0));
 	}
 
+	public int getCurrentSpeedMode() {
+		if (getSpeed() == 0) return 0;
+		if (Mth.abs(getSpeed()) <= VintageConfig.server().recipes.lowSpeedValue.get()) return 1;
+		if (Mth.abs(getSpeed()) <= VintageConfig.server().recipes.mediumSpeedValue.get()) return 2;
+		return 3;
+	}
+
 	private void applyRecipe() {
 		List<? extends Recipe<?>> recipes = getRecipes();
 		if (recipes.isEmpty())
@@ -437,17 +444,20 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 				.filter(r -> !VintageRecipes.shouldIgnoreInAutomation(r))
 				.collect(Collectors.toList());
 
-		if (!VintageConfig.server().recipes.allowSandpaperPolishingOnGrinder.get()) return startedSearch;
-
 		List<Recipe<?>> grinder = new ArrayList<>();
+		List<Recipe<?>> grinderWrongSpeed = new ArrayList<>();
 		List<Recipe<?>> sandpaper = new ArrayList<>();
 
 		for (Recipe<?> recipe : startedSearch) {
-			if (recipe instanceof PolishingRecipe) grinder.add(recipe);
+			if (recipe instanceof PolishingRecipe re) {
+				if (re.getSpeedLimits() == getCurrentSpeedMode()) grinder.add(recipe);
+				else grinderWrongSpeed.add(recipe);
+			}
 			else sandpaper.add(recipe);
 		}
 
 		if (!grinder.isEmpty()) return grinder;
+		if (!grinderWrongSpeed.isEmpty()) return grinderWrongSpeed;
 		return sandpaper;
 	}
 

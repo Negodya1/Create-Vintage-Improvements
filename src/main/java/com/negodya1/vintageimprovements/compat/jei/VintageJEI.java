@@ -105,6 +105,7 @@ public class VintageJEI implements IModPlugin {
 		ALL.add(builder(CentrifugationRecipe.class)
 				.addTypedRecipes(VintageRecipes.CENTRIFUGATION::getType)
 				.catalyst(VintageBlocks.CENTRIFUGE::get)
+				.catalyst(AllBlocks.BASIN::get)
 				.itemIcon(VintageBlocks.CENTRIFUGE)
 				.emptyBackground(177, 103)
 				.build("centrifugation", CentrifugationCategory::new));
