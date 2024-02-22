@@ -127,5 +127,5 @@
 	"create.vintageimprovements.gui.goggles.redstone_module": "Redstone Application is added",
 	"create.vintageimprovements.gui.goggles.not_enough_rpm": "Not enough Rotations per Minute for current recipe. Necessary:",
 	
-	"vintageimprovements.item_description.machine_rpm_requirements": "This machine require minimal RPM to work:"
+	"vintageimprovements.item_description.machine_rpm_requirements": "This machine have minimal RPM requirements:"
 }

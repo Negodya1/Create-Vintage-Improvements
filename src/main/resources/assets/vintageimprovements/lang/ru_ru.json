@@ -125,5 +125,7 @@
 	
 	"create.vintageimprovements.gui.goggles.not_enough_basins": "Для работы центрифуги недостаточно чаш. Добавьте ещё",
 	"create.vintageimprovements.gui.goggles.redstone_module": "Редстоун модуль установлен",
-	"create.vintageimprovements.gui.goggles.not_enough_rpm": "Для текущего рецепта недостаточно оборотов в минуту. Необходимо:"
+	"create.vintageimprovements.gui.goggles.not_enough_rpm": "Для текущего рецепта недостаточно оборотов в минуту. Необходимо:",
+	
+	"vintageimprovements.item_description.machine_rpm_requirements": "Эта машина требования к минимальным об/мин:"
 }
