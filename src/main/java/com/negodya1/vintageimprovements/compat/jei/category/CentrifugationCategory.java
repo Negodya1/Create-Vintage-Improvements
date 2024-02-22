@@ -92,6 +92,8 @@ public class CentrifugationCategory extends CreateRecipeCategory<CentrifugationR
 		AllGuiTextures.JEI_SHADOW.render(graphics, 56 - 17, 66 + 13);
 
 		centrifuge.draw(graphics, 56, 66);
+
+		graphics.drawString(Minecraft.getInstance().font,  Component.translatable(VintageImprovements.MODID + ".jei.text.minimal_rpm").append(" " + recipe.getMinimalRPM()), 20, 103, 0xFFFF00);
 	}
 
 }

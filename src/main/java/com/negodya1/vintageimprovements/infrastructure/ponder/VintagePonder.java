@@ -2,6 +2,7 @@ package com.negodya1.vintageimprovements.infrastructure.ponder;
 
 import com.negodya1.vintageimprovements.VintageBlocks;
 import com.negodya1.vintageimprovements.VintageImprovements;
+import com.negodya1.vintageimprovements.VintageItems;
 import com.negodya1.vintageimprovements.infrastructure.ponder.scenes.*;
 import com.simibubi.create.foundation.ponder.PonderRegistrationHelper;
 import com.simibubi.create.foundation.ponder.PonderRegistry;
@@ -26,8 +27,13 @@ public class VintagePonder {
         HELPER.forComponents(VintageBlocks.CENTRIFUGE)
                 .addStoryBoard("centrifuge/processing", CentrifugeScenes::processing, AllPonderTags.KINETIC_APPLIANCES);
 
+        HELPER.forComponents(VintageBlocks.CENTRIFUGE)
+                .addStoryBoard("centrifuge/redstone", CentrifugeScenes::redstone, AllPonderTags.KINETIC_APPLIANCES);
+
         HELPER.forComponents(VintageBlocks.CURVING_PRESS)
                 .addStoryBoard("curving_press/processing", CurvingPressScenes::processing, AllPonderTags.KINETIC_APPLIANCES);
+
+        HELPER.addStoryBoard(VintageItems.REDSTONE_MODULE, "centrifuge/redstone", CentrifugeScenes::redstone, AllPonderTags.REDSTONE);
 
         PonderRegistry.TAGS.forTag(AllPonderTags.KINETIC_APPLIANCES)
                 .add(VintageBlocks.BELT_GRINDER)
@@ -36,5 +42,8 @@ public class VintagePonder {
                 .add(VintageBlocks.VIBRATING_TABLE)
                 .add(VintageBlocks.CENTRIFUGE)
                 .add(VintageBlocks.CURVING_PRESS);
+
+        PonderRegistry.TAGS.forTag(AllPonderTags.REDSTONE)
+                .add(VintageItems.REDSTONE_MODULE);
     }
 }

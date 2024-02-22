@@ -30,6 +30,8 @@
 	"item.vintageimprovements.small_copper_spring": "Small Copper Spring",
 	"item.vintageimprovements.small_brass_spring": "Small Brass Spring",
 	
+	"item.vintageimprovements.redstone_module": "Redstone Module",
+	
 	"block.vintageimprovements.belt_grinder": "Belt Grinder",
 	"item.vintageimprovements.grinder_belt": "Grinder Belt",
 	"create.recipe.assembly.polishing": "Polishing on Grinder",
@@ -90,6 +92,11 @@
 	"vintageimprovements.ponder.centrifuge.text_5": "The result can be extracted via Right-click or automatization...",
 	"vintageimprovements.ponder.centrifuge.text_6": "...but only when Centrifuge is stopped",
 	
+	"vintageimprovements.ponder.centrifuge_redstone.header": "Centrifuge Comparator interaction",
+	"vintageimprovements.ponder.centrifuge_redstone.text_1": "Centrifuge can produce Comparator signal",
+	"vintageimprovements.ponder.centrifuge_redstone.text_2": "You must install Redstone Module into the Centrifuge",
+	"vintageimprovements.ponder.centrifuge_redstone.text_3": "Centrifuge will produce a level 15 redstone signal as long as it has a recipe",
+	
 	"vintageimprovements.ponder.curving_press.header": "Processing Items with the Curving Press",
     "vintageimprovements.ponder.curving_press.text_1": "The Curving Press can process items provided beneath it",
     "vintageimprovements.ponder.curving_press.text_2": "The Input items can be dropped or placed on a Depot under the Press",
@@ -109,10 +116,16 @@
 	"vintageimprovements.jei.text.leaves_vibrating.text5": "same as using",
 	"vintageimprovements.jei.text.leaves_vibrating.text6": "Fortune III hoe.",
 	
+	"vintageimprovements.jei.text.minimal_rpm": "Minimal RPM:",
+	
 	"create.vintageimprovements.gui.goggles.low": "Low",
 	"create.vintageimprovements.gui.goggles.medium": "Medium",
 	"create.vintageimprovements.gui.goggles.high": "High",
 	"create.vintageimprovements.gui.goggles.current_speed": "Speed:",
 	
-	"create.vintageimprovements.gui.goggles.not_enough_basins": "For the Centrifuge work not enough Basins. Add"
+	"create.vintageimprovements.gui.goggles.not_enough_basins": "For the Centrifuge work not enough Basins. Add",
+	"create.vintageimprovements.gui.goggles.redstone_module": "Redstone Application is added",
+	"create.vintageimprovements.gui.goggles.not_enough_rpm": "Not enough Rotations per Minute for current recipe. Necessary:",
+	
+	"vintageimprovements.item_description.machine_rpm_requirements": "This machine require minimal RPM to work:"
 }

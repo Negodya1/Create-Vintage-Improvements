@@ -13,6 +13,7 @@ import com.simibubi.create.content.fluids.transfer.GenericItemEmptying;
 import com.simibubi.create.content.fluids.transfer.GenericItemFilling;
 import com.simibubi.create.foundation.block.IBE;
 import com.simibubi.create.foundation.fluid.FluidHelper;
+import com.simibubi.create.foundation.item.ItemHelper;
 import com.simibubi.create.foundation.utility.Iterate;
 import com.simibubi.create.foundation.utility.VoxelShaper;
 import net.minecraft.sounds.SoundEvents;
@@ -137,6 +138,10 @@ public class CentrifugeStructuralBlock extends DirectionalBlock implements IBE<C
 		if (!(pLevel.getBlockEntity(getMaster(pLevel, pPos, pState)) instanceof CentrifugeBlockEntity wwt))
 			return InteractionResult.FAIL;
 		if (wwt.addBasin(pPlayer.getItemInHand(pHand))) {
+			pPlayer.getItemInHand(pHand).shrink(1);
+			return InteractionResult.SUCCESS;
+		}
+		if (wwt.getBasins() == 4 && wwt.addRedstoneApp(pPlayer.getItemInHand(pHand))) {
 			pPlayer.getItemInHand(pHand).shrink(1);
 			return InteractionResult.SUCCESS;
 		}
@@ -326,5 +331,15 @@ public class CentrifugeStructuralBlock extends DirectionalBlock implements IBE<C
 
 			if (remainder.isEmpty()) break;
 		}
+	}
+
+	@Override
+	public boolean hasAnalogOutputSignal(BlockState state) {
+		return true;
+	}
+
+	@Override
+	public int getAnalogOutputSignal(BlockState blockState, Level worldIn, BlockPos pos) {
+		return getBlockEntityOptional(worldIn, pos).map(CentrifugeStructuralBlockEntity::getAnalogSignal).orElse(0);
 	}
 }

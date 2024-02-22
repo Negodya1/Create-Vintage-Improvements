@@ -30,6 +30,8 @@
 	"item.vintageimprovements.small_copper_spring": "铜小弹簧",
 	"item.vintageimprovements.small_brass_spring": "黄铜小弹簧",
 	
+	"item.vintageimprovements.redstone_module": "Redstone Module", //
+	
 	"block.vintageimprovements.belt_grinder": "砂带磨床",
 	"item.vintageimprovements.grinder_belt": "砂带",
 	"create.recipe.assembly.polishing": "磨床打磨",
@@ -45,7 +47,7 @@
 	"create.recipe.assembly.vacuumizing": "真空处理",
 	"vintageimprovements.recipe.vacuumizing": "真空抽取",
 	
-	"block.vintageimprovements.vibrating_table": "",
+	"block.vintageimprovements.vibrating_table": "", //
 	"create.recipe.assembly.vibrating": "振击",
 	"vintageimprovements.recipe.vibrating": "振动加工",
 	"vintageimprovements.recipe.unpacking": "振动解包",
@@ -90,6 +92,11 @@
 	"vintageimprovements.ponder.centrifuge.text_5": "产物可通过右击或自动化取出……",
 	"vintageimprovements.ponder.centrifuge.text_6": "……但只有在离心机停止时才能取出",
 	
+	"vintageimprovements.ponder.centrifuge_redstone.header": "Centrifuge Comparator interaction", //
+	"vintageimprovements.ponder.centrifuge_redstone.text_1": "Centrifuge can produce Comparator signal", //
+	"vintageimprovements.ponder.centrifuge_redstone.text_2": "You must install Redstone Module into the Centrifuge", //
+	"vintageimprovements.ponder.centrifuge_redstone.text_3": "Centrifuge will produce a level 15 redstone signal as long as it has a recipe", //
+	
 	"vintageimprovements.ponder.curving_press.header": "用冲压机加工物品",
     "vintageimprovements.ponder.curving_press.text_1": "动力冲压机可以处理位于其下方的物品",
     "vintageimprovements.ponder.curving_press.text_2": "在其下方丢入物品，或者将物品放在置物台上，都算作有效的物品输入",
@@ -109,10 +116,14 @@
 	"vintageimprovements.jei.text.leaves_vibrating.text5": "具有时运III附魔",
 	"vintageimprovements.jei.text.leaves_vibrating.text6": "的锄相同",
 	
+	"vintageimprovements.jei.text.minimal_rpm": "Minimal RPM:", //
+	
 	"create.vintageimprovements.gui.goggles.low": "低",
 	"create.vintageimprovements.gui.goggles.medium": "中",
 	"create.vintageimprovements.gui.goggles.high": "高",
 	"create.vintageimprovements.gui.goggles.current_speed": "速度：",
 	
-	"create.vintageimprovements.gui.goggles.not_enough_basins": "工作盆数量不足，离心机无法工作。所缺数量:"
+	"create.vintageimprovements.gui.goggles.not_enough_basins": "工作盆数量不足，离心机无法工作。所缺数量:",
+	"create.vintageimprovements.gui.goggles.redstone_module": "Redstone Application is added", //
+	"create.vintageimprovements.gui.goggles.not_enough_rpm": "Not enough Rotations per Minute for current recipe. Necessary:" //
 }

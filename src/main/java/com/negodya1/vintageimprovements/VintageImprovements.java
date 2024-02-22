@@ -95,6 +95,9 @@ public class VintageImprovements {
     public static final RegistryObject<Item> GRINDER_BELT = ITEMS.register("grinder_belt", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SPRING_COILING_MACHINE_WHEEL = ITEMS.register("spring_coiling_machine_wheel", () -> new Item(new Item.Properties()));
 
+    public static final RegistryObject<Item> INCOMPLETE_REDSTONE_MODULE = ITEMS.register("incomplete_redstone_module", () -> new Item(new Item.Properties()));
+    //public static final RegistryObject<Item> REDSTONE_MODULE = ITEMS.register("redstone_module", () -> new Item(new Item.Properties()));
+
     public static final RegistryObject<CreativeModeTab> VINTAGE_IMPROVEMENT_TAB = CREATIVE_MODE_TABS.register("vintage_improvement_tab", () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .title(Component.translatable("itemGroup." + MODID))
@@ -142,6 +145,8 @@ public class VintageImprovements {
                 output.accept(VintageBlocks.CENTRIFUGE.get());
 
                 output.accept(VintageBlocks.CURVING_PRESS.get());
+
+                output.accept(VintageItems.REDSTONE_MODULE.get());
             }).build());
 
     public VintageImprovements() {
@@ -163,6 +168,7 @@ public class VintageImprovements {
         VintageBlockEntity.register();
         VintageRecipes.register(modEventBus);
         VintagePartialModels.init();
+        VintageItems.register();
 
         onCtor();
 
