@@ -1,0 +1,48 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "vintageimprovements:block/grinder_belt_static_iron",
+		"particle": "vintageimprovements:block/grinder_belt_static_iron"
+	},
+	"elements": [
+		{
+			"name": "belt_front",
+			"from": [0, 2, 3],
+			"to": [0, 13, 13],
+			"faces": {
+				"north": {"uv": [0, 0, 0, 12], "texture": "#missing"},
+				"east": {"uv": [3, 0, 13, 12], "texture": "#0"},
+				"south": {"uv": [0, 0, 0, 12], "texture": "#missing"},
+				"west": {"uv": [3, 0, 13, 12], "texture": "#0"},
+				"up": {"uv": [0, 0, 10, 0], "rotation": 270, "texture": "#0"},
+				"down": {"uv": [3, 16, 13, 0], "rotation": 90, "texture": "#missing"}
+			}
+		},
+		{
+			"name": "belt_up",
+			"from": [0, 13, 3],
+			"to": [16, 13, 13],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 0], "texture": "#missing"},
+				"east": {"uv": [0, 0, 10, 0], "texture": "#missing"},
+				"south": {"uv": [0, 0, 16, 0], "texture": "#missing"},
+				"west": {"uv": [0, 0, 10, 0], "texture": "#missing"},
+				"up": {"uv": [3, 16, 13, 0], "rotation": 270, "texture": "#0"},
+				"down": {"uv": [3, 0, 13, 16], "rotation": 90, "texture": "#0"}
+			}
+		},
+		{
+			"name": "belt_back",
+			"from": [16, 2, 3],
+			"to": [16, 13, 13],
+			"faces": {
+				"north": {"uv": [0, 0, 0, 12], "texture": "#missing"},
+				"east": {"uv": [3, 16, 13, 4], "texture": "#0"},
+				"south": {"uv": [0, 0, 0, 12], "texture": "#missing"},
+				"west": {"uv": [3, 16, 13, 4], "texture": "#0"},
+				"up": {"uv": [0, 0, 10, 0], "rotation": 270, "texture": "#0"},
+				"down": {"uv": [3, 16, 13, 0], "rotation": 90, "texture": "#missing"}
+			}
+		}
+	]
+}

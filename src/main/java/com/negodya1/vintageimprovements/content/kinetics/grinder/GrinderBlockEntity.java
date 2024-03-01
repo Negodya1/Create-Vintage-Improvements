@@ -10,7 +10,9 @@ import java.util.stream.Collectors;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.collect.ImmutableList;
+import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintageRecipes;
+import com.negodya1.vintageimprovements.foundation.utility.VintageLang;
 import com.negodya1.vintageimprovements.infrastructure.config.VintageConfig;
 import com.simibubi.create.AllRecipeTypes;
 import com.simibubi.create.AllSoundEvents;
@@ -88,6 +90,7 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 	private FilteringBehaviour filtering;
 
 	private ItemStack playEvent;
+	private int textureType;
 
 	public GrinderBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
@@ -97,6 +100,7 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 		recipeIndex = 0;
 		invProvider = LazyOptional.of(() -> inventory);
 		playEvent = ItemStack.EMPTY;
+		textureType = 0;
 	}
 
 	public boolean canCraft(ItemStack stack) {
@@ -119,6 +123,7 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 	public void write(CompoundTag compound, boolean clientPacket) {
 		compound.put("Inventory", inventory.serializeNBT());
 		compound.putInt("RecipeIndex", recipeIndex);
+		compound.putInt("TextureType", textureType);
 		super.write(compound, clientPacket);
 
 		if (!clientPacket || playEvent.isEmpty())
@@ -132,6 +137,7 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 		super.read(compound, clientPacket);
 		inventory.deserializeNBT(compound.getCompound("Inventory"));
 		recipeIndex = compound.getInt("RecipeIndex");
+		textureType = compound.getInt("TextureType");
 		if (compound.contains("PlayEvent"))
 			playEvent = ItemStack.of(compound.getCompound("PlayEvent"));
 	}
@@ -518,25 +524,58 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 
 		if (getSpeed() == 0) return false;
 
-		LangBuilder reqSpd = Lang.translate("vintageimprovements.gui.goggles.current_speed").add(Lang.text(" "));
+		LangBuilder reqSpd = VintageLang.translate("gui.goggles.current_speed").add(Lang.text(" "));
 
 		int speedMode = Math.abs(getSpeed()) <= VintageConfig.server().recipes.lowSpeedValue.get() ? 1 : (Math.abs(getSpeed()) <= VintageConfig.server().recipes.mediumSpeedValue.get() ? 2 : 3);
 
 		switch (speedMode) {
 			case 2:
-				reqSpd.add(Lang.translate("vintageimprovements.gui.goggles.medium")).style(ChatFormatting.YELLOW).forGoggles(tooltip);
+				reqSpd.add(VintageLang.translate("gui.goggles.medium")).style(ChatFormatting.YELLOW).forGoggles(tooltip);
 				break;
 
 			case 3:
-				reqSpd.add(Lang.translate("vintageimprovements.gui.goggles.high")).style(ChatFormatting.RED).forGoggles(tooltip);
+				reqSpd.add(VintageLang.translate("gui.goggles.high")).style(ChatFormatting.RED).forGoggles(tooltip);
 				break;
 
 			default:
-				reqSpd.add(Lang.translate("vintageimprovements.gui.goggles.low")).style(ChatFormatting.GREEN).forGoggles(tooltip);
+				reqSpd.add(VintageLang.translate("gui.goggles.low")).style(ChatFormatting.GREEN).forGoggles(tooltip);
 				break;
 		}
 
 		return true;
+	}
+
+	public int getTextureType() {
+		return textureType;
+	}
+
+	public boolean addTexture(ItemStack items) {
+		if (items.isEmpty()) return false;
+
+		switch (items.getItem().getDescriptionId()) {
+			case "item.create.sand_paper":
+				textureType = 0;
+				return true;
+
+			case "item.create.red_sand_paper":
+				textureType = 1;
+				return true;
+
+			case "item.createaddition.diamond_grit_sandpaper", "item.create_so.diamond_sandpaper":
+				textureType = 2;
+				return true;
+
+			case "item.create_so.iron_sandpaper":
+				textureType = 3;
+				return true;
+
+			case "item.create_so.obsidian_sandpaper":
+				textureType = 4;
+				return true;
+
+			default:
+				return false;
+		}
 	}
 
 }

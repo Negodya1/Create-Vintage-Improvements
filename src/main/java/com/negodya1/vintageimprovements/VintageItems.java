@@ -15,6 +15,7 @@ import static com.simibubi.create.foundation.data.recipe.CompatMetals.SILVER;
 import static com.simibubi.create.foundation.data.recipe.CompatMetals.TIN;
 import static com.simibubi.create.foundation.data.recipe.CompatMetals.URANIUM;
 
+import com.negodya1.vintageimprovements.content.equipment.CopperSulfateItem;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.AllTags.AllItemTags;
 import com.simibubi.create.content.contraptions.glue.SuperGlueItem;
@@ -73,6 +74,10 @@ public class VintageItems {
 	}
 
 	public static final ItemEntry<Item> REDSTONE_MODULE = ingredient("redstone_module");
+	public static final ItemEntry<SequencedAssemblyItem> INCOMPLETE_REDSTONE_MODULE = sequencedIngredient("incomplete_redstone_module");
+	public static final ItemEntry<CopperSulfateItem> COPPER_SULFATE =
+			MY_REGISTRATE.item("copper_sulfate", CopperSulfateItem::new)
+					.register();
 
 	private static ItemEntry<Item> ingredient(String name) {
 		return MY_REGISTRATE.item(name, Item::new)

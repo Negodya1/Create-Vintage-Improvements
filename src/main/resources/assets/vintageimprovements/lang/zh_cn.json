@@ -31,34 +31,53 @@
 	"item.vintageimprovements.small_brass_spring": "黄铜小弹簧",
 	
 	"item.vintageimprovements.redstone_module": "Redstone Module", //
+	"item.vintageimprovements.incomplete_redstone_module": "Incomplete Redstone Module", //
+	
+	"item.vintageimprovements.vanadium_nugget": "Vanadium Nugget", //
+	"item.vintageimprovements.vanadium_ingot": "Vanadium Ingot", //
+	"block.vintageimprovements.vanadium_block": "Block of Vanadium", //
+	
+	"item.vintageimprovements.sulfur_chunk": "Chunk of Sulfur", //
+	"item.vintageimprovements.sulfur": "Sulfur", //
+	"block.vintageimprovements.sulfur_block": "Block of Sulfur", //
+	"fluid.vintageimprovements.sulfuric_acid": "Sulfuric Acid", //
+	"block.vintageimprovements.sulfuric_acid": "Sulfuric Acid", //
+	"fluid.vintageimprovements.sulfur_dioxide": "Sulfur Dioxide", //
+	"fluid.vintageimprovements.sulfur_trioxide": "Sulfur Trioxide", //
+	"item.vintageimprovements.sulfuric_acid_bucket": "Sulfuric Acid Bucket", //
+	
+	"item.vintageimprovements.copper_sulfate": "Copper Sulfate", //
+	"vintageimprovements.item_description.copper_sulfate": "May be used as Bone Meal", //
 	
 	"block.vintageimprovements.belt_grinder": "砂带磨床",
 	"item.vintageimprovements.grinder_belt": "砂带",
-	"create.recipe.assembly.polishing": "磨床打磨",
+	"vintageimprovements.recipe.assembly.polishing": "磨床打磨",
 	"vintageimprovements.recipe.polishing": "打磨",
 	"vintageimprovements.recipe.grinder_sandpaper_polishing": "打磨",
 	
 	"block.vintageimprovements.spring_coiling_machine": "卷簧机",
 	"item.vintageimprovements.spring_coiling_machine_wheel": "卷簧轮",
-	"create.recipe.assembly.coiling": "用卷簧机卷制",
+	"vintageimprovements.recipe.assembly.coiling": "用卷簧机卷制",
 	"vintageimprovements.recipe.coiling": "卷制",
 	
-	"block.vintageimprovements.vacuum_chamber": "真空机",
-	"create.recipe.assembly.vacuumizing": "真空处理",
+	"block.vintageimprovements.vacuum_chamber": "Compressor", //
+	"vintageimprovements.recipe.assembly.vacuumizing": "真空处理",
+	"vintageimprovements.recipe.assembly.pressurizing": "Pressurize", //
 	"vintageimprovements.recipe.vacuumizing": "真空抽取",
+	"vintageimprovements.recipe.pressurizing": "Pressurizing", //
 	
 	"block.vintageimprovements.vibrating_table": "", //
-	"create.recipe.assembly.vibrating": "振击",
+	"vintageimprovements.recipe.assembly.vibrating": "振击",
 	"vintageimprovements.recipe.vibrating": "振动加工",
 	"vintageimprovements.recipe.unpacking": "振动解包",
 	"vintageimprovements.recipe.leaves_vibrating": "树叶振动处理",
 	
 	"block.vintageimprovements.centrifuge": "离心机",
-	"create.recipe.assembly.centrifugation": "离心机处理",
+	"vintageimprovements.recipe.assembly.centrifugation": "离心机处理",
 	"vintageimprovements.recipe.centrifugation": "离心",
 	
 	"block.vintageimprovements.curving_press": "动力冲压机",
-	"create.recipe.assembly.curving": "进行冲压",
+	"vintageimprovements.recipe.assembly.curving": "进行冲压",
 	"vintageimprovements.recipe.curving": "冲压",
 	"vintageimprovements.recipe.auto_curving": "冲压",
 	
@@ -72,8 +91,15 @@
 	"vintageimprovements.ponder.spring_coiling_processing.text_1": "卷簧机可以处理各种物品",
 	"vintageimprovements.ponder.spring_coiling_processing.text_2": "处理后的物品总是会输出到卷簧机的前方",
 	
-	"vintageimprovements.ponder.vacuum_chamber.header": "用真空机处理物品",
-	"vintageimprovements.ponder.vacuum_chamber.text_1": "有了真空室和工作盆，你可以自动化一些新的配方",
+	"vintageimprovements.ponder.vacuum_chamber.header": "Processing Items with the Compressor", //
+	"vintageimprovements.ponder.vacuum_chamber.text_1": "Compressor have two operating modes, that can be changed via right click with Wrench", //
+	"vintageimprovements.ponder.vacuum_chamber.text_2": "Some of those recipes may require the heat of a Blaze Burner", //
+	
+	"vintageimprovements.ponder.vacuum_chamber_secondary.header": "Secondary Fluids Output/Input", //
+	"vintageimprovements.ponder.vacuum_chamber_secondary.text_1": "Some recipes fluid results appear inside Compressor block", //
+	"vintageimprovements.ponder.vacuum_chamber_secondary.text_2": "To drain results you must use a Mechanical Pump", //
+	"vintageimprovements.ponder.vacuum_chamber_secondary.text_3": "Some recipes require fluids inside the Compressor", //
+	"vintageimprovements.ponder.vacuum_chamber_secondary.text_4": "You can fill the Compressor using a Mechanical Pump", //
 	
 	"vintageimprovements.ponder.vibrating_table.header": "用振动台处理物品",
 	"vintageimprovements.ponder.vibrating_table.text_1": "振动台可以处理各种物品",
@@ -118,14 +144,21 @@
 	
 	"vintageimprovements.jei.text.minimal_rpm": "Minimal RPM:", //
 	
-	"create.vintageimprovements.gui.goggles.low": "低",
-	"create.vintageimprovements.gui.goggles.medium": "中",
-	"create.vintageimprovements.gui.goggles.high": "高",
-	"create.vintageimprovements.gui.goggles.current_speed": "速度：",
+	"vintageimprovements.jei.text.secondary_fluid_result": "This fluid is secondary result, and gets inside the Compressor after craft", //
+	"vintageimprovements.jei.text.secondary_fluid_ingredient": "This fluid is secondary ingredient, and must be placed inside the Сompressor to craft", //
 	
-	"create.vintageimprovements.gui.goggles.not_enough_basins": "工作盆数量不足，离心机无法工作。所缺数量:",
-	"create.vintageimprovements.gui.goggles.redstone_module": "Redstone Module installed", //
-	"create.vintageimprovements.gui.goggles.not_enough_rpm": "Not enough Rotations per Minute for current recipe. Necessary:", //
+	"vintageimprovements.gui.goggles.low": "低",
+	"vintageimprovements.gui.goggles.medium": "中",
+	"vintageimprovements.gui.goggles.high": "高",
+	"vintageimprovements.gui.goggles.current_speed": "速度：",
+	
+	"vintageimprovements.gui.goggles.not_enough_basins": "工作盆数量不足，离心机无法工作。所缺数量:",
+	"vintageimprovements.gui.goggles.redstone_module": "Redstone Module installed", //
+	"vintageimprovements.gui.goggles.not_enough_rpm": "Not enough Rotations per Minute for current recipe. Necessary:", //
+	
+	"vintageimprovements.gui.goggles.current_mode": "Current operating mode:", //
+	"vintageimprovements.gui.goggles.vacuumizing_mode": "Vacuumizing", //
+	"vintageimprovements.gui.goggles.pressurizing_mode": "Pressurizing", //
 	
 	"vintageimprovements.item_description.machine_rpm_requirements": "This machine have minimal RPM requirements:" //
 }

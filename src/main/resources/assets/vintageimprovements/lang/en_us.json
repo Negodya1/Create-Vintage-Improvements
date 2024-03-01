@@ -31,34 +31,53 @@
 	"item.vintageimprovements.small_brass_spring": "Small Brass Spring",
 	
 	"item.vintageimprovements.redstone_module": "Redstone Module",
+	"item.vintageimprovements.incomplete_redstone_module": "Incomplete Redstone Module",
+	
+	"item.vintageimprovements.vanadium_nugget": "Vanadium Nugget",
+	"item.vintageimprovements.vanadium_ingot": "Vanadium Ingot",
+	"block.vintageimprovements.vanadium_block": "Block of Vanadium",
+	
+	"item.vintageimprovements.sulfur_chunk": "Chunk of Sulfur",
+	"item.vintageimprovements.sulfur": "Sulfur",
+	"block.vintageimprovements.sulfur_block": "Block of Sulfur",
+	"fluid.vintageimprovements.sulfuric_acid": "Sulfuric Acid",
+	"block.vintageimprovements.sulfuric_acid": "Sulfuric Acid",
+	"fluid.vintageimprovements.sulfur_dioxide": "Sulfur Dioxide",
+	"fluid.vintageimprovements.sulfur_trioxide": "Sulfur Trioxide",
+	"item.vintageimprovements.sulfuric_acid_bucket": "Sulfuric Acid Bucket",
+	
+	"item.vintageimprovements.copper_sulfate": "Copper Sulfate",
+	"item.vintageimprovements.copper_sulfate.tooltip.summary": "May be used as Bone Meal",
 	
 	"block.vintageimprovements.belt_grinder": "Belt Grinder",
 	"item.vintageimprovements.grinder_belt": "Grinder Belt",
-	"create.recipe.assembly.polishing": "Polishing on Grinder",
+	"vintageimprovements.recipe.assembly.polishing": "Polishing on Grinder",
 	"vintageimprovements.recipe.polishing": "Polishing",
 	"vintageimprovements.recipe.grinder_sandpaper_polishing": "Polishing",
 	
 	"block.vintageimprovements.spring_coiling_machine": "Spring Coiling Machine",
 	"item.vintageimprovements.spring_coiling_machine_wheel": "Spring Coiling Wheel",
-	"create.recipe.assembly.coiling": "Coiling on Spring Coiling Machine",
+	"vintageimprovements.recipe.assembly.coiling": "Coiling on Spring Coiling Machine",
 	"vintageimprovements.recipe.coiling": "Coiling",
 	
-	"block.vintageimprovements.vacuum_chamber": "Vacuum Chamber",
-	"create.recipe.assembly.vacuumizing": "Vacuumize",
+	"block.vintageimprovements.vacuum_chamber": "Compressor",
+	"vintageimprovements.recipe.assembly.vacuumizing": "Vacuumize",
+	"vintageimprovements.recipe.assembly.pressurizing": "Pressurize",
 	"vintageimprovements.recipe.vacuumizing": "Vacuumizing",
+	"vintageimprovements.recipe.pressurizing": "Pressurizing",
 	
 	"block.vintageimprovements.vibrating_table": "Vibrating Table",
-	"create.recipe.assembly.vibrating": "Vibrate",
+	"vintageimprovements.recipe.assembly.vibrating": "Vibrate",
 	"vintageimprovements.recipe.vibrating": "Vibrating",
 	"vintageimprovements.recipe.unpacking": "Unpacking",
 	"vintageimprovements.recipe.leaves_vibrating": "Leaves Vibrating",
 	
 	"block.vintageimprovements.centrifuge": "Centrifuge",
-	"create.recipe.assembly.centrifugation": "Process in Centrifuge",
+	"vintageimprovements.recipe.assembly.centrifugation": "Process in Centrifuge",
 	"vintageimprovements.recipe.centrifugation": "Centrifugation",
 	
 	"block.vintageimprovements.curving_press": "Curving Press",
-	"create.recipe.assembly.curving": "Process in Curving Press",
+	"vintageimprovements.recipe.assembly.curving": "Process in Curving Press",
 	"vintageimprovements.recipe.curving": "Curving",
 	"vintageimprovements.recipe.auto_curving": "Curving",
 	
@@ -72,8 +91,15 @@
 	"vintageimprovements.ponder.spring_coiling_processing.text_1": "Spring Coiling Machines can process a variety of items",
 	"vintageimprovements.ponder.spring_coiling_processing.text_2": "The processed item always moves to the front of the coiling machine",
 	
-	"vintageimprovements.ponder.vacuum_chamber.header": "Processing Items with the Vacuum Chamber",
-	"vintageimprovements.ponder.vacuum_chamber.text_1": "With a Vacuum Chamber and Basin you obtain some new recipes",
+	"vintageimprovements.ponder.vacuum_chamber.header": "Processing Items with the Compressor",
+	"vintageimprovements.ponder.vacuum_chamber.text_1": "Compressor have two operating modes, that can be changed via right click with Wrench",
+	"vintageimprovements.ponder.vacuum_chamber.text_2": "Some of those recipes may require the heat of a Blaze Burner",
+	
+	"vintageimprovements.ponder.vacuum_chamber_secondary.header": "Secondary Fluids Output/Input",
+	"vintageimprovements.ponder.vacuum_chamber_secondary.text_1": "Some recipes fluid results appear inside Compressor block",
+	"vintageimprovements.ponder.vacuum_chamber_secondary.text_2": "To drain results you must use a Mechanical Pump",
+	"vintageimprovements.ponder.vacuum_chamber_secondary.text_3": "Some recipes require fluids inside the Compressor",
+	"vintageimprovements.ponder.vacuum_chamber_secondary.text_4": "You can fill the Compressor using a Mechanical Pump",
 	
 	"vintageimprovements.ponder.vibrating_table.header": "Processing Items on the Vibrating Table",
 	"vintageimprovements.ponder.vibrating_table.text_1": "Vibrating Table can process a variety of items",
@@ -118,14 +144,21 @@
 	
 	"vintageimprovements.jei.text.minimal_rpm": "Minimal RPM:",
 	
-	"create.vintageimprovements.gui.goggles.low": "Low",
-	"create.vintageimprovements.gui.goggles.medium": "Medium",
-	"create.vintageimprovements.gui.goggles.high": "High",
-	"create.vintageimprovements.gui.goggles.current_speed": "Speed:",
+	"vintageimprovements.jei.text.secondary_fluid_result": "This fluid is secondary result, and appears inside the Compressor after craft",
+	"vintageimprovements.jei.text.secondary_fluid_ingredient": "This fluid is secondary ingredient, and must be insreted inside the Сompressor to craft",
 	
-	"create.vintageimprovements.gui.goggles.not_enough_basins": "For the Centrifuge work not enough Basins. Add",
-	"create.vintageimprovements.gui.goggles.redstone_module": "Redstone Module installed",
-	"create.vintageimprovements.gui.goggles.not_enough_rpm": "Not enough Rotations per Minute for current recipe. Necessary:",
+	"vintageimprovements.gui.goggles.low": "Low",
+	"vintageimprovements.gui.goggles.medium": "Medium",
+	"vintageimprovements.gui.goggles.high": "High",
+	"vintageimprovements.gui.goggles.current_speed": "Speed:",
+	
+	"vintageimprovements.gui.goggles.not_enough_basins": "For the Centrifuge work not enough Basins. Add",
+	"vintageimprovements.gui.goggles.redstone_module": "Redstone Module installed",
+	"vintageimprovements.gui.goggles.not_enough_rpm": "Not enough Rotations per Minute for current recipe. Necessary:",
+	
+	"vintageimprovements.gui.goggles.current_mode": "Current operating mode:",
+	"vintageimprovements.gui.goggles.vacuumizing_mode": "Vacuumizing",
+	"vintageimprovements.gui.goggles.pressurizing_mode": "Pressurizing",
 	
 	"vintageimprovements.item_description.machine_rpm_requirements": "This machine have minimal RPM requirements:"
 }

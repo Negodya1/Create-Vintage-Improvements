@@ -1,9 +1,16 @@
 package com.negodya1.vintageimprovements.infrastructure.ponder.scenes;
 
 import com.google.common.collect.ImmutableList;
+import com.negodya1.vintageimprovements.VintageFluids;
+import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumChamberBlockEntity;
+import com.simibubi.create.AllBlockEntityTypes;
 import com.simibubi.create.AllBlocks;
+import com.simibubi.create.AllEntityTypes;
+import com.simibubi.create.AllItems;
+import com.simibubi.create.content.fluids.tank.FluidTankBlockEntity;
 import com.simibubi.create.content.processing.basin.BasinBlockEntity;
+import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
 import com.simibubi.create.foundation.ponder.SceneBuilder;
 import com.simibubi.create.foundation.ponder.SceneBuildingUtil;
 import com.simibubi.create.foundation.ponder.element.InputWindowElement;
@@ -23,11 +30,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class VacuumChamberScenes {
 
 	public static void processing(SceneBuilder scene, SceneBuildingUtil util) {
-		scene.title("vacuum_chamber", "Processing Items with the Vacuum Chamber");
+		scene.title("vacuum_chamber", "Processing Items with the Compressor");
 		scene.configureBasePlate(0, 0, 5);
 		scene.world.setBlock(util.grid.at(1, 1, 2), AllBlocks.ANDESITE_CASING.getDefaultState(), false);
 		scene.world.showSection(util.select.layer(0), Direction.UP);
@@ -56,14 +65,23 @@ public class VacuumChamberScenes {
 			.pointAt(basinSide)
 			.placeNearTarget()
 			.attachKeyFrame()
-			.text("With a Vacuum Chamber and Basin you obtain some new recipes");
+			.text("Compressor have two operating modes, that can be changed via right click with Wrench");
 		scene.idle(40);
+
+		ItemStack wrench = new ItemStack(AllItems.WRENCH);
+		scene.overlay.showControls(new InputWindowElement(util.vector.topOf(pressPos), Pointing.LEFT).withItem(wrench), 30);
+		scene.world.modifyBlockEntity(pressPos, VacuumChamberBlockEntity.class, VacuumChamberBlockEntity::changeMode);
+		scene.idle(40);
+
+		scene.overlay.showControls(new InputWindowElement(util.vector.topOf(pressPos), Pointing.LEFT).withItem(wrench), 30);
+		scene.world.modifyBlockEntity(pressPos, VacuumChamberBlockEntity.class, VacuumChamberBlockEntity::changeMode);
+		scene.idle(60);
 
 		scene.overlay.showControls(new InputWindowElement(util.vector.topOf(basin), Pointing.LEFT).withItem(bucket), 30);
 		scene.overlay.showControls(new InputWindowElement(util.vector.topOf(basin), Pointing.RIGHT).withItem(snow), 30);
 		scene.idle(30);
 		Class<VacuumChamberBlockEntity> type = VacuumChamberBlockEntity.class;
-		scene.world.modifyBlockEntity(pressPos, type, pte -> pte.startProcessingBasin());
+		scene.world.modifyBlockEntity(pressPos, type, VacuumChamberBlockEntity::startProcessingBasin);
 		scene.world.createItemOnBeltLike(basin, Direction.UP, bucket);
 		scene.world.createItemOnBeltLike(basin, Direction.UP, snow);
 		scene.idle(80);
@@ -75,5 +93,92 @@ public class VacuumChamberScenes {
 		scene.idle(4);
 		scene.world.createItemOnBelt(util.grid.at(1, 1, 1), Direction.UP, result);
 		scene.idle(30);
+
+		scene.rotateCameraY(-30);
+		scene.idle(10);
+		scene.world.setBlock(util.grid.at(1, 1, 2), AllBlocks.BLAZE_BURNER.getDefaultState()
+				.setValue(BlazeBurnerBlock.HEAT_LEVEL, BlazeBurnerBlock.HeatLevel.KINDLED), true);
+		scene.idle(10);
+
+		scene.overlay.showText(80)
+				.pointAt(basinSide.subtract(0, 1, 0))
+				.placeNearTarget()
+				.text("Some of those recipes may require the heat of a Blaze Burner");
+		scene.idle(40);
+
+		scene.rotateCameraY(30);
+	}
+
+	public static void secondary(SceneBuilder scene, SceneBuildingUtil util) {
+		scene.title("vacuum_chamber_secondary", "Secondary Fluids Output/Input");
+		scene.configureBasePlate(0, 0, 5);
+		scene.world.showSection(util.select.layer(0), Direction.UP);
+		scene.idle(5);
+		scene.world.showSection(util.select.position(2, 1, 2), Direction.DOWN);
+		scene.idle(5);
+		scene.world.showSection(util.select.position(2, 2, 2), Direction.DOWN);
+		scene.idle(5);
+		scene.world.showSection(util.select.position(2, 4, 2), Direction.SOUTH);
+		scene.world.setBlock(util.grid.at(3, 3, 2), AllBlocks.SHAFT.getDefaultState(), false);
+		scene.idle(5);
+		scene.world.showSection(util.select.fromTo(3, 4, 2, 3, 1, 2), Direction.DOWN);
+		scene.world.showSection(util.select.fromTo(3, 1, 2, 3, 1, 5), Direction.DOWN);
+		scene.idle(20);
+
+		BlockPos basin = util.grid.at(2, 2, 2);
+		BlockPos compressor = util.grid.at(2, 4, 2);
+		Vec3 basinSide = util.vector.blockSurface(basin, Direction.WEST);
+
+		ItemStack sulfur = new ItemStack(VintageImprovements.SULFUR.get());
+		FluidStack dioxide = new FluidStack(VintageFluids.SULFUR_DIOXIDE.get(), 1000);
+
+		scene.overlay.showText(60)
+				.pointAt(compressor.getCenter())
+				.placeNearTarget()
+				.attachKeyFrame()
+				.text("Some recipes fluid results appear inside Compressor block");
+		scene.idle(40);
+
+		scene.overlay.showControls(new InputWindowElement(util.vector.topOf(basin), Pointing.RIGHT).withItem(sulfur), 30);
+		scene.idle(30);
+		Class<VacuumChamberBlockEntity> type = VacuumChamberBlockEntity.class;
+		scene.world.modifyBlockEntity(compressor, type, VacuumChamberBlockEntity::startProcessingBasin);
+		scene.world.createItemOnBeltLike(basin, Direction.UP, sulfur);
+		scene.idle(40);
+
+		scene.overlay.showText(60)
+				.pointAt(compressor.getCenter())
+				.placeNearTarget()
+				.attachKeyFrame()
+				.text("To drain results you must use Mechanical Pump");
+		scene.idle(40);
+
+		scene.world.showSection(util.select.fromTo(0, 1, 2, 0, 2, 2), Direction.DOWN);
+		scene.idle(5);
+		scene.world.setBlock(util.grid.at(3, 3, 2), AllBlocks.COGWHEEL.getDefaultState(), false);
+		scene.world.showSection(util.select.fromTo(1, 3, 3, 3, 4, 3), Direction.DOWN);
+		scene.idle(5);
+		scene.world.showSection(util.select.fromTo(0, 3, 2, 1, 4, 2), Direction.DOWN);
+		scene.idle(5);
+		scene.world.modifyBlockEntity(util.grid.at(0, 1, 2), FluidTankBlockEntity.class, be -> be.getTankInventory()
+				.fill(dioxide, IFluidHandler.FluidAction.EXECUTE));
+		scene.idle(30);
+
+		scene.overlay.showText(35)
+				.pointAt(compressor.getCenter())
+				.placeNearTarget()
+				.attachKeyFrame()
+				.text("Some recipes require fluids inside the Compressor");
+		scene.idle(40);
+
+		scene.overlay.showText(35)
+				.pointAt(compressor.getCenter())
+				.placeNearTarget()
+				.attachKeyFrame()
+				.text("You can fill the Compressor using a Mechanical Pump");
+		scene.idle(40);
+
+		scene.markAsFinished();
+		scene.idle(25);
 	}
 }

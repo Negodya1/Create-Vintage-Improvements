@@ -1,0 +1,89 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+		"conditions": [
+			{
+				"type": "forge:mod_loaded",
+				"modid": "createaddition"
+			}
+		],
+		"recipe": {
+			"type": "create:crushing",
+			"ingredients": [
+				{
+					"tag": "create:stone_types/tuff"
+				}
+			],
+			"results": [
+				{
+				  "item": "minecraft:flint",
+				  "chance": 0.25
+				},
+				{
+				"item": "minecraft:gold_nugget",
+					"chance": 0.1
+				},
+				{
+					"item": "create:copper_nugget",
+					"chance": 0.1
+				},
+				{
+					"item": "create:zinc_nugget",
+					"chance": 0.1
+				},
+				{
+					"item": "minecraft:iron_nugget",
+					"chance": 0.1
+				},
+				{
+					"item": "createaddition:electrum_nugget",
+					"chance": 0.1
+				},
+				{
+					"item": "vintageimprovements:vanadium_nugget",
+					"chance": 0.1
+				}
+			],
+			"processingTime": 350
+		}
+    },
+    {
+		"recipe": {
+			"type": "create:crushing",
+			"ingredients": [
+				{
+					"item": "minecraft:tuff"
+				}
+			],
+			"results": [
+				{
+				  "item": "minecraft:flint",
+				  "chance": 0.25
+				},
+				{
+				"item": "minecraft:gold_nugget",
+					"chance": 0.1
+				},
+				{
+					"item": "create:copper_nugget",
+					"chance": 0.1
+				},
+				{
+					"item": "create:zinc_nugget",
+					"chance": 0.1
+				},
+				{
+					"item": "minecraft:iron_nugget",
+					"chance": 0.1
+				},
+				{
+					"item": "vintageimprovements:vanadium_nugget",
+					"chance": 0.1
+				}
+			],
+			"processingTime": 350
+		}
+    }
+  ]
+}

@@ -11,6 +11,7 @@ import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintageRecipes;
 import com.negodya1.vintageimprovements.compat.jei.category.assemblies.AssemblyCentrifugation;
 import com.negodya1.vintageimprovements.compat.jei.category.assemblies.AssemblyVibrating;
+import com.negodya1.vintageimprovements.foundation.utility.VintageLang;
 import com.simibubi.create.AllRecipeTypes;
 import com.simibubi.create.compat.jei.category.sequencedAssembly.SequencedAssemblySubCategory;
 import com.simibubi.create.content.kinetics.base.IRotate;
@@ -212,7 +213,7 @@ public class CentrifugationRecipe extends ProcessingRecipe<SmartInventory> imple
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public Component getDescriptionForAssembly() {
-		return Lang.translateDirect("recipe.assembly.centrifugation");
+		return VintageLang.translateDirect("recipe.assembly.centrifugation");
 	}
 
 	@Override

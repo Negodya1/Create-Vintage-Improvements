@@ -3,6 +3,7 @@ package com.negodya1.vintageimprovements.content.kinetics.centrifuge;
 import com.negodya1.vintageimprovements.VintageBlocks;
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintageItems;
+import com.negodya1.vintageimprovements.foundation.utility.VintageLang;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.kinetics.base.IRotate;
@@ -531,12 +532,12 @@ public class CentrifugeBlockEntity extends KineticBlockEntity implements IHaveGo
 
 		if (basins >= 4) {
 			if (redstoneApp) {
-				Lang.translate("vintageimprovements.gui.goggles.redstone_module")
+				VintageLang.translate("gui.goggles.redstone_module")
 						.style(ChatFormatting.DARK_PURPLE).forGoggles(tooltip);
 			}
 
 			if (lastRecipe != null) if (lastRecipe.minimalRPM > Mth.abs(getSpeed()))
-				Lang.translate("vintageimprovements.gui.goggles.not_enough_rpm")
+				VintageLang.translate("gui.goggles.not_enough_rpm")
 					.add(Lang.text(" ")).add(Lang.number(lastRecipe.minimalRPM)).style(ChatFormatting.RED).forGoggles(tooltip);
 
 
@@ -579,7 +580,7 @@ public class CentrifugeBlockEntity extends KineticBlockEntity implements IHaveGo
 			return true;
 		}
 
-		Lang.translate("vintageimprovements.gui.goggles.not_enough_basins")
+		VintageLang.translate("gui.goggles.not_enough_basins")
 				.add(Lang.text(" ")).add(Lang.number(4 - basins)).style(ChatFormatting.GOLD).forGoggles(tooltip);
 		return true;
 	}

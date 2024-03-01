@@ -141,7 +141,7 @@ public class CentrifugeStructuralBlock extends DirectionalBlock implements IBE<C
 			pPlayer.getItemInHand(pHand).shrink(1);
 			return InteractionResult.SUCCESS;
 		}
-		if (wwt.getBasins() == 4 && wwt.addRedstoneApp(pPlayer.getItemInHand(pHand))) {
+		if (wwt.getBasins() >= 4 && wwt.addRedstoneApp(pPlayer.getItemInHand(pHand))) {
 			pPlayer.getItemInHand(pHand).shrink(1);
 			return InteractionResult.SUCCESS;
 		}

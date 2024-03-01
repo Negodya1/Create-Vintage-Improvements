@@ -21,6 +21,9 @@ public class VintagePonder {
         HELPER.forComponents(VintageBlocks.VACUUM_CHAMBER)
                 .addStoryBoard("vacuum_chamber/processing", VacuumChamberScenes::processing, AllPonderTags.KINETIC_APPLIANCES);
 
+        HELPER.forComponents(VintageBlocks.VACUUM_CHAMBER)
+                .addStoryBoard("vacuum_chamber/secondary", VacuumChamberScenes::secondary, AllPonderTags.KINETIC_APPLIANCES);
+
         HELPER.forComponents(VintageBlocks.VIBRATING_TABLE)
                 .addStoryBoard("vibrating_table/processing", VibratingTableScenes::processing, AllPonderTags.KINETIC_APPLIANCES);
 

@@ -31,34 +31,53 @@
 	"item.vintageimprovements.small_brass_spring": "Малая латунная пружина",
 	
 	"item.vintageimprovements.redstone_module": "Редстоун модуль",
+	"item.vintageimprovements.incomplete_redstone_module": "Незаконченный Редстоун Модуль",
+	
+	"item.vintageimprovements.vanadium_nugget": "Кусочек ванадия",
+	"item.vintageimprovements.vanadium_ingot": "Ванадиевый слиток",
+	"block.vintageimprovements.vanadium_block": "Ванадиевый блок",
+	
+	"item.vintageimprovements.sulfur_chunk": "Кусочек серы",
+	"item.vintageimprovements.sulfur": "Сера",
+	"block.vintageimprovements.sulfur_block": "Серный блок",
+	"fluid.vintageimprovements.sulfuric_acid": "Серная кислота",
+	"block.vintageimprovements.sulfuric_acid": "Серная кислота",
+	"fluid.vintageimprovements.sulfur_dioxide": "Диоксид серы",
+	"fluid.vintageimprovements.sulfur_trioxide": "Триоксид серы",
+	"item.vintageimprovements.sulfuric_acid_bucket": "Ведро серной кислоты",
+	
+	"item.vintageimprovements.copper_sulfate": "Медный купорос",
+	"vintageimprovements.item_description.copper_sulfate": "Может быть использована вместо костной муки",
 	
 	"block.vintageimprovements.belt_grinder": "Ленточный гриндер",
 	"item.vintageimprovements.grinder_belt": "Лента гриндера",
-	"create.recipe.assembly.polishing": "Отполируйте на гриндере",
+	"vintageimprovements.recipe.assembly.polishing": "Отполируйте на гриндере",
 	"vintageimprovements.recipe.polishing": "Полирование",
 	"vintageimprovements.recipe.grinder_sandpaper_polishing": "Полирование",
 	
 	"block.vintageimprovements.spring_coiling_machine": "Наматыватель пружин",
 	"item.vintageimprovements.spring_coiling_machine_wheel": "Колесо наматывателя",
-	"create.recipe.assembly.coiling": "Намотайте при помощи наматывателя пружин",
+	"vintageimprovements.recipe.assembly.coiling": "Намотайте при помощи наматывателя пружин",
 	"vintageimprovements.recipe.coiling": "Наматывание",
 	
-	"block.vintageimprovements.vacuum_chamber": "Вакуумная камера",
-	"create.recipe.assembly.vacuumizing": "Вакуумируйте в вакуумной камере",
+	"block.vintageimprovements.vacuum_chamber": "Компрессор",
+	"vintageimprovements.recipe.assembly.vacuumizing": "Вакуумируйте в вакуумной камере",
+	"vintageimprovements.recipe.assembly.pressurizing": "Обработайте под давлением",
 	"vintageimprovements.recipe.vacuumizing": "Вакуумирование",
+	"vintageimprovements.recipe.pressurizing": "Нагнетание",
 	
 	"block.vintageimprovements.vibrating_table": "Вибрационный стол",
-	"create.recipe.assembly.vibrating": "Провибрируйте на вибрационном столе",
+	"vintageimprovements.recipe.assembly.vibrating": "Провибрируйте на вибрационном столе",
 	"vintageimprovements.recipe.vibrating": "Вибрирование",
 	"vintageimprovements.recipe.unpacking": "Распаковка",
 	"vintageimprovements.recipe.leaves_vibrating": "Вибрирование листьев",
 	
 	"block.vintageimprovements.centrifuge": "Центрифуга",
-	"create.recipe.assembly.centrifugation": "Обработайте в центрифуге",
+	"vintageimprovements.recipe.assembly.centrifugation": "Обработайте в центрифуге",
 	"vintageimprovements.recipe.centrifugation": "Центрифугирование",
 	
 	"block.vintageimprovements.curving_press": "Гибочный пресс",
-	"create.recipe.assembly.curving": "Обработайте гибочным прессом",
+	"vintageimprovements.recipe.assembly.curving": "Обработайте гибочным прессом",
 	"vintageimprovements.recipe.curving": "Сгибание",
 	"vintageimprovements.recipe.auto_curving": "Сгибание",
 	
@@ -72,8 +91,15 @@
 	"vintageimprovements.ponder.spring_coiling_processing.text_1": "Наматыватели пружин могут обрабатывать множество предметов",
 	"vintageimprovements.ponder.spring_coiling_processing.text_2": "Обработанные предметы всегда движутся в лицевую сторону устройства",
 	
-	"vintageimprovements.ponder.vacuum_chamber.header": "Обработкой предметов в вакуумной камере",
-	"vintageimprovements.ponder.vacuum_chamber.text_1": "Вакуумная камера и чаша открывают вам доступ к некоторым новым рецептам",
+	"vintageimprovements.ponder.vacuum_chamber.header": "Обработкой предметов при помощи компрессора",
+	"vintageimprovements.ponder.vacuum_chamber.text_1": "Коспрессор имеет два режима работы, сменить режим можно кликнув ПКМ гаечным ключём",
+	"vintageimprovements.ponder.vacuum_chamber.text_2": "Некоторым рецептам может потребоваться тепло от горелки всполоха",
+	
+	"vintageimprovements.ponder.vacuum_chamber_secondary.header": "Второстепенных жидкостях в качестве ингредиента/результата",
+	"vintageimprovements.ponder.vacuum_chamber_secondary.text_1": "Некоторые рецепты производят жидкости, которые попадают внутрь компрессора",
+	"vintageimprovements.ponder.vacuum_chamber_secondary.text_2": "Для откачивания продукции вы должны использовать механическую помпу",
+	"vintageimprovements.ponder.vacuum_chamber_secondary.text_3": "Некоторые рецепты требуют определённую жидкость внутри компрессора",
+	"vintageimprovements.ponder.vacuum_chamber_secondary.text_4": "Для заполнения компрессора вы должны использовать помпу",
 	
 	"vintageimprovements.ponder.vibrating_table.header": "Обработкой предметов на вибрационном столе",
 	"vintageimprovements.ponder.vibrating_table.text_1": "Вибрационный стол может обрабатывать множество предметов",
@@ -118,14 +144,21 @@
 	
 	"vintageimprovements.jei.text.minimal_rpm": "Минимальные об/мин:",
 	
-	"create.vintageimprovements.gui.goggles.low": "Низкая",
-	"create.vintageimprovements.gui.goggles.medium": "Средняя",
-	"create.vintageimprovements.gui.goggles.high": "Высокая",
-	"create.vintageimprovements.gui.goggles.current_speed": "Скорость:",
+	"vintageimprovements.jei.text.secondary_fluid_result": "Эта жидкость - второстепенный продукт, и попадает внутрь компрессора после крафта",
+	"vintageimprovements.jei.text.secondary_fluid_ingredient": "Эта жидкость - второстепенный ингредиент, и должна быть помещена внутрь компрессора для крафта",
 	
-	"create.vintageimprovements.gui.goggles.not_enough_basins": "Для работы центрифуги недостаточно чаш. Добавьте ещё",
-	"create.vintageimprovements.gui.goggles.redstone_module": "Редстоун модуль установлен",
-	"create.vintageimprovements.gui.goggles.not_enough_rpm": "Для текущего рецепта недостаточно оборотов в минуту. Необходимо:",
+	"vintageimprovements.gui.goggles.low": "Низкая",
+	"vintageimprovements.gui.goggles.medium": "Средняя",
+	"vintageimprovements.gui.goggles.high": "Высокая",
+	"vintageimprovements.gui.goggles.current_speed": "Скорость:",
 	
-	"vintageimprovements.item_description.machine_rpm_requirements": "Эта машина требования к минимальным об/мин:"
+	"vintageimprovements.gui.goggles.not_enough_basins": "Для работы центрифуги недостаточно чаш. Добавьте ещё",
+	"vintageimprovements.gui.goggles.redstone_module": "Редстоун модуль установлен",
+	"vintageimprovements.gui.goggles.not_enough_rpm": "Для текущего рецепта недостаточно оборотов в минуту. Необходимо:",
+	
+	"vintageimprovements.gui.goggles.current_mode": "Текущий режим работы:",
+	"vintageimprovements.gui.goggles.vacuumizing_mode": "Вакуумирование",
+	"vintageimprovements.gui.goggles.pressurizing_mode": "Нагнетание",
+	
+	"vintageimprovements.item_description.machine_rpm_requirements": "Эта машина имеет требования к минимальным об/мин:"
 }
