@@ -19,6 +19,7 @@ import com.simibubi.create.foundation.data.AssetLookup;
 import com.simibubi.create.foundation.data.BlockStateGen;
 import com.simibubi.create.foundation.data.SharedProperties;
 
+import static com.simibubi.create.AllMovementBehaviours.movementBehaviour;
 import static com.simibubi.create.foundation.data.ModelGen.customItemModel;
 
 import com.tterrag.registrate.util.entry.BlockEntry;
@@ -26,7 +27,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.common.Tags;
 
 import static com.negodya1.vintageimprovements.VintageImprovements.MY_REGISTRATE;
@@ -35,15 +36,13 @@ import static com.simibubi.create.foundation.data.TagGen.*;
 public class VintageBlocks {
 
     static {
-        MY_REGISTRATE.setCreativeTab(VintageImprovements.VINTAGE_IMPROVEMENT_TAB);
+        MY_REGISTRATE.creativeModeTab(() -> VintageImprovements.VintageCreativeTab.instance);
     }
 
-    //Machines
     public static final BlockEntry<GrinderBlock> BELT_GRINDER = MY_REGISTRATE.block("belt_grinder", GrinderBlock::new)
             .initialProperties(SharedProperties::stone)
             .addLayer(() -> RenderType::cutoutMipped)
-            .properties(p -> p.mapColor(MapColor.SAND))
-            .transform(axeOrPickaxe())
+            .properties(p -> p.color(MaterialColor.PODZOL))
             .blockstate(new GrinderGenerator()::generate)
             .transform(BlockStressDefaults.setImpact(4.0))
             .item()
@@ -54,7 +53,7 @@ public class VintageBlocks {
     public static final BlockEntry<CoilingBlock> SPRING_COILING_MACHINE = MY_REGISTRATE.block("spring_coiling_machine", CoilingBlock::new)
             .initialProperties(SharedProperties::stone)
             .addLayer(() -> RenderType::cutoutMipped)
-            .properties(p -> p.mapColor(MapColor.PODZOL))
+            .properties(p -> p.color(MaterialColor.PODZOL))
             .transform(axeOrPickaxe())
             .blockstate(new CoilingGenerator()::generate)
             .transform(BlockStressDefaults.setImpact(4.0))
@@ -64,20 +63,20 @@ public class VintageBlocks {
             .register();
 
     public static final BlockEntry<VacuumChamberBlock> VACUUM_CHAMBER = MY_REGISTRATE.block("vacuum_chamber", VacuumChamberBlock::new)
-                    .initialProperties(SharedProperties::stone)
-                    .properties(p -> p.noOcclusion().mapColor(MapColor.STONE))
-                    .transform(axeOrPickaxe())
-                    .blockstate((c, p) -> p.simpleBlock(c.getEntry(), AssetLookup.partialBaseModel(c, p)))
-                    .addLayer(() -> RenderType::cutoutMipped)
-                    .transform(BlockStressDefaults.setImpact(4.0))
-                    .item(AssemblyOperatorBlockItem::new)
-                    .transform(customItemModel())
-                    .register();
+            .initialProperties(SharedProperties::stone)
+            .properties(p -> p.noOcclusion().color(MaterialColor.STONE))
+            .transform(axeOrPickaxe())
+            .blockstate((c, p) -> p.simpleBlock(c.getEntry(), AssetLookup.partialBaseModel(c, p)))
+            .addLayer(() -> RenderType::cutoutMipped)
+            .transform(BlockStressDefaults.setImpact(4.0))
+            .item(AssemblyOperatorBlockItem::new)
+            .transform(customItemModel())
+            .register();
 
     public static final BlockEntry<VibratingTableBlock> VIBRATING_TABLE = MY_REGISTRATE.block("vibrating_table", VibratingTableBlock::new)
             .initialProperties(SharedProperties::stone)
             .addLayer(() -> RenderType::cutoutMipped)
-            .properties(p -> p.mapColor(MapColor.PODZOL))
+            .properties(p -> p.noOcclusion().color(MaterialColor.STONE))
             .transform(axeOrPickaxe())
             .blockstate(new VibratingTableGenerator()::generate)
             .transform(BlockStressDefaults.setImpact(2.0))
@@ -89,7 +88,7 @@ public class VintageBlocks {
     public static final BlockEntry<CentrifugeBlock> CENTRIFUGE = MY_REGISTRATE.block("centrifuge", CentrifugeBlock::new)
             .initialProperties(SharedProperties::stone)
             .addLayer(() -> RenderType::cutoutMipped)
-            .properties(p -> p.mapColor(MapColor.DIRT))
+            .properties(p -> p.noOcclusion().color(MaterialColor.DIRT))
             .transform(axeOrPickaxe())
             .blockstate(new CentrifugeGenerator()::generate)
             .transform(BlockStressDefaults.setImpact(2.0))
@@ -103,7 +102,7 @@ public class VintageBlocks {
                     .initialProperties(SharedProperties::wooden)
                     .blockstate((c, p) -> p.getVariantBuilder(c.get())
                             .forAllStatesExcept(BlockStateGen.mapToAir(p), CentrifugeStructuralBlock.FACING))
-                    .properties(p -> p.noOcclusion().mapColor(MapColor.DIRT))
+                    .properties(p -> p.noOcclusion().color(MaterialColor.DIRT))
                     .transform(axeOrPickaxe())
                     .lang("Centrifuge")
                     .register();
@@ -111,7 +110,7 @@ public class VintageBlocks {
     public static final BlockEntry<CurvingPressBlock> CURVING_PRESS =
             MY_REGISTRATE.block("curving_press", CurvingPressBlock::new)
                     .initialProperties(SharedProperties::stone)
-                    .properties(p -> p.noOcclusion().mapColor(MapColor.PODZOL))
+                    .properties(p -> p.noOcclusion().color(MaterialColor.PODZOL))
                     .transform(axeOrPickaxe())
                     .blockstate(BlockStateGen.horizontalBlockProvider(true))
                     .transform(BlockStressDefaults.setImpact(8.0))
@@ -122,7 +121,7 @@ public class VintageBlocks {
     //Building blocks
     public static final BlockEntry<Block> VANADIUM_BLOCK = MY_REGISTRATE.block("vanadium_block", Block::new)
             .initialProperties(() -> Blocks.IRON_BLOCK)
-            .properties(p -> p.mapColor(MapColor.GLOW_LICHEN).requiresCorrectToolForDrops())
+            .properties(p -> p.noOcclusion().color(MaterialColor.GLOW_LICHEN).requiresCorrectToolForDrops())
             .transform(pickaxeOnly())
             .tag(BlockTags.NEEDS_IRON_TOOL)
             .tag(Tags.Blocks.STORAGE_BLOCKS)
@@ -135,7 +134,7 @@ public class VintageBlocks {
 
     public static final BlockEntry<Block> SULFUR_BLOCK = MY_REGISTRATE.block("sulfur_block", Block::new)
             .initialProperties(() -> Blocks.IRON_BLOCK)
-            .properties(p -> p.mapColor(MapColor.GLOW_LICHEN).requiresCorrectToolForDrops())
+            .properties(p -> p.noOcclusion().color(MaterialColor.GLOW_LICHEN).requiresCorrectToolForDrops())
             .transform(pickaxeOnly())
             .tag(BlockTags.NEEDS_STONE_TOOL)
             .tag(Tags.Blocks.STORAGE_BLOCKS)

@@ -12,15 +12,16 @@ import com.negodya1.vintageimprovements.content.kinetics.vibration.LeavesVibrati
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingRecipe;
 import com.negodya1.vintageimprovements.foundation.utility.VintageLang;
 import com.simibubi.create.AllTags;
+import net.minecraft.core.Registry;
 import org.jetbrains.annotations.Nullable;
 
 import com.negodya1.vintageimprovements.content.kinetics.grinder.PolishingRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder.ProcessingRecipeFactory;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeSerializer;
+import com.simibubi.create.content.processing.sequenced.SequencedAssemblyRecipeSerializer;
 import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
 import com.simibubi.create.foundation.utility.Lang;
 
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.Recipe;
@@ -66,8 +67,18 @@ public enum VintageRecipes implements IRecipeTypeInfo {
         String name = VintageLang.asId(name());
         id = VintageImprovements.asResource(name);
         serializerObject = Registers.SERIALIZER_REGISTER.register(name, serializerSupplier);
-        typeObject = Registers.TYPE_REGISTER.register(name, () -> RecipeType.simple(id));
+        typeObject = Registers.TYPE_REGISTER.register(name, () -> simpleType(id));
         type = typeObject;
+    }
+
+    public static <T extends Recipe<?>> RecipeType<T> simpleType(ResourceLocation id) {
+        String stringId = id.toString();
+        return new RecipeType<T>() {
+            @Override
+            public String toString() {
+                return stringId;
+            }
+        };
     }
 
     VintageRecipes(ProcessingRecipeFactory<?> processingFactory) {
@@ -113,7 +124,7 @@ public enum VintageRecipes implements IRecipeTypeInfo {
 
     private static class Registers {
         private static final DeferredRegister<RecipeSerializer<?>> SERIALIZER_REGISTER = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, VintageImprovements.MODID);
-        private static final DeferredRegister<RecipeType<?>> TYPE_REGISTER = DeferredRegister.create(Registries.RECIPE_TYPE, VintageImprovements.MODID);
+        private static final DeferredRegister<RecipeType<?>> TYPE_REGISTER = DeferredRegister.create(Registry.RECIPE_TYPE_REGISTRY, VintageImprovements.MODID);
     }
 
 }

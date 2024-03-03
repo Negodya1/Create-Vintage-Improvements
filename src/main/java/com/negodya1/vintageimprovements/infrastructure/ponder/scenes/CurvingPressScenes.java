@@ -60,7 +60,7 @@ public class CurvingPressScenes {
 				.placeNearTarget()
 				.text("The Input items can be dropped or placed on a Depot under the Press");
 		scene.idle(50);
-		ItemStack iron = new ItemStack(AllItems.IRON_SHEET);
+		ItemStack iron = new ItemStack(AllItems.IRON_SHEET.get());
 		scene.world.createItemOnBeltLike(depotPos, Direction.NORTH, iron);
 		Vec3 depotCenter = util.vector.centerOf(depotPos.south());
 		scene.overlay.showControls(new InputWindowElement(depotCenter, Pointing.UP).withItem(iron), 30);

@@ -16,9 +16,9 @@ import com.simibubi.create.foundation.utility.AngleHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -40,17 +40,17 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class CentrifugeRenderer extends KineticBlockEntityRenderer<CentrifugeBlockEntity> {
 
@@ -110,7 +110,7 @@ public class CentrifugeRenderer extends KineticBlockEntityRenderer<CentrifugeBlo
 							TransformStack.cast(ms)
 									.rotateY(be.ingredientRotation.getValue(partialTicks));
 
-							RandomSource r = RandomSource.create(pos.hashCode());
+							Random r = new Random(42L);
 							Vec3 baseVector = new Vec3(.125, level, 0);
 
 							IItemHandlerModifiable inv = be.capability.orElse(new ItemStackHandler());
@@ -151,7 +151,7 @@ public class CentrifugeRenderer extends KineticBlockEntityRenderer<CentrifugeBlo
 									Vec3 vec = VecHelper.offsetRandomly(Vec3.ZERO, r, 1 / 16f);
 
 									ms.translate(vec.x, vec.y, vec.z);
-									renderItem(be, pos, ms, buffer, light, overlay, stack);
+									renderItem(ms, buffer, light, overlay, stack);
 									ms.popPose();
 								}
 								ms.popPose();
@@ -187,7 +187,7 @@ public class CentrifugeRenderer extends KineticBlockEntityRenderer<CentrifugeBlo
 										.translate(directionVec.scale(progress * .5f))
 										.rotateY(AngleHelper.horizontalAngle(direction))
 										.rotateX(progress * 180);
-								renderItem(be, pos, ms, buffer, light, overlay, intAttached.getValue());
+								renderItem(ms, buffer, light, overlay, intAttached.getValue());
 								ms.popPose();
 							}
 						}
@@ -197,10 +197,10 @@ public class CentrifugeRenderer extends KineticBlockEntityRenderer<CentrifugeBlo
 		}
 	}
 
-	protected void renderItem(CentrifugeBlockEntity be, BlockPos pos, PoseStack ms, MultiBufferSource buffer, int light, int overlay, ItemStack stack) {
-		Minecraft mc = Minecraft.getInstance();
-		mc.getItemRenderer()
-				.renderStatic(stack, ItemDisplayContext.GROUND, light, overlay, ms, buffer, mc.level, 0);
+	protected void renderItem(PoseStack ms, MultiBufferSource buffer, int light, int overlay, ItemStack stack) {
+		Minecraft.getInstance()
+				.getItemRenderer()
+				.renderStatic(stack, TransformType.GROUND, light, overlay, ms, buffer, 0);
 	}
 
 	protected float renderFluids(CentrifugeBlockEntity basin, float partialTicks, PoseStack ms, MultiBufferSource buffer,

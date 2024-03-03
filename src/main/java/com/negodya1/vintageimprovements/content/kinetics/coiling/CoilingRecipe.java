@@ -29,6 +29,7 @@ import net.minecraftforge.items.wrapper.RecipeWrapper;
 @ParametersAreNonnullByDefault
 public class CoilingRecipe extends ProcessingRecipe<RecipeWrapper> implements IAssemblyRecipe {
 
+	int speedLimits;
 	public CoilingRecipe(ProcessingRecipeParams params) {
 		super(VintageRecipes.COILING, params);
 	}

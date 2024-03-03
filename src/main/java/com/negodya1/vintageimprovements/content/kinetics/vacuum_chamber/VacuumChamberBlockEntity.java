@@ -48,12 +48,12 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.level.PistonEvent;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
@@ -249,7 +249,7 @@ public class VacuumChamberBlockEntity extends BasinOperatingBlockEntity {
 						getRecipe(level, basin.get().getInputInventory().getStackInSlot(i),
 								VintageRecipes.PRESSURIZING.getType(), PressurizingRecipe.class);
 				if (assemblyRecipe.isPresent() && basin.get().getFilter().test(assemblyRecipe.get()
-						.getResultItem(RegistryAccess.EMPTY))) {
+						.getResultItem())) {
 					for (Ingredient cur : assemblyRecipe.get().getIngredients()) {
 						boolean find = false;
 
@@ -279,7 +279,7 @@ public class VacuumChamberBlockEntity extends BasinOperatingBlockEntity {
 						getRecipe(level, basin.get().getInputInventory().getStackInSlot(i),
 								VintageRecipes.VACUUMIZING.getType(), VacuumizingRecipe.class);
 				if (assemblyRecipe.isPresent() && basin.get().getFilter().test(assemblyRecipe.get()
-						.getResultItem(RegistryAccess.EMPTY))) {
+						.getResultItem())) {
 					for (Ingredient cur : assemblyRecipe.get().getIngredients()) {
 						boolean find = false;
 
@@ -375,7 +375,7 @@ public class VacuumChamberBlockEntity extends BasinOperatingBlockEntity {
 
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-		if (cap == ForgeCapabilities.FLUID_HANDLER)
+		if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
 			return fluidCapability.cast();
 		return super.getCapability(cap, side);
 	}

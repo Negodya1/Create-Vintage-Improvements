@@ -1,5 +1,6 @@
 package com.negodya1.vintageimprovements.content.kinetics.coiling;
 
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.FACING;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
 import com.jozufozu.flywheel.backend.Backend;
@@ -22,12 +23,16 @@ import com.simibubi.create.foundation.utility.AngleHelper;
 import com.simibubi.create.foundation.utility.AnimationTickHolder;
 import com.simibubi.create.foundation.utility.VecHelper;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
@@ -115,7 +120,6 @@ public class CoilingRenderer extends SafeBlockEntityRenderer<CoilingBlockEntity>
 				PartialModel partial = VintagePartialModels.COILING_SPRING;
 
 				SuperByteBuffer superBuffer = CachedBufferer.partial(partial, blockState);
-
 				float speed = -Math.abs(be.getSpeed());
 				float time = AnimationTickHolder.getRenderTime(be.getLevel());
 				float angle = ((time * speed * 6 / 10f) % 360);

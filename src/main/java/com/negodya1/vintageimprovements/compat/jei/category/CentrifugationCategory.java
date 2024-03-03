@@ -1,5 +1,6 @@
 package com.negodya1.vintageimprovements.compat.jei.category;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.compat.jei.category.animations.AnimatedCentrifuge;
 import com.negodya1.vintageimprovements.compat.jei.category.animations.AnimatedVacuumChamber;
@@ -12,6 +13,7 @@ import com.simibubi.create.content.processing.basin.BasinRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingOutput;
 import com.simibubi.create.foundation.fluid.FluidIngredient;
 import com.simibubi.create.foundation.gui.AllGuiTextures;
+import com.simibubi.create.foundation.utility.Components;
 import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
@@ -19,7 +21,6 @@ import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.fluids.FluidStack;
@@ -86,14 +87,14 @@ public class CentrifugationCategory extends CreateRecipeCategory<CentrifugationR
 	}
 
 	@Override
-	public void draw(CentrifugationRecipe recipe, IRecipeSlotsView iRecipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+	public void draw(CentrifugationRecipe recipe, IRecipeSlotsView iRecipeSlotsView, PoseStack graphics, double mouseX, double mouseY) {
 		AllGuiTextures.JEI_DOWN_ARROW.render(graphics, 70, 6);
 		AllGuiTextures.JEI_DOWN_ARROW.render(graphics, 134, 36);
 		AllGuiTextures.JEI_SHADOW.render(graphics, 56 - 17, 66 + 13);
 
 		centrifuge.draw(graphics, 56, 66);
 
-		graphics.drawString(Minecraft.getInstance().font,  Component.translatable(VintageImprovements.MODID + ".jei.text.minimal_rpm").append(" " + recipe.getMinimalRPM()), 20, 103, 0xFFFF00);
+		Minecraft.getInstance().font.draw(graphics,  Components.translatable(VintageImprovements.MODID + ".jei.text.minimal_rpm").append(" " + recipe.getMinimalRPM()), 20, 103, 0xFFFF00);
 	}
 
 }

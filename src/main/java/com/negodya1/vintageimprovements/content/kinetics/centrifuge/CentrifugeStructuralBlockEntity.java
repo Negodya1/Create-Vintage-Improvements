@@ -28,7 +28,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -59,7 +58,6 @@ public class CentrifugeStructuralBlockEntity extends SmartBlockEntity {
                 cbe = be;
             }
         }
-
         sendData();
         setChanged();
     }
@@ -71,13 +69,13 @@ public class CentrifugeStructuralBlockEntity extends SmartBlockEntity {
 
     @Override
     public void invalidate() {
-        cbe = null;
         super.invalidate();
     }
 
     @Override
     public void destroy() {
         super.destroy();
+        cbe.destroy();
     }
 
     @Override
@@ -141,5 +139,4 @@ public class CentrifugeStructuralBlockEntity extends SmartBlockEntity {
 
         return (cbe.isProccesingNow() ? 15 : 0);
     }
-
 }

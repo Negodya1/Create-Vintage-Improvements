@@ -10,7 +10,6 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import net.minecraft.client.gui.GuiGraphics;
 
 public class AssemblyCentrifugation extends SequencedAssemblySubCategory {
 
@@ -46,12 +45,11 @@ public class AssemblyCentrifugation extends SequencedAssemblySubCategory {
     }
 
     @Override
-    public void draw(SequencedRecipe<?> recipe, GuiGraphics graphics, double mouseX, double mouseY, int index) {
-        PoseStack ms = graphics.pose();
+    public void draw(SequencedRecipe<?> recipe, PoseStack ms, double mouseX, double mouseY, int index) {
         ms.pushPose();
         ms.translate(6f, 51.5f, 0);
         ms.scale(.3f, .3f, .3f);
-        centrifuge.draw(graphics, getWidth() / 2, 30);
+        centrifuge.draw(ms, getWidth() / 2, 30);
         ms.popPose();
     }
 

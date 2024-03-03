@@ -14,7 +14,6 @@ import com.negodya1.vintageimprovements.compat.jei.category.assemblies.AssemblyV
 import com.negodya1.vintageimprovements.foundation.utility.VintageLang;
 import com.simibubi.create.AllRecipeTypes;
 import com.simibubi.create.compat.jei.category.sequencedAssembly.SequencedAssemblySubCategory;
-import com.simibubi.create.content.kinetics.base.IRotate;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlock.HeatLevel;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder;
@@ -33,7 +32,6 @@ import com.simibubi.create.foundation.utility.Lang;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -42,9 +40,10 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
@@ -62,9 +61,9 @@ public class CentrifugationRecipe extends ProcessingRecipe<SmartInventory> imple
 	}
 
 	private static boolean apply(CentrifugeBlockEntity centrifuge, Recipe<?> recipe, boolean test) {
-		IItemHandlerModifiable availableItems = (IItemHandlerModifiable) centrifuge.getCapability(ForgeCapabilities.ITEM_HANDLER)
+		IItemHandlerModifiable availableItems = (IItemHandlerModifiable) centrifuge.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
 				.orElse(null);
-		IFluidHandler availableFluids = centrifuge.getCapability(ForgeCapabilities.FLUID_HANDLER)
+		IFluidHandler availableFluids = centrifuge.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
 				.orElse(null);
 
 		if (availableItems == null || availableFluids == null)
@@ -145,8 +144,7 @@ public class CentrifugationRecipe extends ProcessingRecipe<SmartInventory> imple
 					recipeOutputFluids.addAll(centrifugeRecipe.getFluidResults());
 					recipeOutputItems.addAll(centrifugeRecipe.getRemainingItems(centrifuge.getInputInventory()));
 				} else {
-					recipeOutputItems.add(recipe.getResultItem(centrifuge.getLevel()
-							.registryAccess()));
+					recipeOutputItems.add(recipe.getResultItem());
 
 					if (recipe instanceof CraftingRecipe craftingRecipe) {
 						recipeOutputItems.addAll(craftingRecipe.getRemainingItems(new DummyCraftingContainer(availableItems, extractedItemsFromSlot)));
@@ -250,4 +248,5 @@ public class CentrifugationRecipe extends ProcessingRecipe<SmartInventory> imple
 	public int getMinimalRPM() {
 		return minimalRPM;
 	}
+
 }

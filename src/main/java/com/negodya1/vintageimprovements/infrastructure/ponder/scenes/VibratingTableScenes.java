@@ -1,15 +1,21 @@
 package com.negodya1.vintageimprovements.infrastructure.ponder.scenes;
 
+import com.google.common.collect.ImmutableList;
+import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumChamberBlockEntity;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingTableBlockEntity;
+import com.simibubi.create.AllBlocks;
+import com.simibubi.create.content.processing.basin.BasinBlockEntity;
 import com.simibubi.create.foundation.ponder.*;
 import com.simibubi.create.foundation.ponder.element.EntityElement;
 import com.simibubi.create.foundation.ponder.element.InputWindowElement;
+import com.simibubi.create.foundation.utility.IntAttached;
+import com.simibubi.create.foundation.utility.NBTHelper;
 import com.simibubi.create.foundation.utility.Pointing;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.entity.Entity;
 
@@ -61,7 +67,7 @@ public class VibratingTableScenes {
 
 		scene.world.showSection(cogs, Direction.DOWN);
 		scene.idle(10);
-		scene.world.setKineticSpeed(tableSelect, -100);
+		scene.world.setKineticSpeed(tableSelect, 32);
 		scene.effects.indicateSuccess(table);
 		scene.idle(10);
 
@@ -130,9 +136,5 @@ public class VibratingTableScenes {
 						.add(-.5, .4, 0))
 				.placeNearTarget();
 		scene.idle(60);
-
-		scene.markAsFinished();
-		scene.idle(25);
-		scene.world.modifyEntities(ItemEntity.class, Entity::discard);
 	}
 }

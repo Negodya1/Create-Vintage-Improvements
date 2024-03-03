@@ -70,7 +70,7 @@ import net.minecraftforge.common.Tags;
 public class VintageItems {
 
 	static {
-		MY_REGISTRATE.setCreativeTab(VintageImprovements.VINTAGE_IMPROVEMENT_TAB);
+		MY_REGISTRATE.creativeModeTab(() -> VintageImprovements.VintageCreativeTab.instance);
 	}
 
 	public static final ItemEntry<Item> REDSTONE_MODULE = ingredient("redstone_module");

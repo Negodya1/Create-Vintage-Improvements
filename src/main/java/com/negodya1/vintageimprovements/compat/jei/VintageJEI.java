@@ -15,7 +15,6 @@ import com.negodya1.vintageimprovements.content.kinetics.centrifuge.Centrifugati
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.curving_press.CurvingPressBlockEntity;
 import com.negodya1.vintageimprovements.content.kinetics.curving_press.CurvingRecipe;
-import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderBlockEntity;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.PolishingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.LeavesVibratingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingRecipe;
@@ -25,6 +24,7 @@ import com.negodya1.vintageimprovements.infrastructure.config.VintageConfig;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllRecipeTypes;
+import com.simibubi.create.Create;
 import com.simibubi.create.compat.jei.CreateJEI;
 import com.simibubi.create.compat.jei.DoubleItemIcon;
 import com.simibubi.create.compat.jei.ItemIcon;
@@ -33,6 +33,8 @@ import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
 import com.simibubi.create.content.equipment.sandPaper.SandPaperPolishingRecipe;
 import com.simibubi.create.content.processing.basin.BasinRecipe;
 import com.simibubi.create.foundation.config.ConfigBase;
+import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
+import com.simibubi.create.foundation.utility.Components;
 import com.simibubi.create.infrastructure.config.AllConfigs;
 import com.simibubi.create.infrastructure.config.CRecipes;
 import mezz.jei.api.IModPlugin;
@@ -42,7 +44,6 @@ import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.runtime.IIngredientManager;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -106,7 +107,7 @@ public class VintageJEI implements IModPlugin {
 		ALL.add(builder(VibratingRecipe.class)
 				.addTypedRecipes(VintageRecipes.VIBRATING::getType)
 				.catalyst(VintageBlocks.VIBRATING_TABLE::get)
-				.itemIcon(VintageBlocks.VIBRATING_TABLE)
+				.itemIcon(VintageBlocks.VIBRATING_TABLE.get())
 				.emptyBackground(177, 70)
 				.build("vibrating", VibratingCategory::new));
 
@@ -114,7 +115,7 @@ public class VintageJEI implements IModPlugin {
 				.addTypedRecipes(VintageRecipes.CENTRIFUGATION::getType)
 				.catalyst(VintageBlocks.CENTRIFUGE::get)
 				.catalyst(AllBlocks.BASIN::get)
-				.itemIcon(VintageBlocks.CENTRIFUGE)
+				.itemIcon(VintageBlocks.CENTRIFUGE.get())
 				.emptyBackground(177, 113)
 				.build("centrifugation", CentrifugationCategory::new));
 
@@ -130,7 +131,7 @@ public class VintageJEI implements IModPlugin {
 				.addAllRecipesIf(r -> r instanceof SandPaperPolishingRecipe
 						&& VintageRecipesList.isPolishing(r))
 				.catalyst(VintageBlocks.BELT_GRINDER::get)
-				.doubleItemIcon(VintageBlocks.BELT_GRINDER.get(), AllItems.SAND_PAPER)
+				.doubleItemIcon(VintageBlocks.BELT_GRINDER.get(), AllItems.SAND_PAPER.get())
 				.emptyBackground(177, 85)
 				.build("grinder_sandpaper_polishing", GrinderSandpaperPolishingCategory::new));
 
@@ -160,7 +161,7 @@ public class VintageJEI implements IModPlugin {
 						&& r.canCraftInDimensions(3, 2)
 						&& CurvingPressBlockEntity.canCurve(r) && !AllRecipeTypes.shouldIgnoreInAutomation(r))
 				.catalyst(VintageBlocks.CURVING_PRESS::get)
-				.doubleItemIcon(VintageBlocks.CURVING_PRESS.get(), AllItems.IRON_SHEET)
+				.doubleItemIcon(VintageBlocks.CURVING_PRESS.get(), AllItems.IRON_SHEET.get())
 				.emptyBackground(177, 70)
 				.build("auto_curving", AutoCurvingCategory::new));
 
@@ -215,6 +216,22 @@ public class VintageJEI implements IModPlugin {
 			return this;
 		}
 
+		public CategoryBuilder<T> addAllRecipesIf(Predicate<Recipe<?>> pred) {
+			return addRecipeListConsumer(recipes -> consumeAllRecipes(recipe -> {
+				if (pred.test(recipe)) {
+					recipes.add((T) recipe);
+				}
+			}));
+		}
+
+		public CategoryBuilder<T> addAllRecipesIf(Predicate<Recipe<?>> pred, Function<Recipe<?>, T> converter) {
+			return addRecipeListConsumer(recipes -> consumeAllRecipes(recipe -> {
+				if (pred.test(recipe)) {
+					recipes.add(converter.apply(recipe));
+				}
+			}));
+		}
+
 		public CategoryBuilder<T> catalyst(Supplier<ItemLike> supplier) {
 			return catalystStack(() -> new ItemStack(supplier.get()
 					.asItem()));
@@ -245,22 +262,6 @@ public class VintageJEI implements IModPlugin {
 			return this;
 		}
 
-		public CategoryBuilder<T> addAllRecipesIf(Predicate<Recipe<?>> pred) {
-			return addRecipeListConsumer(recipes -> consumeAllRecipes(recipe -> {
-				if (pred.test(recipe)) {
-					recipes.add((T) recipe);
-				}
-			}));
-		}
-
-		public CategoryBuilder<T> addAllRecipesIf(Predicate<Recipe<?>> pred, Function<Recipe<?>, T> converter) {
-			return addRecipeListConsumer(recipes -> consumeAllRecipes(recipe -> {
-				if (pred.test(recipe)) {
-					recipes.add(converter.apply(recipe));
-				}
-			}));
-		}
-
 		public CreateRecipeCategory<T> build(String name, CreateRecipeCategory.Factory<T> factory) {
 			Supplier<List<T>> recipesSupplier;
 			if (predicate.test(VintageConfig.server().recipes)) {
@@ -276,7 +277,7 @@ public class VintageJEI implements IModPlugin {
 
 			CreateRecipeCategory.Info<T> info = new CreateRecipeCategory.Info<>(
 					new mezz.jei.api.recipe.RecipeType<>(VintageImprovements.asResource(name), recipeClass),
-					Component.translatable(VintageImprovements.MODID + ".recipe." + name), background, icon, recipesSupplier, catalysts);
+					Components.translatable(VintageImprovements.MODID + ".recipe." + name), background, icon, recipesSupplier, catalysts);
 			CreateRecipeCategory<T> category = factory.create(info);
 			return category;
 		}

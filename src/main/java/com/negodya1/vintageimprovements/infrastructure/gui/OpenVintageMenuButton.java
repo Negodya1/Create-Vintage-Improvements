@@ -8,16 +8,15 @@ import com.negodya1.vintageimprovements.VintageBlocks;
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.infrastructure.config.VintageConfig;
 import com.simibubi.create.foundation.config.ui.BaseConfigScreen;
-import com.simibubi.create.infrastructure.gui.CreateMainMenuScreen;
 import org.apache.commons.lang3.mutable.MutableObject;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.foundation.gui.ScreenOpener;
 import com.simibubi.create.foundation.utility.Components;
+import com.simibubi.create.infrastructure.config.AllConfigs;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -36,14 +35,14 @@ public class OpenVintageMenuButton extends Button {
 	public static final ItemStack ICON = VintageBlocks.BELT_GRINDER.asStack();
 
 	public OpenVintageMenuButton(int x, int y) {
-		super(x, y, 20, 20, Components.immutableEmpty(), OpenVintageMenuButton::click, DEFAULT_NARRATION);
+		super(x, y, 20, 20, Components.immutableEmpty(), OpenVintageMenuButton::click);
 	}
 
 	@Override
-	public void renderString(GuiGraphics graphics, Font pFont, int pColor) {
-		graphics.renderItem(ICON, getX() + 2, getY() + 2);
+	public void renderBg(PoseStack mstack, Minecraft mc, int mouseX, int mouseY) {
+		Minecraft.getInstance().getItemRenderer().renderGuiItem(ICON, x + 2, y + 2);
 	}
-	
+
 	public static void click(Button b) {
 		ScreenOpener.open(new BaseConfigScreen(Minecraft.getInstance().screen, VintageImprovements.MODID));
 	}
@@ -61,18 +60,18 @@ public class OpenVintageMenuButton extends Button {
 
 	public static class MenuRows {
 		public static final MenuRows MAIN_MENU = new MenuRows(Arrays.asList(
-			new SingleMenuRow("menu.singleplayer"),
-			new SingleMenuRow("menu.multiplayer"),
-			new SingleMenuRow("fml.menu.mods", "menu.online"),
-			new SingleMenuRow("narrator.button.language", "narrator.button.accessibility")
+				new SingleMenuRow("menu.singleplayer"),
+				new SingleMenuRow("menu.multiplayer"),
+				new SingleMenuRow("fml.menu.mods", "menu.online"),
+				new SingleMenuRow("narrator.button.language", "narrator.button.accessibility")
 		));
 
 		public static final MenuRows INGAME_MENU = new MenuRows(Arrays.asList(
-			new SingleMenuRow("menu.returnToGame"),
-			new SingleMenuRow("gui.advancements", "gui.stats"),
-			new SingleMenuRow("menu.sendFeedback", "menu.reportBugs"),
-			new SingleMenuRow("menu.options", "menu.shareToLan"),
-			new SingleMenuRow("menu.returnToMenu")
+				new SingleMenuRow("menu.returnToGame"),
+				new SingleMenuRow("gui.advancements", "gui.stats"),
+				new SingleMenuRow("menu.sendFeedback", "menu.reportBugs"),
+				new SingleMenuRow("menu.options", "menu.shareToLan"),
+				new SingleMenuRow("menu.returnToMenu")
 		));
 
 		protected final List<String> leftButtons, rightButtons;
@@ -87,7 +86,7 @@ public class OpenVintageMenuButton extends Button {
 	public static class OpenConfigButtonHandler {
 
 		@SubscribeEvent
-		public static void onGuiInit(ScreenEvent.Init event) {
+		public static void onGuiInit(ScreenEvent.InitScreenEvent event) {
 			Screen gui = event.getScreen();
 
 			MenuRows menu = null;
@@ -109,15 +108,15 @@ public class OpenVintageMenuButton extends Button {
 				int offsetX_ = offsetX;
 				MutableObject<GuiEventListener> toAdd = new MutableObject<>(null);
 				event.getListenersList()
-					.stream()
-					.filter(w -> w instanceof AbstractWidget)
-					.map(w -> (AbstractWidget) w)
-					.filter(w -> w.getMessage()
-						.getString()
-						.equals(target))
-					.findFirst()
-					.ifPresent(w -> toAdd
-						.setValue(new OpenVintageMenuButton(w.getX() + offsetX_ + (onLeft ? -20 : w.getWidth()), w.getY())));
+						.stream()
+						.filter(w -> w instanceof AbstractWidget)
+						.map(w -> (AbstractWidget) w)
+						.filter(w -> w.getMessage()
+								.getString()
+								.equals(target))
+						.findFirst()
+						.ifPresent(w -> toAdd
+								.setValue(new OpenVintageMenuButton(w.x + offsetX_ + (onLeft ? -20 : w.getWidth()), w.y)));
 				if (toAdd.getValue() != null)
 					event.addListener(toAdd.getValue());
 			}

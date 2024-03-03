@@ -117,10 +117,6 @@ public class CurvingBehaviour extends BeltProcessingBehaviour {
 		return mode == Mode.WORLD;
 	}
 
-	public boolean onBasin() {
-		return mode == Mode.BASIN;
-	}
-
 	@Override
 	public void tick() {
 		super.tick();
@@ -146,7 +142,7 @@ public class CurvingBehaviour extends BeltProcessingBehaviour {
 
 					for (ItemEntity itemEntity : level.getEntitiesOfClass(ItemEntity.class,
 						new AABB(worldPosition.below()).deflate(.125f))) {
-						if (!itemEntity.isAlive() || !itemEntity.onGround())
+						if (!itemEntity.isAlive() || !itemEntity.isOnGround())
 							continue;
 						if (!specifics.tryProcessInWorld(itemEntity, true))
 							continue;
@@ -211,7 +207,7 @@ public class CurvingBehaviour extends BeltProcessingBehaviour {
 		for (Entity entity : level.getEntities(null, bb)) {
 			if (!(entity instanceof ItemEntity itemEntity))
 				continue;
-			if (!entity.isAlive() || !entity.onGround())
+			if (!entity.isAlive() || !entity.isOnGround())
 				continue;
 
 			entityScanCooldown = 0;

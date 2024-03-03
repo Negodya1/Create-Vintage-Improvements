@@ -1,24 +1,26 @@
 package com.negodya1.vintageimprovements.content.kinetics.coiling;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
 
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintageRecipes;
 
+import com.simibubi.create.AllRecipeTypes;
 import com.simibubi.create.AllSoundEvents;
+import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.belt.behaviour.DirectBeltInputBehaviour;
 import com.simibubi.create.content.processing.recipe.ProcessingInventory;
 import com.simibubi.create.content.processing.sequenced.SequencedAssemblyRecipe;
+import com.simibubi.create.foundation.advancement.AllAdvancements;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import com.simibubi.create.foundation.blockEntity.behaviour.filtering.FilteringBehaviour;
 import com.simibubi.create.foundation.item.ItemHelper;
@@ -27,7 +29,9 @@ import com.simibubi.create.foundation.recipe.RecipeFinder;
 import com.simibubi.create.foundation.utility.*;
 import com.simibubi.create.infrastructure.config.AllConfigs;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.client.resources.sounds.Sound;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -35,12 +39,25 @@ import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.StonecutterRecipe;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.CactusBlock;
+import net.minecraft.world.level.block.ChorusPlantBlock;
+import net.minecraft.world.level.block.KelpBlock;
+import net.minecraft.world.level.block.KelpPlantBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.StemGrownBlock;
+import net.minecraft.world.level.block.SugarCaneBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -48,10 +65,12 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.registries.ForgeRegistries;
 
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.FACING;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
 @ParametersAreNonnullByDefault
@@ -64,6 +83,7 @@ public class CoilingBlockEntity extends KineticBlockEntity {
 	private int recipeIndex;
 	private final LazyOptional<IItemHandler> invProvider;
 	private FilteringBehaviour filtering;
+
 	private ItemStack playEvent;
 
 	public CoilingBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
@@ -188,7 +208,7 @@ public class CoilingBlockEntity extends KineticBlockEntity {
 			}
 		}
 
-		BlockPos nextPos = worldPosition.offset(BlockPos.containing(itemMovement));
+		BlockPos nextPos = worldPosition.offset(itemMovement.x, itemMovement.y, itemMovement.z);
 		DirectBeltInputBehaviour behaviour = BlockEntityBehaviour.get(level, nextPos, DirectBeltInputBehaviour.TYPE);
 		if (behaviour != null) {
 			boolean changed = false;
@@ -247,7 +267,7 @@ public class CoilingBlockEntity extends KineticBlockEntity {
 
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-		if (cap == ForgeCapabilities.ITEM_HANDLER)
+		if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
 			return invProvider.cast();
 		return super.getCapability(cap, side);
 	}
@@ -263,7 +283,7 @@ public class CoilingBlockEntity extends KineticBlockEntity {
 		else
 			particleData = new ItemParticleOption(ParticleTypes.ITEM, stack);
 
-		RandomSource r = level.random;
+		Random r = level.random;
 		Vec3 v = VecHelper.getCenterOf(this.worldPosition)
 			.add(0, 5 / 16f, 0);
 		for (int i = 0; i < 10; i++) {
@@ -313,7 +333,7 @@ public class CoilingBlockEntity extends KineticBlockEntity {
 		Optional<CoilingRecipe> assemblyRecipe = SequencedAssemblyRecipe.getRecipe(level, inventory.getStackInSlot(0),
 			VintageRecipes.COILING.getType(), CoilingRecipe.class);
 		if (assemblyRecipe.isPresent() && filtering.test(assemblyRecipe.get()
-			.getResultItem(level.registryAccess())))
+			.getResultItem()))
 			return ImmutableList.of(assemblyRecipe.get());
 
 		Predicate<Recipe<?>> types = RecipeConditions.isOfType(VintageRecipes.COILING.getType());
@@ -344,8 +364,6 @@ public class CoilingBlockEntity extends KineticBlockEntity {
 	}
 
 	public void start(ItemStack inserted) {
-		VintageImprovements.logThis("start");
-
 		if (inventory.isEmpty())
 			return;
 		if (level.isClientSide && !isVirtual())

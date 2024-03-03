@@ -3,7 +3,6 @@ package com.negodya1.vintageimprovements.infrastructure.config;
 import com.simibubi.create.foundation.config.ConfigBase;
 
 public class VCClient extends ConfigBase {
-
 	public final ConfigGroup client = group(0, "client",
 			Comments.client);
 

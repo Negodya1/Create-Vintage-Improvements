@@ -30,18 +30,21 @@ public class VintageBlockEntity {
             .validBlocks(VintageBlocks.BELT_GRINDER)
             .renderer(() -> GrinderRenderer::new)
             .register();
+
     public static final BlockEntityEntry<CoilingBlockEntity> COILING = MY_REGISTRATE
             .blockEntity("coiling", CoilingBlockEntity::new)
             .instance(() ->  CoilingInstance::new)
             .validBlocks(VintageBlocks.SPRING_COILING_MACHINE)
             .renderer(() -> CoilingRenderer::new)
             .register();
+
     public static final BlockEntityEntry<VacuumChamberBlockEntity> VACUUM = MY_REGISTRATE
             .blockEntity("vacuum_chamber", VacuumChamberBlockEntity::new)
             .instance(() ->  VacuumChamberInstance::new)
             .validBlocks(VintageBlocks.VACUUM_CHAMBER)
             .renderer(() -> VacuumChamberRenderer::new)
             .register();
+
     public static final BlockEntityEntry<VibratingTableBlockEntity> VIBRATION = MY_REGISTRATE
             .blockEntity("vibration", VibratingTableBlockEntity::new)
             .instance(() -> VibratingTableInstance::new)

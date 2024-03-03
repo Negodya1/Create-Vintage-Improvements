@@ -2,6 +2,7 @@ package com.negodya1.vintageimprovements.compat.jei.category;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.negodya1.vintageimprovements.compat.jei.VintageRecipeUtil;
 import com.negodya1.vintageimprovements.compat.jei.category.animations.AnimatedVacuumChamber;
 import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.PressurizingRecipe;
@@ -28,8 +29,6 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.fluids.FluidStack;
@@ -154,7 +153,7 @@ public class VacuumizingCategory extends BasinCategory {
 	}
 
 	@Override
-	public void draw(BasinRecipe recipe, IRecipeSlotsView iRecipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+	public void draw(BasinRecipe recipe, IRecipeSlotsView iRecipeSlotsView, PoseStack graphics, double mouseX, double mouseY) {
 		super.draw(recipe, iRecipeSlotsView, graphics, mouseX, mouseY);
 
 		if (recipe instanceof VacuumizingRecipe vrecipe) {

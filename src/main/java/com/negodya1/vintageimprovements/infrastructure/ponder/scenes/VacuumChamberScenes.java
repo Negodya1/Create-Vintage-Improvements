@@ -4,17 +4,31 @@ import com.google.common.collect.ImmutableList;
 import com.negodya1.vintageimprovements.VintageFluids;
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumChamberBlockEntity;
-import com.simibubi.create.AllBlockEntityTypes;
 import com.simibubi.create.AllBlocks;
-import com.simibubi.create.AllEntityTypes;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.content.fluids.tank.FluidTankBlockEntity;
+import com.simibubi.create.content.kinetics.deployer.DeployerBlockEntity;
+import com.simibubi.create.content.kinetics.millstone.MillstoneBlockEntity;
+import com.simibubi.create.content.kinetics.mixer.MechanicalMixerBlockEntity;
+import com.simibubi.create.content.kinetics.press.MechanicalPressBlockEntity;
+import com.simibubi.create.content.kinetics.press.PressingBehaviour.Mode;
+import com.simibubi.create.content.processing.basin.BasinBlock;
 import com.simibubi.create.content.processing.basin.BasinBlockEntity;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
+import com.simibubi.create.content.processing.burner.BlazeBurnerBlock.HeatLevel;
+import com.simibubi.create.content.processing.burner.LitBlazeBurnerBlock;
+import com.simibubi.create.foundation.ponder.ElementLink;
+import com.simibubi.create.foundation.ponder.PonderPalette;
 import com.simibubi.create.foundation.ponder.SceneBuilder;
 import com.simibubi.create.foundation.ponder.SceneBuildingUtil;
+import com.simibubi.create.foundation.ponder.Selection;
+import com.simibubi.create.foundation.ponder.element.BeltItemElement;
+import com.simibubi.create.foundation.ponder.element.EntityElement;
 import com.simibubi.create.foundation.ponder.element.InputWindowElement;
+import com.simibubi.create.foundation.ponder.element.WorldSectionElement;
+import com.simibubi.create.foundation.ponder.instruction.EmitParticlesInstruction.Emitter;
 import com.simibubi.create.foundation.utility.IntAttached;
+import com.simibubi.create.foundation.utility.Iterate;
 import com.simibubi.create.foundation.utility.NBTHelper;
 import com.simibubi.create.foundation.utility.Pointing;
 
@@ -62,13 +76,13 @@ public class VacuumChamberScenes {
 		ItemStack result = new ItemStack(Items.POWDER_SNOW_BUCKET);
 
 		scene.overlay.showText(60)
-			.pointAt(basinSide)
-			.placeNearTarget()
-			.attachKeyFrame()
-			.text("Compressor have two operating modes, that can be changed via right click with Wrench");
+				.pointAt(basinSide)
+				.placeNearTarget()
+				.attachKeyFrame()
+				.text("Compressor have two operating modes, that can be changed via right click with Wrench");
 		scene.idle(40);
 
-		ItemStack wrench = new ItemStack(AllItems.WRENCH);
+		ItemStack wrench = new ItemStack(AllItems.WRENCH.get());
 		scene.overlay.showControls(new InputWindowElement(util.vector.topOf(pressPos), Pointing.LEFT).withItem(wrench), 30);
 		scene.world.modifyBlockEntity(pressPos, VacuumChamberBlockEntity.class, VacuumChamberBlockEntity::changeMode);
 		scene.idle(40);
@@ -87,8 +101,8 @@ public class VacuumChamberScenes {
 		scene.idle(80);
 		scene.world.modifyBlockEntityNBT(util.select.position(basin), BasinBlockEntity.class, nbt -> {
 			nbt.put("VisualizedItems",
-				NBTHelper.writeCompoundList(ImmutableList.of(IntAttached.with(1, result)), ia -> ia.getValue()
-					.serializeNBT()));
+					NBTHelper.writeCompoundList(ImmutableList.of(IntAttached.with(1, result)), ia -> ia.getValue()
+							.serializeNBT()));
 		});
 		scene.idle(4);
 		scene.world.createItemOnBelt(util.grid.at(1, 1, 1), Direction.UP, result);
@@ -133,7 +147,7 @@ public class VacuumChamberScenes {
 		FluidStack dioxide = new FluidStack(VintageFluids.SULFUR_DIOXIDE.get(), 1000);
 
 		scene.overlay.showText(60)
-				.pointAt(compressor.getCenter())
+				.pointAt(util.vector.centerOf(compressor))
 				.placeNearTarget()
 				.attachKeyFrame()
 				.text("Some recipes fluid results appear inside Compressor block");
@@ -147,7 +161,7 @@ public class VacuumChamberScenes {
 		scene.idle(40);
 
 		scene.overlay.showText(60)
-				.pointAt(compressor.getCenter())
+				.pointAt(util.vector.centerOf(compressor))
 				.placeNearTarget()
 				.attachKeyFrame()
 				.text("To drain results you must use Mechanical Pump");
@@ -165,14 +179,14 @@ public class VacuumChamberScenes {
 		scene.idle(30);
 
 		scene.overlay.showText(35)
-				.pointAt(compressor.getCenter())
+				.pointAt(util.vector.centerOf(compressor))
 				.placeNearTarget()
 				.attachKeyFrame()
 				.text("Some recipes require fluids inside the Compressor");
 		scene.idle(40);
 
 		scene.overlay.showText(35)
-				.pointAt(compressor.getCenter())
+				.pointAt(util.vector.centerOf(compressor))
 				.placeNearTarget()
 				.attachKeyFrame()
 				.text("You can fill the Compressor using a Mechanical Pump");

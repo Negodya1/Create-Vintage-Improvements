@@ -1,5 +1,6 @@
 package com.negodya1.vintageimprovements.compat.jei.category;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.negodya1.vintageimprovements.compat.jei.category.animations.AnimatedCurvingPress;
 import com.negodya1.vintageimprovements.content.kinetics.curving_press.CurvingRecipe;
 import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
@@ -9,7 +10,6 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
@@ -33,7 +33,7 @@ public class AutoCurvingCategory extends CreateRecipeCategory<CraftingRecipe> {
 				.setBackground(getRenderedSlot(), -1, -1)
 				.addIngredients(recipe.getIngredients().get(0));
 
-		ProcessingOutput output = new ProcessingOutput(new ItemStack(recipe.getResultItem(RegistryAccess.EMPTY).getItem()), 1);
+		ProcessingOutput output = new ProcessingOutput(new ItemStack(recipe.getResultItem().getItem()), 1);
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 131, 50)
 				.setBackground(getRenderedSlot(output), -1, -1)
@@ -42,7 +42,7 @@ public class AutoCurvingCategory extends CreateRecipeCategory<CraftingRecipe> {
 	}
 
 	@Override
-	public void draw(CraftingRecipe recipe, IRecipeSlotsView iRecipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+	public void draw(CraftingRecipe recipe, IRecipeSlotsView iRecipeSlotsView, PoseStack graphics, double mouseX, double mouseY) {
 		AllGuiTextures.JEI_SHADOW.render(graphics, 61, 41);
 		AllGuiTextures.JEI_LONG_ARROW.render(graphics, 52, 54);
 

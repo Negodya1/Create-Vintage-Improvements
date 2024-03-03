@@ -3,8 +3,13 @@ package com.negodya1.vintageimprovements.content.kinetics.vibration;
 import com.negodya1.vintageimprovements.VintageBlockEntity;
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintageShapes;
+import com.simibubi.create.AllShapes;
+import com.simibubi.create.Create;
+import com.simibubi.create.content.fluids.transfer.GenericItemEmptying;
+import com.simibubi.create.content.fluids.transfer.GenericItemFilling;
 import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
 import com.simibubi.create.foundation.block.IBE;
+import com.simibubi.create.foundation.utility.Components;
 import com.simibubi.create.foundation.utility.Iterate;
 import com.simibubi.create.foundation.utility.VoxelShaper;
 import net.minecraft.ChatFormatting;
@@ -12,13 +17,15 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -32,8 +39,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
@@ -136,7 +143,7 @@ public class VibratingTableBlock extends HorizontalKineticBlock implements IBE<V
 	public void updateEntityAfterFallOn(BlockGetter worldIn, Entity entityIn) {
 		super.updateEntityAfterFallOn(worldIn, entityIn);
 
-		if (entityIn.level().isClientSide)
+		if (entityIn.level.isClientSide)
 			return;
 		if (!(entityIn instanceof ItemEntity))
 			return;
@@ -152,7 +159,7 @@ public class VibratingTableBlock extends HorizontalKineticBlock implements IBE<V
 			return;
 
 		ItemEntity itemEntity = (ItemEntity) entityIn;
-		LazyOptional<IItemHandler> capability = vibratingtable.getCapability(ForgeCapabilities.ITEM_HANDLER);
+		LazyOptional<IItemHandler> capability = vibratingtable.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
 		if (!capability.isPresent())
 			return;
 
@@ -168,6 +175,6 @@ public class VibratingTableBlock extends HorizontalKineticBlock implements IBE<V
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void appendHoverText(ItemStack itemStack, @Nullable BlockGetter getter, List<Component> list, TooltipFlag flag) {
-		list.add(Component.translatable(VintageImprovements.MODID + ".item_description.machine_rpm_requirements").append(" " + SpeedLevel.FAST.getSpeedValue()).withStyle(ChatFormatting.GOLD));
+		list.add(Components.translatable(VintageImprovements.MODID + ".item_description.machine_rpm_requirements").append(" " + SpeedLevel.FAST.getSpeedValue()).withStyle(ChatFormatting.GOLD));
 	}
 }

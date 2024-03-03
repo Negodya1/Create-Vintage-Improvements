@@ -1,7 +1,6 @@
 package com.negodya1.vintageimprovements.infrastructure.ponder.scenes;
 
 import com.mojang.datafixers.functions.PointFreeRule;
-import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintageItems;
 import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugeBlockEntity;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingTableBlockEntity;
@@ -55,7 +54,7 @@ public class CentrifugeScenes {
 				.placeNearTarget();
 		scene.idle(10);
 
-		ItemStack basin = new ItemStack(AllBlocks.BASIN.asItem());
+		ItemStack basin = new ItemStack(AllBlocks.BASIN.get().asItem());
 
 		for (int i = 0; i < 4; i++) {
 			scene.overlay.showControls(
@@ -98,7 +97,7 @@ public class CentrifugeScenes {
 		scene.overlay.showText(40)
 				.attachKeyFrame()
 				.text("Items and Fluids сan only be inserted when Centrifuge is stopped")
-				.pointAt(centrifuge.north().getCenter())
+				.pointAt(util.vector.centerOf(centrifuge.north()))
 				.placeNearTarget();
 		scene.idle(50);
 		scene.world.modifyEntity(entity1, Entity::discard);
@@ -138,14 +137,14 @@ public class CentrifugeScenes {
 		scene.overlay.showText(40)
 				.attachKeyFrame()
 				.text("The result can be extracted via Right-click or automatization...")
-				.pointAt(centrifuge.north().getCenter())
+				.pointAt(util.vector.centerOf(centrifuge.north()))
 				.placeNearTarget();
 		scene.idle(50);
 
 		scene.overlay.showText(40)
 				.attachKeyFrame()
 				.text("...but only when Centrifuge is stopped")
-				.pointAt(centrifuge.north().getCenter())
+				.pointAt(util.vector.centerOf(centrifuge.north()))
 				.placeNearTarget();
 
 		scene.idle(10);
@@ -161,7 +160,7 @@ public class CentrifugeScenes {
 		scene.world.modifyBlockEntity(centrifuge, CentrifugeBlockEntity.class,
 				ms -> ms.inputInv.setStackInSlot(0, ItemStack.EMPTY));
 
-		scene.world.createItemEntity(util.grid.at(0, 1, 1).getCenter(), new Vec3(0, 0.2, 0), pearl);
+		scene.world.createItemEntity(util.vector.centerOf(util.grid.at(0, 1, 1)), new Vec3(0, 0.2, 0), pearl);
 		scene.idle(15);
 
 		scene.world.showSection(util.select.fromTo(1, 4, 2, 2, 4, 3), Direction.DOWN);

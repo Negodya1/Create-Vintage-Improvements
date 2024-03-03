@@ -1,6 +1,5 @@
 package com.negodya1.vintageimprovements;
 
-import com.blamejared.crafttweaker.api.recipe.RecipeList;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.PolishingRecipe;
 import com.simibubi.create.content.equipment.sandPaper.SandPaperPolishingRecipe;
 import com.simibubi.create.foundation.utility.VecHelper;
@@ -87,12 +86,8 @@ public class VintageRecipesList {
     }
 
     static public boolean isPolishing(Recipe<?> r) {
-        if (polishing == null) return true;
-        if (polishing.isEmpty()) return true;
-
         for (PolishingRecipe recipe : polishing)
-            for (ItemStack stack : r.getIngredients().get(0).getItems())
-                if (recipe.getIngredients().get(0).test(stack)) return false;
+            if (recipe.getResultItem().getItem() == r.getResultItem().getItem())  return false;
 
         return true;
     }

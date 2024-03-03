@@ -1,7 +1,7 @@
 package com.negodya1.vintageimprovements.compat.jei.category.animations;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
+import com.mojang.math.Vector3f;
 import com.negodya1.vintageimprovements.VintageBlocks;
 import com.negodya1.vintageimprovements.VintagePartialModels;
 import com.simibubi.create.AllBlocks;
@@ -9,35 +9,33 @@ import com.simibubi.create.AllPartialModels;
 import com.simibubi.create.compat.jei.category.animations.AnimatedKinetics;
 import com.simibubi.create.foundation.utility.AnimationTickHolder;
 
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Position;
 
 public class AnimatedCurvingPress extends AnimatedKinetics {
 
 	public AnimatedCurvingPress() {}
 
-	@Override
-	public void draw(GuiGraphics graphics, int xOffset, int yOffset) {
-		PoseStack matrixStack = graphics.pose();
+	public void draw(PoseStack matrixStack, int xOffset, int yOffset) {
 		matrixStack.pushPose();
 		matrixStack.translate(xOffset, yOffset, 200);
-		matrixStack.mulPose(Axis.XP.rotationDegrees(-15.5f));
-		matrixStack.mulPose(Axis.YP.rotationDegrees(22.5f));
+		matrixStack.mulPose(Vector3f.XP.rotationDegrees(-15.5f));
+		matrixStack.mulPose(Vector3f.YP.rotationDegrees(22.5f));
 		int scale = 24;
 
 		blockElement(shaft(Direction.Axis.Z))
 				.rotateBlock(0, 0, getCurrentAngle())
 				.scale(scale)
-				.render(graphics);
+				.render(matrixStack);
 
 		blockElement(VintageBlocks.CURVING_PRESS.getDefaultState())
 				.scale(scale)
-				.render(graphics);
+				.render(matrixStack);
 
 		blockElement(VintagePartialModels.CURVING_HEAD)
 				.atLocal(0, -getAnimatedHeadOffset(), 0)
 				.scale(scale)
-				.render(graphics);
+				.render(matrixStack);
 
 		matrixStack.popPose();
 	}

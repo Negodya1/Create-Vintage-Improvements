@@ -1,10 +1,13 @@
 package com.negodya1.vintageimprovements.infrastructure.ponder.scenes;
 
+import com.negodya1.vintageimprovements.VintageBlocks;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderBlockEntity;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
+import com.simibubi.create.content.kinetics.saw.SawBlockEntity;
 import com.simibubi.create.content.kinetics.simpleRelays.ShaftBlock;
 import com.simibubi.create.foundation.ponder.ElementLink;
+import com.simibubi.create.foundation.ponder.PonderPalette;
 import com.simibubi.create.foundation.ponder.SceneBuilder;
 import com.simibubi.create.foundation.ponder.SceneBuildingUtil;
 import com.simibubi.create.foundation.ponder.Selection;
@@ -19,6 +22,8 @@ import net.minecraft.core.Direction.Axis;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 
 public class BeltGrinderScenes {
@@ -49,8 +54,8 @@ public class BeltGrinderScenes {
 			.placeNearTarget();
 		scene.idle(45);
 
-		ItemStack quartz = new ItemStack(AllItems.ROSE_QUARTZ);
-		ItemStack polished = new ItemStack(AllItems.POLISHED_ROSE_QUARTZ);
+		ItemStack quartz = new ItemStack(AllItems.ROSE_QUARTZ.get());
+		ItemStack polished = new ItemStack(AllItems.POLISHED_ROSE_QUARTZ.get());
 
 		Vec3 itemSpawn = util.vector.centerOf(grinderPos.above().west());
 		ElementLink<EntityElement> quartzItem = scene.world.createItemEntity(itemSpawn, util.vector.of(0, 0, 0), quartz);

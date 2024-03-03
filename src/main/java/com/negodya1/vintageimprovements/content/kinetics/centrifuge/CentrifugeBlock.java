@@ -19,7 +19,6 @@ import net.minecraft.core.Direction.Axis;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -31,22 +30,24 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.ComparatorBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.levelgen.RandomSource;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
+
+import java.util.Random;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.AXIS;
 
@@ -68,7 +69,7 @@ public class CentrifugeBlock extends KineticBlock implements IBE<CentrifugeBlock
 
 		return onBlockEntityUse(worldIn, pos, be -> {
 			if (!heldItem.isEmpty()) {
-				if (player.getItemInHand(handIn).getItem() == AllBlocks.BASIN.asItem()) {
+				if (player.getItemInHand(handIn).getItem() == AllBlocks.BASIN.get().asItem()) {
 					if (be.addBasin(player.getItemInHand(handIn))) {
 						player.getItemInHand(handIn).shrink(1);
 						return InteractionResult.SUCCESS;
@@ -95,7 +96,7 @@ public class CentrifugeBlock extends KineticBlock implements IBE<CentrifugeBlock
 					return InteractionResult.SUCCESS;
 				if (heldItem.getItem()
 						.equals(Items.SPONGE)
-						&& !be.getCapability(ForgeCapabilities.FLUID_HANDLER)
+						&& !be.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
 						.map(iFluidHandler -> iFluidHandler.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE))
 						.orElse(FluidStack.EMPTY)
 						.isEmpty()) {
@@ -167,7 +168,7 @@ public class CentrifugeBlock extends KineticBlock implements IBE<CentrifugeBlock
 						continue;
 					BlockState occupiedState = context.getLevel()
 							.getBlockState(pos.offset(offset));
-					if (!occupiedState.canBeReplaced())
+					if (!occupiedState.canBeReplaced(context))
 						return null;
 				}
 			}
@@ -185,7 +186,7 @@ public class CentrifugeBlock extends KineticBlock implements IBE<CentrifugeBlock
 	}
 
 	@Override
-	public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
+	public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, Random pRandom) {
 		Axis axis = Axis.Y;
 		for (Direction side : Iterate.directions) {
 			if (side.getAxis() == axis)
@@ -198,7 +199,8 @@ public class CentrifugeBlock extends KineticBlock implements IBE<CentrifugeBlock
 						.setValue(CentrifugeStructuralBlock.FACING, targetSide.getOpposite());
 				if (occupiedState == requiredStructure)
 					continue;
-				if (!occupiedState.canBeReplaced()) {
+				if (!occupiedState.getMaterial()
+						.isReplaceable()) {
 					pLevel.destroyBlock(pPos, false);
 					return;
 				}

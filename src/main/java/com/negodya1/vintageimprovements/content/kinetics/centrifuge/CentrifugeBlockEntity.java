@@ -7,12 +7,9 @@ import com.negodya1.vintageimprovements.foundation.utility.VintageLang;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.kinetics.base.IRotate;
-import com.simibubi.create.content.processing.basin.BasinBlockEntity;
-import com.simibubi.create.content.processing.basin.BasinRecipe;
 import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import com.simibubi.create.foundation.fluid.CombinedTankWrapper;
 import com.simibubi.create.foundation.fluid.FluidHelper;
-import com.simibubi.create.foundation.fluid.FluidIngredient;
 import com.simibubi.create.foundation.recipe.RecipeFinder;
 import com.simibubi.create.foundation.utility.*;
 import com.simibubi.create.foundation.utility.animation.LerpedFloat;
@@ -29,31 +26,26 @@ import com.simibubi.create.foundation.item.SmartInventory;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.*;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 
@@ -106,7 +98,7 @@ public class CentrifugeBlockEntity extends KineticBlockEntity implements IHaveGo
 
 	public boolean addBasin(ItemStack items) {
 		if (basins >= 4) return false;
-		if (items.getItem() != AllBlocks.BASIN.asItem()) return false;
+		if (items.getItem() != AllBlocks.BASIN.get().asItem()) return false;
 		basins += 1;
 		return true;
 	}
@@ -177,16 +169,6 @@ public class CentrifugeBlockEntity extends KineticBlockEntity implements IHaveGo
 		visualizedOutputItems.clear();
 	}
 
-	@Override
-	protected AABB createRenderBoundingBox() {
-		return new AABB(worldPosition).inflate(2);
-	}
-
-	private void tickVisualizedOutputs() {
-		visualizedOutputItems.forEach(IntAttached::decrement);
-		visualizedOutputItems.removeIf(IntAttached::isOrBelowZero);
-	}
-
 	protected <C extends Container> boolean matchCentrifugeRecipe(Recipe<C> recipe) {
 		if (recipe == null)
 			return false;
@@ -222,6 +204,16 @@ public class CentrifugeBlockEntity extends KineticBlockEntity implements IHaveGo
 		if (inputInv.isEmpty() && inputTank.isEmpty()) return false;
 
 		return CentrifugationRecipe.match(this, recipes.get(0));
+	}
+
+	@Override
+	protected AABB createRenderBoundingBox() {
+		return new AABB(worldPosition).inflate(2);
+	}
+
+	private void tickVisualizedOutputs() {
+		visualizedOutputItems.forEach(IntAttached::decrement);
+		visualizedOutputItems.removeIf(IntAttached::isOrBelowZero);
 	}
 
 	@Override
@@ -264,12 +256,9 @@ public class CentrifugeBlockEntity extends KineticBlockEntity implements IHaveGo
 			}
 		}
 
-		if (inputInv.getStackInSlot(0)
-				.isEmpty() && inputTank.isEmpty())
-			return;
+		if (inputInv.getStackInSlot(0).isEmpty() && inputTank.isEmpty()) return;
 
 		if (lastRecipe == null || !CentrifugationRecipe.match(this, lastRecipe)) {
-
 			Optional<CentrifugationRecipe> assemblyRecipe = SequencedAssemblyRecipe.getRecipe(level, inputInv,
 					VintageRecipes.CENTRIFUGATION.getType(), CentrifugationRecipe.class);
 
@@ -328,9 +317,9 @@ public class CentrifugeBlockEntity extends KineticBlockEntity implements IHaveGo
 
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-		if (cap == ForgeCapabilities.ITEM_HANDLER)
+		if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
 			return capability.cast();
-		if (cap == ForgeCapabilities.FLUID_HANDLER)
+		if (cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
 			return fluidCapability.cast();
 		return super.getCapability(cap, side);
 	}
@@ -538,8 +527,7 @@ public class CentrifugeBlockEntity extends KineticBlockEntity implements IHaveGo
 
 			if (lastRecipe != null) if (lastRecipe.minimalRPM > Mth.abs(getSpeed()))
 				VintageLang.translate("gui.goggles.not_enough_rpm")
-					.add(Lang.text(" ")).add(Lang.number(lastRecipe.minimalRPM)).style(ChatFormatting.RED).forGoggles(tooltip);
-
+						.add(Lang.text(" ")).add(Lang.number(lastRecipe.minimalRPM)).style(ChatFormatting.RED).forGoggles(tooltip);
 
 			IItemHandlerModifiable items = capability.orElse(new ItemStackHandler());
 			IFluidHandler fluids = fluidCapability.orElse(new FluidTank(0));

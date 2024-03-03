@@ -5,12 +5,13 @@ import com.jozufozu.flywheel.api.MaterialManager;
 import com.jozufozu.flywheel.api.instance.DynamicInstance;
 import com.jozufozu.flywheel.core.materials.oriented.OrientedData;
 import com.negodya1.vintageimprovements.VintagePartialModels;
+import com.simibubi.create.AllPartialModels;
 import com.simibubi.create.content.kinetics.base.flwdata.RotatingData;
 import com.simibubi.create.content.kinetics.simpleRelays.encased.EncasedCogInstance;
 import com.simibubi.create.foundation.render.AllMaterialSpecs;
 import com.simibubi.create.foundation.utility.AnimationTickHolder;
-import net.minecraft.world.entity.monster.warden.AngerLevel;
-import net.minecraft.world.level.block.state.BlockState;
+
+import net.minecraft.core.Direction;
 
 public class VacuumChamberInstance extends EncasedCogInstance implements DynamicInstance {
 

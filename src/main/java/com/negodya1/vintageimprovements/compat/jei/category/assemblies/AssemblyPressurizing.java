@@ -11,7 +11,6 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import net.minecraft.client.gui.GuiGraphics;
 
 import static com.simibubi.create.compat.jei.category.CreateRecipeCategory.getRenderedSlot;
 
@@ -47,12 +46,11 @@ public class AssemblyPressurizing extends SequencedAssemblySubCategory {
     }
 
     @Override
-    public void draw(SequencedRecipe<?> recipe, GuiGraphics graphics, double mouseX, double mouseY, int index) {
-        PoseStack ms = graphics.pose();
+    public void draw(SequencedRecipe<?> recipe, PoseStack ms, double mouseX, double mouseY, int index) {
         ms.pushPose();
         ms.translate(-4, 31, 0);
         ms.scale(.6f, .6f, .6f);
-        vacuum.draw(graphics, getWidth() / 2, 30, true);
+        vacuum.draw(ms, getWidth() / 2, 30, true);
         ms.popPose();
     }
 

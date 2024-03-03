@@ -1,14 +1,13 @@
 package com.negodya1.vintageimprovements.content.kinetics.grinder;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintageRecipes;
@@ -22,6 +21,7 @@ import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.belt.behaviour.DirectBeltInputBehaviour;
 import com.simibubi.create.content.processing.recipe.ProcessingInventory;
 import com.simibubi.create.content.processing.sequenced.SequencedAssemblyRecipe;
+import com.simibubi.create.foundation.advancement.AllAdvancements;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import com.simibubi.create.foundation.blockEntity.behaviour.filtering.FilteringBehaviour;
 import com.simibubi.create.foundation.item.ItemHelper;
@@ -34,27 +34,22 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.game.ClientboundMoveEntityPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.StonecutterRecipe;
-import net.minecraft.world.level.block.BambooStalkBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CactusBlock;
 import net.minecraft.world.level.block.ChorusPlantBlock;
@@ -70,8 +65,8 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -101,14 +96,6 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 		invProvider = LazyOptional.of(() -> inventory);
 		playEvent = ItemStack.EMPTY;
 		textureType = 0;
-	}
-
-	public boolean canCraft(ItemStack stack) {
-		List<PolishingRecipe> recipes = level.getRecipeManager().getAllRecipesFor(VintageRecipes.POLISHING.getType());
-		for (PolishingRecipe recipe : recipes) {
-			if (recipe.getResultItem(RegistryAccess.EMPTY) == stack) return true;
-		}
-		return false;
 	}
 
 	@Override
@@ -228,7 +215,7 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 			}
 		}
 
-		BlockPos nextPos = worldPosition.offset(BlockPos.containing(itemMovement));
+		BlockPos nextPos = worldPosition.offset(itemMovement.x, itemMovement.y, itemMovement.z);
 		DirectBeltInputBehaviour behaviour = BlockEntityBehaviour.get(level, nextPos, DirectBeltInputBehaviour.TYPE);
 		if (behaviour != null) {
 			boolean changed = false;
@@ -287,7 +274,7 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-		if (cap == ForgeCapabilities.ITEM_HANDLER)
+		if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
 			return invProvider.cast();
 		return super.getCapability(cap, side);
 	}
@@ -303,7 +290,7 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 		else
 			particleData = new ItemParticleOption(ParticleTypes.ITEM, stack);
 
-		RandomSource r = level.random;
+		Random r = level.random;
 		Vec3 v = VecHelper.getCenterOf(this.worldPosition)
 			.add(0, 5 / 16f, 0);
 		for (int i = 0; i < 10; i++) {
@@ -326,7 +313,7 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 			speed = .125f;
 		}
 
-		RandomSource r = level.random;
+		Random r = level.random;
 		Vec3 vec = getItemMovementVec();
 		Vec3 pos = VecHelper.getCenterOf(this.worldPosition);
 		float offset = inventory.recipeDuration != 0 ? (float) (inventory.remainingTime) / inventory.recipeDuration : 0;
@@ -342,13 +329,6 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 				getBlockState().getValue(HORIZONTAL_FACING) == Direction.EAST;
 		int offset = getSpeed() < 0 ? -1 : 1;
 		return new Vec3(offset * (alongX ? 0 : 1), 0, offset * (alongX ? -1 : 0));
-	}
-
-	public int getCurrentSpeedMode() {
-		if (getSpeed() == 0) return 0;
-		if (Mth.abs(getSpeed()) <= VintageConfig.server().recipes.lowSpeedValue.get()) return 1;
-		if (Mth.abs(getSpeed()) <= VintageConfig.server().recipes.mediumSpeedValue.get()) return 2;
-		return 3;
 	}
 
 	private void applyRecipe() {
@@ -414,7 +394,7 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 		}
 
 		int rolls = inventory.getStackInSlot(0)
-			.getCount();
+				.getCount();
 		inventory.clear();
 
 		List<ItemStack> list = new ArrayList<>();
@@ -428,16 +408,16 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 				ItemHelper.addToList(stack, list);
 			}
 		}
-		
-		for (int slot = 0; slot < list.size() && slot + 1 < inventory.getSlots(); slot++) 
+
+		for (int slot = 0; slot < list.size() && slot + 1 < inventory.getSlots(); slot++)
 			inventory.setStackInSlot(slot + 1, list.get(slot));
 	}
 
 	private List<? extends Recipe<?>> getRecipes() {
 		Optional<PolishingRecipe> assemblyRecipe = SequencedAssemblyRecipe.getRecipe(level, inventory.getStackInSlot(0),
-			VintageRecipes.POLISHING.getType(), PolishingRecipe.class);
+				VintageRecipes.POLISHING.getType(), PolishingRecipe.class);
 		if (assemblyRecipe.isPresent() && filtering.test(assemblyRecipe.get()
-			.getResultItem(level.registryAccess())))
+				.getResultItem()))
 			return ImmutableList.of(assemblyRecipe.get());
 
 		Predicate<Recipe<?>> types = RecipeConditions.isOfType(VintageRecipes.POLISHING.getType(),
@@ -465,6 +445,13 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 		if (!grinder.isEmpty()) return grinder;
 		if (!grinderWrongSpeed.isEmpty()) return grinderWrongSpeed;
 		return sandpaper;
+	}
+
+	public int getCurrentSpeedMode() {
+		if (getSpeed() == 0) return 0;
+		if (Mth.abs(getSpeed()) <= VintageConfig.server().recipes.lowSpeedValue.get()) return 1;
+		if (Mth.abs(getSpeed()) <= VintageConfig.server().recipes.mediumSpeedValue.get()) return 2;
+		return 3;
 	}
 
 	public void insertItem(ItemEntity entity) {

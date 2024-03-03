@@ -1,6 +1,7 @@
 package com.negodya1.vintageimprovements.content.kinetics.centrifuge;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -13,7 +14,6 @@ import com.simibubi.create.content.fluids.transfer.GenericItemEmptying;
 import com.simibubi.create.content.fluids.transfer.GenericItemFilling;
 import com.simibubi.create.foundation.block.IBE;
 import com.simibubi.create.foundation.fluid.FluidHelper;
-import com.simibubi.create.foundation.item.ItemHelper;
 import com.simibubi.create.foundation.utility.Iterate;
 import com.simibubi.create.foundation.utility.VoxelShaper;
 import net.minecraft.sounds.SoundEvents;
@@ -26,10 +26,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.client.IBlockRenderProperties;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
@@ -45,7 +47,6 @@ import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -65,7 +66,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.extensions.common.IClientBlockExtensions;
 
 public class CentrifugeStructuralBlock extends DirectionalBlock implements IBE<CentrifugeStructuralBlockEntity>, IWrenchable, IProxyHoveringInformation {
 	public static final VoxelShaper CENTRIFUGE_SHAPE = VintageShapes.shape(0, 2, 0, 16, 14, 16).forDirectional();
@@ -158,7 +158,7 @@ public class CentrifugeStructuralBlock extends DirectionalBlock implements IBE<C
 			return InteractionResult.SUCCESS;
 		if (pPlayer.getItemInHand(pHand).getItem()
 				.equals(Items.SPONGE)
-				&& wwt.getCapability(ForgeCapabilities.FLUID_HANDLER)
+				&& wwt.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
 				.map(iFluidHandler -> iFluidHandler.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE))
 				.orElse(FluidStack.EMPTY)
 				.isEmpty()) {
@@ -205,8 +205,8 @@ public class CentrifugeStructuralBlock extends DirectionalBlock implements IBE<C
 		if (stillValid(pLevel, pCurrentPos, pState, false)) {
 			BlockPos masterPos = getMaster(pLevel, pCurrentPos, pState);
 			if (!pLevel.getBlockTicks()
-					.hasScheduledTick(masterPos, VintageBlocks.CENTRIFUGE.get()))
-				pLevel.scheduleTick(masterPos, VintageBlocks.CENTRIFUGE.get(), 1);
+					.hasScheduledTick(masterPos, AllBlocks.LARGE_WATER_WHEEL.get()))
+				pLevel.scheduleTick(masterPos, AllBlocks.LARGE_WATER_WHEEL.get(), 1);
 			return pState;
 		}
 		if (!(pLevel instanceof Level level) || level.isClientSide())
@@ -240,15 +240,13 @@ public class CentrifugeStructuralBlock extends DirectionalBlock implements IBE<C
 	}
 
 	@Override
-	public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
-		if (!stillValid(pLevel, pPos, pState, false)) {
-			getBlockEntity(pLevel, pPos);
+	public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, Random pRandom) {
+		if (!stillValid(pLevel, pPos, pState, false))
 			pLevel.setBlockAndUpdate(pPos, Blocks.AIR.defaultBlockState());
-		}
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public void initializeClient(Consumer<IClientBlockExtensions> consumer) {
+	public void initializeClient(Consumer<IBlockRenderProperties> consumer) {
 		consumer.accept(new RenderProperties());
 	}
 
@@ -258,7 +256,7 @@ public class CentrifugeStructuralBlock extends DirectionalBlock implements IBE<C
 		return true;
 	}
 
-	public static class RenderProperties implements IClientBlockExtensions, MultiPosDestructionHandler {
+	public static class RenderProperties implements IBlockRenderProperties, MultiPosDestructionHandler {
 
 		@Override
 		public boolean addDestroyEffects(BlockState state, Level Level, BlockPos pos, ParticleEngine manager) {
@@ -274,7 +272,7 @@ public class CentrifugeStructuralBlock extends DirectionalBlock implements IBE<C
 					manager.crack(CentrifugeStructuralBlock.getMaster(level, targetPos, state), bhr.getDirection());
 				return true;
 			}
-			return IClientBlockExtensions.super.addHitEffects(state, level, target, manager);
+			return IBlockRenderProperties.super.addHitEffects(state, level, target, manager);
 		}
 
 		@Override
@@ -298,7 +296,7 @@ public class CentrifugeStructuralBlock extends DirectionalBlock implements IBE<C
 	public void updateEntityAfterFallOn(BlockGetter worldIn, Entity entityIn) {
 		super.updateEntityAfterFallOn(worldIn, entityIn);
 
-		if (entityIn.level().isClientSide)
+		if (entityIn.level.isClientSide)
 			return;
 		if (!(entityIn instanceof ItemEntity))
 			return;
@@ -316,7 +314,7 @@ public class CentrifugeStructuralBlock extends DirectionalBlock implements IBE<C
 		if (centrifuge.getBasins() < 4 || centrifuge.getSpeed() != 0) return;
 
 		ItemEntity itemEntity = (ItemEntity) entityIn;
-		LazyOptional<IItemHandler> capability = centrifuge.getCapability(ForgeCapabilities.ITEM_HANDLER);
+		LazyOptional<IItemHandler> capability = centrifuge.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
 		if (!capability.isPresent())
 			return;
 

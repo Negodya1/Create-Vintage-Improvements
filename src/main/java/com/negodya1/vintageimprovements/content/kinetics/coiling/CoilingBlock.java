@@ -1,8 +1,13 @@
 package com.negodya1.vintageimprovements.content.kinetics.coiling;
 
+import static net.minecraft.core.Direction.EAST;
+import static net.minecraft.core.Direction.UP;
+
 import com.negodya1.vintageimprovements.VintageBlockEntity;
+import com.negodya1.vintageimprovements.VintageBlocks;
 import com.negodya1.vintageimprovements.VintageShapes;
 
+import com.simibubi.create.AllShapes;
 import com.simibubi.create.content.kinetics.base.HorizontalKineticBlock;
 import com.simibubi.create.foundation.block.IBE;
 
@@ -15,11 +20,16 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+
+import java.util.function.BiFunction;
 
 public class CoilingBlock extends HorizontalKineticBlock implements IBE<CoilingBlockEntity> {
 	public static final VoxelShaper COILING_MACHINE_SHAPE = VintageShapes.shape(0,0,14,16,16,16).add(0,0,2,16,11,14).forDirectional();
@@ -76,11 +86,11 @@ public class CoilingBlock extends HorizontalKineticBlock implements IBE<CoilingB
 		super.updateEntityAfterFallOn(worldIn, entityIn);
 		if (!(entityIn instanceof ItemEntity))
 			return;
-		if (entityIn.level().isClientSide)
+		if (entityIn.level.isClientSide)
 			return;
 
 		BlockPos pos = entityIn.blockPosition();
-		withBlockEntityDo(entityIn.level(), pos, be -> {
+		withBlockEntityDo(entityIn.level, pos, be -> {
 			if (be.getSpeed() == 0)
 				return;
 			be.insertItem((ItemEntity) entityIn);

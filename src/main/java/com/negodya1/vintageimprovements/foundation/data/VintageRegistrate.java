@@ -1,79 +1,68 @@
 package com.negodya1.vintageimprovements.foundation.data;
 
+import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
+
+import java.util.function.*;
+
+import com.simibubi.create.foundation.data.BlockStateGen;
+import com.simibubi.create.foundation.data.CreateBlockEntityBuilder;
+import com.simibubi.create.foundation.data.CreateEntityBuilder;
+import com.simibubi.create.foundation.data.VirtualFluidBuilder;
+import com.tterrag.registrate.util.nullness.NonNullBiFunction;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.fluids.FluidAttributes;
+import net.minecraftforge.registries.IForgeRegistryEntry;
+import org.jetbrains.annotations.Nullable;
+
 import com.simibubi.create.CreateClient;
 import com.simibubi.create.content.decoration.encasing.CasingConnectivity;
 import com.simibubi.create.content.fluids.VirtualFluid;
 import com.simibubi.create.foundation.block.connected.CTModel;
 import com.simibubi.create.foundation.block.connected.ConnectedTextureBehaviour;
-import com.simibubi.create.foundation.data.BlockStateGen;
-import com.simibubi.create.foundation.data.CreateBlockEntityBuilder;
-import com.simibubi.create.foundation.data.CreateEntityBuilder;
-import com.simibubi.create.foundation.data.VirtualFluidBuilder;
 import com.simibubi.create.foundation.item.TooltipModifier;
 import com.simibubi.create.foundation.utility.RegisteredObjects;
 import com.tterrag.registrate.AbstractRegistrate;
 import com.tterrag.registrate.builders.BlockBuilder;
-import com.tterrag.registrate.builders.BlockEntityBuilder;
+import com.tterrag.registrate.builders.BlockEntityBuilder.BlockEntityFactory;
 import com.tterrag.registrate.builders.Builder;
 import com.tterrag.registrate.builders.FluidBuilder;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
+
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Registry;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.registries.RegistryObject;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.IdentityHashMap;
-import java.util.Map;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
-
-import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
-
-public class VintageRegistrate extends AbstractRegistrate<com.negodya1.vintageimprovements.foundation.data.VintageRegistrate> {
-    private static final Map<RegistryEntry<?>, RegistryObject<CreativeModeTab>> TAB_LOOKUP = new IdentityHashMap<>();
-
+public class VintageRegistrate extends AbstractRegistrate<VintageRegistrate> {
     @Nullable
     protected Function<Item, TooltipModifier> currentTooltipModifierFactory;
-    @Nullable
-    protected RegistryObject<CreativeModeTab> currentTab;
 
     protected VintageRegistrate(String modid) {
         super(modid);
     }
 
-    public static com.negodya1.vintageimprovements.foundation.data.VintageRegistrate create(String modid) {
-        return new com.negodya1.vintageimprovements.foundation.data.VintageRegistrate(modid);
+    public static VintageRegistrate create(String modid) {
+        return new VintageRegistrate(modid);
     }
 
-    public static boolean isInCreativeTab(RegistryEntry<?> entry, RegistryObject<CreativeModeTab> tab) {
-        return TAB_LOOKUP.get(entry) == tab;
-    }
-
-    public com.negodya1.vintageimprovements.foundation.data.VintageRegistrate setTooltipModifierFactory(@Nullable Function<Item, TooltipModifier> factory) {
+    public VintageRegistrate setTooltipModifierFactory(@Nullable Function<Item, TooltipModifier> factory) {
         currentTooltipModifierFactory = factory;
         return self();
     }
@@ -83,53 +72,38 @@ public class VintageRegistrate extends AbstractRegistrate<com.negodya1.vintageim
         return currentTooltipModifierFactory;
     }
 
-    @Nullable
-    public com.negodya1.vintageimprovements.foundation.data.VintageRegistrate setCreativeTab(RegistryObject<CreativeModeTab> tab) {
-        currentTab = tab;
-        return self();
-    }
-
-    public RegistryObject<CreativeModeTab> getCreativeTab() {
-        return currentTab;
-    }
-
     @Override
-    public com.negodya1.vintageimprovements.foundation.data.VintageRegistrate registerEventListeners(IEventBus bus) {
+    public VintageRegistrate registerEventListeners(IEventBus bus) {
         return super.registerEventListeners(bus);
     }
 
     @Override
-    protected <R, T extends R> RegistryEntry<T> accept(String name, ResourceKey<? extends Registry<R>> type,
-                                                       Builder<R, T, ?, ?> builder, NonNullSupplier<? extends T> creator,
-                                                       NonNullFunction<RegistryObject<T>, ? extends RegistryEntry<T>> entryFactory) {
+    protected <R extends IForgeRegistryEntry<R>, T extends R> RegistryEntry<T> accept(String name, ResourceKey<? extends Registry<R>> type, Builder<R, T, ?, ?> builder, NonNullSupplier<? extends T> creator, NonNullFunction<RegistryObject<T>, ? extends RegistryEntry<T>> entryFactory) {
         RegistryEntry<T> entry = super.accept(name, type, builder, creator, entryFactory);
-        if (type.equals(Registries.ITEM)) {
+        if (type.equals(Registry.ITEM_REGISTRY)) {
             if (currentTooltipModifierFactory != null) {
                 TooltipModifier.REGISTRY.registerDeferred(entry.getId(), currentTooltipModifierFactory);
             }
-        }
-        if (currentTab != null) {
-            TAB_LOOKUP.put(entry, currentTab);
         }
         return entry;
     }
 
     @Override
-    public <T extends BlockEntity> CreateBlockEntityBuilder<T, com.negodya1.vintageimprovements.foundation.data.VintageRegistrate> blockEntity(String name,
-                                                                                                                                 BlockEntityBuilder.BlockEntityFactory<T> factory) {
+    public <T extends BlockEntity> CreateBlockEntityBuilder<T, VintageRegistrate> blockEntity(String name,
+                                                                                              BlockEntityFactory<T> factory) {
         return blockEntity(self(), name, factory);
     }
 
     @Override
     public <T extends BlockEntity, P> CreateBlockEntityBuilder<T, P> blockEntity(P parent, String name,
-                                                                                 BlockEntityBuilder.BlockEntityFactory<T> factory) {
+                                                                                 BlockEntityFactory<T> factory) {
         return (CreateBlockEntityBuilder<T, P>) entry(name,
                 (callback) -> CreateBlockEntityBuilder.create(this, parent, name, callback, factory));
     }
 
     @Override
-    public <T extends Entity> CreateEntityBuilder<T, com.negodya1.vintageimprovements.foundation.data.VintageRegistrate> entity(String name,
-                                                                                                                  EntityType.EntityFactory<T> factory, MobCategory classification) {
+    public <T extends Entity> CreateEntityBuilder<T, VintageRegistrate> entity(String name,
+                                                                               EntityType.EntityFactory<T> factory, MobCategory classification) {
         return this.entity(self(), name, factory, classification);
     }
 
@@ -143,10 +117,10 @@ public class VintageRegistrate extends AbstractRegistrate<com.negodya1.vintageim
 
     /* Palettes */
 
-    public <T extends Block> BlockBuilder<T, com.negodya1.vintageimprovements.foundation.data.VintageRegistrate> paletteStoneBlock(String name,
-                                                                                                                     NonNullFunction<BlockBehaviour.Properties, T> factory, NonNullSupplier<Block> propertiesFrom, boolean worldGenStone,
-                                                                                                                     boolean hasNaturalVariants) {
-        BlockBuilder<T, com.negodya1.vintageimprovements.foundation.data.VintageRegistrate> builder = super.block(name, factory).initialProperties(propertiesFrom)
+    public <T extends Block> BlockBuilder<T, VintageRegistrate> paletteStoneBlock(String name,
+                                                                                 NonNullFunction<Properties, T> factory, NonNullSupplier<Block> propertiesFrom, boolean worldGenStone,
+                                                                                 boolean hasNaturalVariants) {
+        BlockBuilder<T, VintageRegistrate> builder = super.block(name, factory).initialProperties(propertiesFrom)
                 .transform(pickaxeOnly())
                 .blockstate(hasNaturalVariants ? BlockStateGen.naturalStoneTypeBlock(name) : (c, p) -> {
                     final String location = "block/palettes/stone_types/" + c.getName();
@@ -165,67 +139,49 @@ public class VintageRegistrate extends AbstractRegistrate<com.negodya1.vintageim
         return builder;
     }
 
-    public BlockBuilder<Block, com.negodya1.vintageimprovements.foundation.data.VintageRegistrate> paletteStoneBlock(String name, NonNullSupplier<Block> propertiesFrom,
-                                                                                                       boolean worldGenStone, boolean hasNaturalVariants) {
+    public BlockBuilder<Block, VintageRegistrate> paletteStoneBlock(String name, NonNullSupplier<Block> propertiesFrom,
+                                                                   boolean worldGenStone, boolean hasNaturalVariants) {
         return paletteStoneBlock(name, Block::new, propertiesFrom, worldGenStone, hasNaturalVariants);
     }
 
     /* Fluids */
 
-    public <T extends ForgeFlowingFluid> FluidBuilder<T, com.negodya1.vintageimprovements.foundation.data.VintageRegistrate> virtualFluid(String name,
-                                                                                                                            FluidBuilder.FluidTypeFactory typeFactory, NonNullFunction<ForgeFlowingFluid.Properties, T> factory) {
+    public <T extends ForgeFlowingFluid> FluidBuilder<T, VintageRegistrate> virtualFluid(String name,
+                                                                                        BiFunction<FluidAttributes.Builder, Fluid, FluidAttributes> attributesFactory,
+                                                                                        NonNullFunction<ForgeFlowingFluid.Properties, T> factory) {
         return entry(name,
                 c -> new VirtualFluidBuilder<>(self(), self(), name, c, new ResourceLocation(getModid(), "fluid/" + name + "_still"),
-                        new ResourceLocation(getModid(), "fluid/" + name + "_flow"), typeFactory, factory));
+                        new ResourceLocation(getModid(), "fluid/" + name + "_flow"), attributesFactory, factory));
     }
 
-    public <T extends ForgeFlowingFluid> FluidBuilder<T, com.negodya1.vintageimprovements.foundation.data.VintageRegistrate> virtualFluid(String name,
-                                                                                                                            ResourceLocation still, ResourceLocation flow, FluidBuilder.FluidTypeFactory typeFactory,
-                                                                                                                            NonNullFunction<ForgeFlowingFluid.Properties, T> factory) {
-        return entry(name, c -> new VirtualFluidBuilder<>(self(), self(), name, c, still, flow, typeFactory, factory));
-    }
-
-    public FluidBuilder<VirtualFluid, com.negodya1.vintageimprovements.foundation.data.VintageRegistrate> virtualFluid(String name) {
+    public <T extends ForgeFlowingFluid> FluidBuilder<T, VintageRegistrate> virtualFluid(String name, ResourceLocation still, ResourceLocation flow,
+                                                                                        BiFunction<FluidAttributes.Builder, Fluid, FluidAttributes> attributesFactory,
+                                                                                        NonNullFunction<ForgeFlowingFluid.Properties, T> factory) {
         return entry(name,
-                c -> new VirtualFluidBuilder<VirtualFluid, com.negodya1.vintageimprovements.foundation.data.VintageRegistrate>(self(), self(), name, c,
-                        new ResourceLocation(getModid(), "fluid/" + name + "_still"), new ResourceLocation(getModid(), "fluid/" + name + "_flow"),
-                        com.negodya1.vintageimprovements.foundation.data.VintageRegistrate::defaultFluidType, VirtualFluid::new));
+                c -> new VirtualFluidBuilder<>(self(), self(), name, c, still,
+                        flow, attributesFactory, factory));
     }
 
-    public FluidBuilder<VirtualFluid, com.negodya1.vintageimprovements.foundation.data.VintageRegistrate> virtualFluid(String name, ResourceLocation still,
-                                                                                                         ResourceLocation flow) {
-        return entry(name, c -> new VirtualFluidBuilder<>(self(), self(), name, c, still, flow,
-                com.negodya1.vintageimprovements.foundation.data.VintageRegistrate::defaultFluidType, VirtualFluid::new));
+    public FluidBuilder<VirtualFluid, VintageRegistrate> virtualFluid(String name) {
+        return entry(name,
+                c -> new VirtualFluidBuilder<>(self(), self(), name, c, new ResourceLocation(getModid(), "fluid/" + name + "_still"),
+                        new ResourceLocation(getModid(), "fluid/" + name + "_flow"), null, VirtualFluid::new));
     }
 
-    public FluidBuilder<ForgeFlowingFluid.Flowing, com.negodya1.vintageimprovements.foundation.data.VintageRegistrate> standardFluid(String name) {
+    public FluidBuilder<VirtualFluid, VintageRegistrate> virtualFluid(String name, ResourceLocation still, ResourceLocation flow) {
+        return entry(name,
+                c -> new VirtualFluidBuilder<>(self(), self(), name, c, still,
+                        flow, null, VirtualFluid::new));
+    }
+
+    public FluidBuilder<ForgeFlowingFluid.Flowing, VintageRegistrate> standardFluid(String name) {
         return fluid(name, new ResourceLocation(getModid(), "fluid/" + name + "_still"), new ResourceLocation(getModid(), "fluid/" + name + "_flow"));
     }
 
-    public FluidBuilder<ForgeFlowingFluid.Flowing, com.negodya1.vintageimprovements.foundation.data.VintageRegistrate> standardFluid(String name,
-                                                                                                                       FluidBuilder.FluidTypeFactory typeFactory) {
+    public FluidBuilder<ForgeFlowingFluid.Flowing, VintageRegistrate> standardFluid(String name,
+                                                                                   NonNullBiFunction<FluidAttributes.Builder, Fluid, FluidAttributes> attributesFactory) {
         return fluid(name, new ResourceLocation(getModid(), "fluid/" + name + "_still"), new ResourceLocation(getModid(), "fluid/" + name + "_flow"),
-                typeFactory);
-    }
-
-    public static FluidType defaultFluidType(FluidType.Properties properties, ResourceLocation stillTexture,
-                                             ResourceLocation flowingTexture) {
-        return new FluidType(properties) {
-            @Override
-            public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
-                consumer.accept(new IClientFluidTypeExtensions() {
-                    @Override
-                    public ResourceLocation getStillTexture() {
-                        return stillTexture;
-                    }
-
-                    @Override
-                    public ResourceLocation getFlowingTexture() {
-                        return flowingTexture;
-                    }
-                });
-            }
-        };
+                attributesFactory);
     }
 
     /* Util */

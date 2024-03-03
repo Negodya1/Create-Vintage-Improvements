@@ -1,32 +1,51 @@
 package com.negodya1.vintageimprovements.content.kinetics.vibration;
 
-import com.negodya1.vintageimprovements.VintageRecipes;
-import com.negodya1.vintageimprovements.VintageRecipesList;
+import com.google.common.collect.ImmutableList;
+import com.negodya1.vintageimprovements.*;
+import com.negodya1.vintageimprovements.content.kinetics.grinder.PolishingRecipe;
+import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingRecipe;
 import com.negodya1.vintageimprovements.infrastructure.config.VintageConfig;
 import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.content.kinetics.base.IRotate;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.belt.behaviour.DirectBeltInputBehaviour;
+import com.simibubi.create.content.processing.recipe.ProcessingInventory;
 import com.simibubi.create.content.processing.sequenced.SequencedAssemblyRecipe;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
+import com.simibubi.create.foundation.blockEntity.behaviour.filtering.FilteringBehaviour;
 import com.simibubi.create.foundation.item.ItemHelper;
 import com.simibubi.create.foundation.item.SmartInventory;
+import com.simibubi.create.foundation.recipe.RecipeConditions;
+import com.simibubi.create.foundation.recipe.RecipeFinder;
+import com.simibubi.create.foundation.utility.AnimationTickHolder;
+import com.simibubi.create.foundation.utility.Lang;
+import com.simibubi.create.foundation.utility.LangBuilder;
 import com.simibubi.create.foundation.utility.VecHelper;
+import com.simibubi.create.infrastructure.config.AllConfigs;
+import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.sounds.Sound;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ItemParticleOption;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -50,6 +69,10 @@ import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -143,7 +166,7 @@ public class VibratingTableBlockEntity extends KineticBlockEntity {
 
 		Vec3 center = offset.add(VecHelper.getCenterOf(worldPosition));
 		target = VecHelper.offsetRandomly(target.subtract(offset), level.random, 1 / 128f);
-		level.addParticle(data, center.x, center.y + 8 / 16f + getRenderedHeadOffset(Minecraft.getInstance().getPartialTick()), center.z, target.x, target.y, target.z);
+		level.addParticle(data, center.x, center.y + 8 / 16f + getRenderedHeadOffset(AnimationTickHolder.getPartialTicks()), center.z, target.x, target.y, target.z);
 	}
 
 	@Override
@@ -271,6 +294,7 @@ public class VibratingTableBlockEntity extends KineticBlockEntity {
 			if (assemblyRecipe.isPresent()) {
 				lastRecipe = assemblyRecipe.get();
 				found = true;
+				lastRecipeIsAssembly = true;
 			}
 
 			if (!found) {
@@ -295,7 +319,7 @@ public class VibratingTableBlockEntity extends KineticBlockEntity {
 								stackInSlot.shrink(1);
 								inputInv.setStackInSlot(0, stackInSlot);
 
-								ItemStack result = recipe.getResultItem(RegistryAccess.EMPTY).copy();
+								ItemStack result = recipe.getResultItem().copy();
 								ItemHandlerHelper.insertItemStacked(outputInv, result, false);
 
 								sendData();

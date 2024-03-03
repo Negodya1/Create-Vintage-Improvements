@@ -1,13 +1,13 @@
 package com.negodya1.vintageimprovements.content.kinetics.curving_press;
 
+import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
 import com.negodya1.vintageimprovements.VintagePartialModels;
-import org.joml.Quaternionf;
 
 import com.jozufozu.flywheel.api.MaterialManager;
 import com.jozufozu.flywheel.api.instance.DynamicInstance;
 import com.jozufozu.flywheel.core.Materials;
 import com.jozufozu.flywheel.core.materials.oriented.OrientedData;
-import com.mojang.math.Axis;
 import com.simibubi.create.AllPartialModels;
 import com.simibubi.create.content.kinetics.base.ShaftInstance;
 import com.simibubi.create.foundation.utility.AngleHelper;
@@ -25,8 +25,8 @@ public class CurvingPressInstance extends ShaftInstance<CurvingPressBlockEntity>
 				.getModel(VintagePartialModels.CURVING_HEAD, blockState)
 				.createInstance();
 
-		Quaternionf q = Axis.YP
-			.rotationDegrees(AngleHelper.horizontalAngle(blockState.getValue(CurvingPressBlock.HORIZONTAL_FACING)));
+		Quaternion q = Vector3f.YP
+				.rotationDegrees(AngleHelper.horizontalAngle(blockState.getValue(CurvingPressBlock.HORIZONTAL_FACING)));
 
 		pressHead.setRotation(q);
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.negodya1.vintageimprovements.compat.jei.category.animations.AnimatedCurvingPress;
 import com.negodya1.vintageimprovements.content.kinetics.curving_press.CurvingRecipe;
 import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
@@ -16,7 +17,6 @@ import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import net.minecraft.client.gui.GuiGraphics;
 
 @ParametersAreNonnullByDefault
 public class CurvingCategory extends CreateRecipeCategory<CurvingRecipe> {
@@ -46,7 +46,7 @@ public class CurvingCategory extends CreateRecipeCategory<CurvingRecipe> {
 	}
 
 	@Override
-	public void draw(CurvingRecipe recipe, IRecipeSlotsView iRecipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+	public void draw(CurvingRecipe recipe, IRecipeSlotsView iRecipeSlotsView, PoseStack graphics, double mouseX, double mouseY) {
 		AllGuiTextures.JEI_SHADOW.render(graphics, 61, 41);
 		AllGuiTextures.JEI_LONG_ARROW.render(graphics, 52, 54);
 

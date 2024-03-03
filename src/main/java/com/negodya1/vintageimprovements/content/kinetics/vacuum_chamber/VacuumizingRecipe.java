@@ -29,9 +29,10 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
 import java.util.*;
@@ -77,8 +78,7 @@ public class VacuumizingRecipe extends BasinRecipe implements IAssemblyRecipe {
 		if (filter == null)
 			return false;
 
-		boolean filterTest = filter.test(recipe.getResultItem(basin.getLevel()
-				.registryAccess()));
+		boolean filterTest = filter.test(recipe.getResultItem());
 		if (recipe instanceof BasinRecipe) {
 			BasinRecipe basinRecipe = (BasinRecipe) recipe;
 			if (basinRecipe.getRollableResults()
@@ -101,9 +101,9 @@ public class VacuumizingRecipe extends BasinRecipe implements IAssemblyRecipe {
 
 	private static boolean apply(BasinBlockEntity basin, Recipe<?> recipe, VacuumChamberBlockEntity be, boolean test) {
 		boolean isBasinRecipe = recipe instanceof BasinRecipe;
-		IItemHandler availableItems = basin.getCapability(ForgeCapabilities.ITEM_HANDLER)
+		IItemHandler availableItems = basin.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
 				.orElse(null);
-		IFluidHandler availableFluids = basin.getCapability(ForgeCapabilities.FLUID_HANDLER)
+		IFluidHandler availableFluids = basin.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY)
 				.orElse(null);
 		IFluidHandler availableSecondaryFluids = be.fluidCapability.orElse(null);
 
