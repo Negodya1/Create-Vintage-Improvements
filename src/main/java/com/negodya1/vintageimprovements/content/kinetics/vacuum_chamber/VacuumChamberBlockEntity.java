@@ -1,60 +1,62 @@
 package com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.ImmutableList;
-import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintageRecipes;
-import com.negodya1.vintageimprovements.VintageShapes;
-import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingRecipe;
-import com.simibubi.create.AllRecipeTypes;
+import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugeBlock;
+import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugeBlockEntity;
+import com.negodya1.vintageimprovements.foundation.utility.VintageLang;
+import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllSoundEvents;
-import com.simibubi.create.content.fluids.FluidFX;
-import com.simibubi.create.content.fluids.potion.PotionMixingRecipes;
-import com.simibubi.create.content.kinetics.press.MechanicalPressBlockEntity;
+import com.simibubi.create.content.fluids.FluidPropagator;
+import com.simibubi.create.content.fluids.FluidTransportBehaviour;
+import com.simibubi.create.content.kinetics.base.IRotate;
 import com.simibubi.create.content.processing.basin.BasinBlockEntity;
 import com.simibubi.create.content.processing.basin.BasinOperatingBlockEntity;
+import com.simibubi.create.content.processing.basin.BasinRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
 import com.simibubi.create.content.processing.sequenced.SequencedAssemblyRecipe;
-import com.simibubi.create.foundation.advancement.AllAdvancements;
-import com.simibubi.create.foundation.advancement.CreateAdvancement;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
-import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour.TankSegment;
-import com.simibubi.create.foundation.item.SmartInventory;
-import com.simibubi.create.foundation.recipe.RecipeConditions;
+import com.simibubi.create.foundation.fluid.CombinedTankWrapper;
+import com.simibubi.create.foundation.fluid.FluidIngredient;
 import com.simibubi.create.foundation.recipe.RecipeFinder;
-import com.simibubi.create.foundation.utility.AnimationTickHolder;
-import com.simibubi.create.foundation.utility.Couple;
-import com.simibubi.create.foundation.utility.VecHelper;
-import com.simibubi.create.infrastructure.config.AllConfigs;
+import com.simibubi.create.foundation.utility.*;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction.Axis;
-import net.minecraft.core.particles.ItemParticleOption;
-import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.crafting.IShapedRecipe;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.event.level.PistonEvent;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.ItemStackHandler;
 
 public class VacuumChamberBlockEntity extends BasinOperatingBlockEntity {
 
@@ -64,8 +66,20 @@ public class VacuumChamberBlockEntity extends BasinOperatingBlockEntity {
 	public int processingTicks;
 	public boolean running;
 
+	public SmartFluidTankBehaviour outputTank;
+	public SmartFluidTankBehaviour inputTank;
+	public LazyOptional<IFluidHandler> fluidCapability;
+	boolean contentsChanged;
+	boolean mode;
+
 	public VacuumChamberBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
+		mode = false;
+	}
+
+	public boolean changeMode() {
+		mode = !mode;
+		return mode;
 	}
 
 	public float getRenderedHeadOffset(float partialTicks) {
@@ -91,24 +105,29 @@ public class VacuumChamberBlockEntity extends BasinOperatingBlockEntity {
 		return offset + 7 / 16f;
 	}
 
-	public float getRenderedHeadRotationSpeed(float partialTicks) {
-		float speed = getSpeed();
-		if (running) {
-			if (runningTicks < 15) {
-				return speed;
-			}
-			if (runningTicks <= 20) {
-				return speed * 2;
-			}
-			return speed;
-		}
-		return speed / 2;
-	}
-
 	@Override
 	public void addBehaviours(List<BlockEntityBehaviour> behaviours) {
 		super.addBehaviours(behaviours);
-		registerAwardables(behaviours, AllAdvancements.MIXER);
+
+		inputTank = new SmartFluidTankBehaviour(SmartFluidTankBehaviour.INPUT, this, 2, 1000, true)
+				.whenFluidUpdates(() -> contentsChanged = true);
+		outputTank = new SmartFluidTankBehaviour(SmartFluidTankBehaviour.OUTPUT, this, 2, 1000, true)
+				.whenFluidUpdates(() -> contentsChanged = true)
+				.forbidInsertion();
+		behaviours.add(inputTank);
+		behaviours.add(outputTank);
+
+		fluidCapability = LazyOptional.of(() -> {
+			LazyOptional<? extends IFluidHandler> inputCap = inputTank.getCapability();
+			LazyOptional<? extends IFluidHandler> outputCap = outputTank.getCapability();
+			return new VacuumChamberTanksHandler(outputCap.orElse(null), inputCap.orElse(null));
+		});
+	}
+
+	private class VacuumChamberTanksHandler extends CombinedTankWrapper {
+		public VacuumChamberTanksHandler(IFluidHandler... fluidHandlers) {
+			super(fluidHandlers);
+		}
 	}
 
 	@Override
@@ -120,6 +139,7 @@ public class VacuumChamberBlockEntity extends BasinOperatingBlockEntity {
 	protected void read(CompoundTag compound, boolean clientPacket) {
 		running = compound.getBoolean("Running");
 		runningTicks = compound.getInt("Ticks");
+		mode = compound.getBoolean("Mode");
 		super.read(compound, clientPacket);
 
 		if (clientPacket && hasLevel())
@@ -130,6 +150,7 @@ public class VacuumChamberBlockEntity extends BasinOperatingBlockEntity {
 	public void write(CompoundTag compound, boolean clientPacket) {
 		compound.putBoolean("Running", running);
 		compound.putInt("Ticks", runningTicks);
+		compound.putBoolean("Mode", mode);
 		super.write(compound, clientPacket);
 	}
 
@@ -146,6 +167,8 @@ public class VacuumChamberBlockEntity extends BasinOperatingBlockEntity {
 
 		float speed = Math.abs(getSpeed());
 		if (running && level != null) {
+			if (level.isClientSide && runningTicks == 20)
+				renderParticles();
 
 			if ((!level.isClientSide || isVirtual()) && runningTicks == 20) {
 				if (processingTicks < 0) {
@@ -187,42 +210,200 @@ public class VacuumChamberBlockEntity extends BasinOperatingBlockEntity {
 	}
 
 	@Override
+	protected void applyBasinRecipe() {
+		if (currentRecipe == null)
+			return;
+
+		Optional<BasinBlockEntity> optionalBasin = getBasin();
+		if (!optionalBasin.isPresent())
+			return;
+		BasinBlockEntity basin = optionalBasin.get();
+		boolean wasEmpty = basin.canContinueProcessing();
+		if (!mode)
+			if (!VacuumizingRecipe.apply(basin, currentRecipe, this))
+				return;
+		if (mode)
+			if (!PressurizingRecipe.apply(basin, currentRecipe, this))
+				return;
+		getProcessedRecipeTrigger().ifPresent(this::award);
+		basin.inputTank.sendDataImmediately();
+
+		// Continue mixing
+		if (wasEmpty && matchBasinRecipe(currentRecipe)) {
+			continueWithPreviousRecipe();
+			sendData();
+		}
+
+		basin.notifyChangeOfContents();
+	}
+
+	@Override
 	protected List<Recipe<?>> getMatchingRecipes() {
 		Optional<BasinBlockEntity> basin = getBasin();
 
-		if (basin.isEmpty()) {
-			return null;
-		}
+		if (basin.isEmpty()) return null;
 
-		for (int i = 0; i < basin.get().getInputInventory().getSlots(); i++) {
-			Optional<VacuumizingRecipe> assemblyRecipe = SequencedAssemblyRecipe.
-					getRecipe(level, basin.get().getInputInventory().getStackInSlot(i),
-							VintageRecipes.VACUUMIZING.getType(), VacuumizingRecipe.class);
-			if (assemblyRecipe.isPresent() && basin.get().getFilter().test(assemblyRecipe.get()
-					.getResultItem())) {
-				for (Ingredient cur : assemblyRecipe.get().getIngredients()) {
-					boolean find = false;
+		if (mode) {
+			for (int i = 0; i < basin.get().getInputInventory().getSlots(); i++) {
+				Optional<PressurizingRecipe> assemblyRecipe = SequencedAssemblyRecipe.
+						getRecipe(level, basin.get().getInputInventory().getStackInSlot(i),
+								VintageRecipes.PRESSURIZING.getType(), PressurizingRecipe.class);
+				if (assemblyRecipe.isPresent() && basin.get().getFilter().test(assemblyRecipe.get()
+						.getResultItem())) {
+					for (Ingredient cur : assemblyRecipe.get().getIngredients()) {
+						boolean find = false;
 
-					for (ItemStack item : cur.getItems()) {
-						if (item.getCount() <= basin.get().getInputInventory().countItem(item.getItem())) {
-							find = true;
-							break;
+						for (ItemStack item : cur.getItems()) {
+							if (item.getCount() <= basin.get().getInputInventory().countItem(item.getItem())) {
+								find = true;
+								break;
+							}
 						}
+
+						if (!find) return getRecipes();
 					}
 
-					if (!find) return super.getMatchingRecipes();
-				}
+					for (FluidIngredient cur : assemblyRecipe.get().getFluidIngredients()) {
+						if (cur.test(basin.get().inputTank.getPrimaryHandler().getFluid())) break;
 
-				return ImmutableList.of(assemblyRecipe.get());
+						return getRecipes();
+					}
+
+					return ImmutableList.of(assemblyRecipe.get());
+				}
+			}
+		}
+		else {
+			for (int i = 0; i < basin.get().getInputInventory().getSlots(); i++) {
+				Optional<VacuumizingRecipe> assemblyRecipe = SequencedAssemblyRecipe.
+						getRecipe(level, basin.get().getInputInventory().getStackInSlot(i),
+								VintageRecipes.VACUUMIZING.getType(), VacuumizingRecipe.class);
+				if (assemblyRecipe.isPresent() && basin.get().getFilter().test(assemblyRecipe.get()
+						.getResultItem())) {
+					for (Ingredient cur : assemblyRecipe.get().getIngredients()) {
+						boolean find = false;
+
+						for (ItemStack item : cur.getItems()) {
+							if (item.getCount() <= basin.get().getInputInventory().countItem(item.getItem())) {
+								find = true;
+								break;
+							}
+						}
+
+						if (!find) return getRecipes();
+					}
+
+					for (FluidIngredient cur : assemblyRecipe.get().getFluidIngredients()) {
+						if (cur.test(basin.get().inputTank.getPrimaryHandler().getFluid()))
+							break;
+
+						return getRecipes();
+					}
+
+					return ImmutableList.of(assemblyRecipe.get());
+				}
 			}
 		}
 
-		return super.getMatchingRecipes();
+		return getRecipes();
+	}
+
+	List<Recipe<?>> getRecipes() {
+		List<Recipe<?>> res = new ArrayList<>();
+
+		for (Recipe recipe : super.getMatchingRecipes()) {
+			if (mode && recipe instanceof PressurizingRecipe) res.add(recipe);
+			else if (!mode && recipe instanceof VacuumizingRecipe) res.add(recipe);
+		}
+
+		return res;
+	}
+
+	@Override
+	protected <C extends Container> boolean matchBasinRecipe(Recipe<C> recipe) {
+		if (recipe == null)
+			return false;
+		Optional<BasinBlockEntity> basin = getBasin();
+		if (!basin.isPresent())
+			return false;
+
+		if (recipe instanceof VacuumizingRecipe r)
+			return r.match(basin.get(), recipe, this);
+		if (recipe instanceof PressurizingRecipe r)
+			return r.match(basin.get(), recipe, this);
+
+		return BasinRecipe.match(basin.get(), recipe);
+	}
+
+	public boolean acceptOutputs(List<FluidStack> outputFluids, boolean simulate) {
+		outputTank.allowInsertion();
+		boolean acceptOutputsInner = acceptOutputsInner(outputFluids, simulate);
+		outputTank.forbidInsertion();
+		return acceptOutputsInner;
+	}
+
+	private boolean acceptOutputsInner(List<FluidStack> outputFluids, boolean simulate) {
+		BlockState blockState = getBlockState();
+		if (!(blockState.getBlock() instanceof VacuumChamberBlock))
+			return false;
+
+		IFluidHandler targetTank = outputTank.getCapability()
+				.orElse(null);
+
+		if (outputFluids.isEmpty())
+			return true;
+		if (targetTank == null)
+			return false;
+		if (!acceptFluidOutputsIntoCentrifuge(outputFluids, simulate, targetTank))
+			return false;
+
+		return true;
+	}
+
+	private boolean acceptFluidOutputsIntoCentrifuge(List<FluidStack> outputFluids, boolean simulate,
+													 IFluidHandler targetTank) {
+		for (FluidStack fluidStack : outputFluids) {
+			IFluidHandler.FluidAction action = simulate ? IFluidHandler.FluidAction.SIMULATE : IFluidHandler.FluidAction.EXECUTE;
+			int fill = targetTank instanceof SmartFluidTankBehaviour.InternalFluidHandler
+					? ((SmartFluidTankBehaviour.InternalFluidHandler) targetTank).forceFill(fluidStack.copy(), action)
+					: targetTank.fill(fluidStack.copy(), action);
+			if (fill != fluidStack.getAmount())
+				return false;
+		}
+		return true;
+	}
+
+	@Override
+	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+		if (cap == ForgeCapabilities.FLUID_HANDLER)
+			return fluidCapability.cast();
+		return super.getCapability(cap, side);
+	}
+
+	public void renderParticles() {
+		Optional<BasinBlockEntity> basin = getBasin();
+		if (!basin.isPresent() || level == null)
+			return;
+
+		if (!level.getBlockState(getBlockPos().above()).is(Blocks.AIR)) return;
+
+		if (Mth.abs(getSpeed()) < IRotate.SpeedLevel.MEDIUM.getSpeedValue()) return;
+
+
+		float angle = level.random.nextFloat() * 360;
+		Vec3 offset = new Vec3(0, 0, 0.25f);
+		offset = VecHelper.rotate(offset, angle, Direction.Axis.Y);
+		Vec3 target = VecHelper.rotate(offset, getSpeed() > 0 ? 25 : -25, Direction.Axis.Y)
+				.add(0, .25f, 0);
+		Vec3 center = offset.add(VecHelper.getCenterOf(worldPosition));
+		target = VecHelper.offsetRandomly(target.subtract(offset), level.random, 1 / 128f);
+		if (mode) level.addParticle(ParticleTypes.CLOUD, center.x + target.x * 10, center.y + 0.5f + target.y * 10, center.z + target.z * 10, -target.x * 0.6, -target.y * 0.6, -target.z * 0.6);
+		else level.addParticle(ParticleTypes.CLOUD, center.x, center.y + 0.5f, center.z, target.x, target.y, target.z);
 	}
 
 	@Override
 	protected <C extends Container> boolean matchStaticFilters(Recipe<C> r) {
-		return r.getType() == VintageRecipes.VACUUMIZING.getType();
+		return r.getType() == VintageRecipes.VACUUMIZING.getType() || r.getType() == VintageRecipes.PRESSURIZING.getType();
 	}
 
 	@Override
@@ -265,6 +446,42 @@ public class VacuumChamberBlockEntity extends BasinOperatingBlockEntity {
 
 		if (runningTicks == 25)
 			AllSoundEvents.STEAM.playAt(level, worldPosition, 3, 1, true);
+	}
+
+	@Override
+	public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
+		super.addToGoggleTooltip(tooltip, isPlayerSneaking);
+
+		if (mode) VintageLang.translate("gui.goggles.current_mode")
+				.add(Lang.text(" ")).add(VintageLang.translate("gui.goggles.pressurizing_mode"))
+				.style(ChatFormatting.DARK_PURPLE).forGoggles(tooltip);
+		else VintageLang.translate("gui.goggles.current_mode")
+				.add(Lang.text(" ")).add(VintageLang.translate("gui.goggles.vacuumizing_mode"))
+				.style(ChatFormatting.DARK_AQUA).forGoggles(tooltip);
+
+		IFluidHandler fluids = fluidCapability.orElse(new FluidTank(0));
+		boolean isEmpty = true;
+
+		LangBuilder mb = Lang.translate("generic.unit.millibuckets");
+		for (int i = 0; i < fluids.getTanks(); i++) {
+			FluidStack fluidStack = fluids.getFluidInTank(i);
+			if (fluidStack.isEmpty())
+				continue;
+			Lang.text("")
+					.add(Lang.fluidName(fluidStack)
+							.add(Lang.text(" "))
+							.style(ChatFormatting.GRAY)
+							.add(Lang.number(fluidStack.getAmount())
+									.add(mb)
+									.style(ChatFormatting.BLUE)))
+					.forGoggles(tooltip, 1);
+			isEmpty = false;
+		}
+
+		if (isEmpty)
+			tooltip.remove(0);
+
+		return true;
 	}
 
 }

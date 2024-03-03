@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.negodya1.vintageimprovements.VintageBlocks;
 import com.negodya1.vintageimprovements.VintageRecipes;
 import com.negodya1.vintageimprovements.compat.jei.category.assemblies.AssemblyPolishing;
+import com.negodya1.vintageimprovements.foundation.utility.VintageLang;
 import com.simibubi.create.compat.jei.category.sequencedAssembly.SequencedAssemblySubCategory;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder.ProcessingRecipeParams;
@@ -84,7 +85,7 @@ public class PolishingRecipe extends ProcessingRecipe<RecipeWrapper> implements 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public Component getDescriptionForAssembly() {
-		return Lang.translateDirect("recipe.assembly.polishing");
+		return VintageLang.translateDirect("recipe.assembly.polishing");
 	}
 	
 	@Override

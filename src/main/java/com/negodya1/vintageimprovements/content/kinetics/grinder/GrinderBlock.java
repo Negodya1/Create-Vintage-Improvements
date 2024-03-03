@@ -108,4 +108,15 @@ public class GrinderBlock extends HorizontalKineticBlock implements IBE<GrinderB
 			be.insertItem((ItemEntity) entityIn);
 		});
 	}
+
+	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn,
+								 BlockHitResult hit) {
+		ItemStack heldItem = player.getItemInHand(handIn);
+
+		return onBlockEntityUse(worldIn, pos, be -> {
+			if (be.addTexture(heldItem)) return InteractionResult.SUCCESS;
+			return InteractionResult.PASS;
+		});
+
+	}
 }

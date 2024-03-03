@@ -30,7 +30,20 @@ public class VintagePartialModels {
 			VIBRATING_TABLE = block("vibrating_table/head"),
 			CENTRIFUGE_BEAMS = block("centrifuge/head"),
 			BASIN = block("centrifuge/basin"),
-			CURVING_HEAD = block("curving_press/head");
+			CURVING_HEAD = block("curving_press/head"),
+			GRINDER_BELT_ACTIVE_RED = block("belt_grinder/belt_active_red"),
+			GRINDER_BELT_INACTIVE_RED = block("belt_grinder/belt_inactive_red"),
+			GRINDER_BELT_REVERSED_RED = block("belt_grinder/belt_reversed_red"),
+			GRINDER_BELT_ACTIVE_DIAMOND = block("belt_grinder/belt_active_diamond"),
+			GRINDER_BELT_INACTIVE_DIAMOND = block("belt_grinder/belt_inactive_diamond"),
+			GRINDER_BELT_REVERSED_DIAMOND = block("belt_grinder/belt_reversed_diamond"),
+			GRINDER_BELT_ACTIVE_IRON = block("belt_grinder/belt_active_iron"),
+			GRINDER_BELT_INACTIVE_IRON = block("belt_grinder/belt_inactive_iron"),
+			GRINDER_BELT_REVERSED_IRON = block("belt_grinder/belt_reversed_iron"),
+			GRINDER_BELT_ACTIVE_OBSIDIAN = block("belt_grinder/belt_active_obsidian"),
+			GRINDER_BELT_INACTIVE_OBSIDIAN = block("belt_grinder/belt_inactive_obsidian"),
+			GRINDER_BELT_REVERSED_OBSIDIAN = block("belt_grinder/belt_reversed_obsidian"),
+			VACUUM_CHAMBER_ARROWS = block("vacuum_chamber/arrows");
 
 	private static PartialModel block(String path) {
 		return new PartialModel(VintageImprovements.asResource("block/" + path));

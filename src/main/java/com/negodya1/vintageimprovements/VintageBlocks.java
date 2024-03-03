@@ -21,13 +21,17 @@ import com.simibubi.create.foundation.data.SharedProperties;
 
 import static com.simibubi.create.AllMovementBehaviours.movementBehaviour;
 import static com.simibubi.create.foundation.data.ModelGen.customItemModel;
-import static com.simibubi.create.foundation.data.TagGen.axeOrPickaxe;
 
 import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.MaterialColor;
+import net.minecraftforge.common.Tags;
 
 import static com.negodya1.vintageimprovements.VintageImprovements.MY_REGISTRATE;
+import static com.simibubi.create.foundation.data.TagGen.*;
 
 public class VintageBlocks {
 
@@ -113,6 +117,32 @@ public class VintageBlocks {
                     .item(AssemblyOperatorBlockItem::new)
                     .transform(customItemModel())
                     .register();
+
+    //Building blocks
+    public static final BlockEntry<Block> VANADIUM_BLOCK = MY_REGISTRATE.block("vanadium_block", Block::new)
+            .initialProperties(() -> Blocks.IRON_BLOCK)
+            .properties(p -> p.noOcclusion().color(MaterialColor.GLOW_LICHEN).requiresCorrectToolForDrops())
+            .transform(pickaxeOnly())
+            .tag(BlockTags.NEEDS_IRON_TOOL)
+            .tag(Tags.Blocks.STORAGE_BLOCKS)
+            .tag(BlockTags.BEACON_BASE_BLOCKS)
+            .transform(tagBlockAndItem("storage_blocks/vanadium"))
+            .tag(Tags.Items.STORAGE_BLOCKS)
+            .build()
+            .lang("Block of Vanadium")
+            .register();
+
+    public static final BlockEntry<Block> SULFUR_BLOCK = MY_REGISTRATE.block("sulfur_block", Block::new)
+            .initialProperties(() -> Blocks.IRON_BLOCK)
+            .properties(p -> p.noOcclusion().color(MaterialColor.GLOW_LICHEN).requiresCorrectToolForDrops())
+            .transform(pickaxeOnly())
+            .tag(BlockTags.NEEDS_STONE_TOOL)
+            .tag(Tags.Blocks.STORAGE_BLOCKS)
+            .transform(tagBlockAndItem("storage_blocks/sulfur"))
+            .tag(Tags.Items.STORAGE_BLOCKS)
+            .build()
+            .lang("Block of Sulfur")
+            .register();
 
     public static void register() {}
 }

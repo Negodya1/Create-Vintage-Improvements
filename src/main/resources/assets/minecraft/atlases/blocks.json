@@ -1,0 +1,28 @@
+{
+  "sources": [
+    {
+      "type": "single",
+      "resource": "vintageimprovements:fluid/sulfuric_acid_flow"
+    },
+    {
+      "type": "single",
+      "resource": "vintageimprovements:fluid/sulfuric_acid_still"
+    },
+	{
+      "type": "single",
+      "resource": "vintageimprovements:fluid/sulfur_dioxide_flow"
+    },
+    {
+      "type": "single",
+      "resource": "vintageimprovements:fluid/sulfur_dioxide_still"
+    },
+	{
+      "type": "single",
+      "resource": "vintageimprovements:fluid/sulfur_trioxide_flow"
+    },
+    {
+      "type": "single",
+      "resource": "vintageimprovements:fluid/sulfur_trioxide_still"
+    }
+  ]
+}

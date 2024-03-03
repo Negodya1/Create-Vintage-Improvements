@@ -5,13 +5,37 @@ import com.mojang.math.Vector3f;
 import com.negodya1.vintageimprovements.VintageBlocks;
 import com.negodya1.vintageimprovements.VintagePartialModels;
 import com.simibubi.create.AllBlocks;
-import com.simibubi.create.AllPartialModels;
 import com.simibubi.create.compat.jei.category.animations.AnimatedKinetics;
 import com.simibubi.create.foundation.utility.AnimationTickHolder;
 
 import net.minecraft.util.Mth;
 
 public class AnimatedVacuumChamber extends AnimatedKinetics {
+
+	public void draw(PoseStack matrixStack, int xOffset, int yOffset, boolean mode) {
+		int scale = 23;
+
+		draw(matrixStack, xOffset, yOffset);
+
+		matrixStack.pushPose();
+		matrixStack.translate(xOffset, yOffset, 200);
+		matrixStack.mulPose(Vector3f.XP.rotationDegrees(-15.5f));
+		matrixStack.mulPose(Vector3f.YP.rotationDegrees(22.5f));
+
+		if (!mode)
+			blockElement(VintagePartialModels.VACUUM_CHAMBER_ARROWS)
+					.atLocal(0, 0, 0)
+					.scale(scale)
+					.render(matrixStack);
+		else
+			blockElement(VintagePartialModels.VACUUM_CHAMBER_ARROWS)
+					.atLocal(0, 0, 0)
+					.rotateBlock(0, 0, 180)
+					.scale(scale)
+					.render(matrixStack);
+
+		matrixStack.popPose();
+	}
 
 	@Override
 	public void draw(PoseStack matrixStack, int xOffset, int yOffset) {

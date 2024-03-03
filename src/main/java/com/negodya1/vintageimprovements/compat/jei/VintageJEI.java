@@ -95,6 +95,14 @@ public class VintageJEI implements IModPlugin {
 				.emptyBackground(177, 103)
 				.build("vacuumizing", VacuumizingCategory::new));
 
+		ALL.add(builder(BasinRecipe.class)
+				.addTypedRecipes(VintageRecipes.PRESSURIZING::getType)
+				.catalyst(VintageBlocks.VACUUM_CHAMBER::get)
+				.catalyst(AllBlocks.BASIN::get)
+				.doubleItemIcon(VintageBlocks.VACUUM_CHAMBER.get(), AllBlocks.BASIN.get())
+				.emptyBackground(177, 103)
+				.build("pressurizing", PressurizingCategory::new));
+
 		ALL.add(builder(VibratingRecipe.class)
 				.addTypedRecipes(VintageRecipes.VIBRATING::getType)
 				.catalyst(VintageBlocks.VIBRATING_TABLE::get)
@@ -107,7 +115,7 @@ public class VintageJEI implements IModPlugin {
 				.catalyst(VintageBlocks.CENTRIFUGE::get)
 				.catalyst(AllBlocks.BASIN::get)
 				.itemIcon(VintageBlocks.CENTRIFUGE.get())
-				.emptyBackground(177, 103)
+				.emptyBackground(177, 113)
 				.build("centrifugation", CentrifugationCategory::new));
 
 		ALL.add(builder(CurvingRecipe.class)

@@ -60,6 +60,7 @@ public class CentrifugeStructuralBlockEntity extends SmartBlockEntity {
             }
         }
         sendData();
+        setChanged();
     }
 
     @Override
@@ -131,5 +132,12 @@ public class CentrifugeStructuralBlockEntity extends SmartBlockEntity {
             return super.extractItem(slot, amount, simulate);
         }
 
+    }
+
+    public int getAnalogSignal() {
+        if (cbe == null) return 0;
+        if (!cbe.getRedstoneApp()) return 0;
+
+        return (cbe.isProccesingNow() ? 15 : 0);
     }
 }

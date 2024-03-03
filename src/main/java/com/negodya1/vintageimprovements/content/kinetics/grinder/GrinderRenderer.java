@@ -61,11 +61,29 @@ public class GrinderRenderer extends SafeBlockEntityRenderer<GrinderBlockEntity>
 		float speed = be.getSpeed();
 
 		if (speed > 0) {
-			partial = VintagePartialModels.GRINDER_BELT_ACTIVE;
+			partial = switch (be.getTextureType()) {
+				case 1 -> VintagePartialModels.GRINDER_BELT_ACTIVE_RED;
+				case 2 -> VintagePartialModels.GRINDER_BELT_ACTIVE_DIAMOND;
+				case 3 -> VintagePartialModels.GRINDER_BELT_ACTIVE_IRON;
+				case 4 -> VintagePartialModels.GRINDER_BELT_ACTIVE_OBSIDIAN;
+				default -> VintagePartialModels.GRINDER_BELT_ACTIVE;
+			};
 		} else if (speed < 0) {
-			partial = VintagePartialModels.GRINDER_BELT_REVERSED;
+			partial = switch (be.getTextureType()) {
+				case 1 -> VintagePartialModels.GRINDER_BELT_REVERSED_RED;
+				case 2 -> VintagePartialModels.GRINDER_BELT_REVERSED_DIAMOND;
+				case 3 -> VintagePartialModels.GRINDER_BELT_REVERSED_IRON;
+				case 4 -> VintagePartialModels.GRINDER_BELT_REVERSED_OBSIDIAN;
+				default -> VintagePartialModels.GRINDER_BELT_REVERSED;
+			};
 		} else {
-			partial = VintagePartialModels.GRINDER_BELT_INACTIVE;
+			partial = switch (be.getTextureType()) {
+				case 1 -> VintagePartialModels.GRINDER_BELT_INACTIVE_RED;
+				case 2 -> VintagePartialModels.GRINDER_BELT_INACTIVE_DIAMOND;
+				case 3 -> VintagePartialModels.GRINDER_BELT_INACTIVE_IRON;
+				case 4 -> VintagePartialModels.GRINDER_BELT_INACTIVE_OBSIDIAN;
+				default -> VintagePartialModels.GRINDER_BELT_INACTIVE;
+			};
 		}
 
 		SuperByteBuffer superBuffer = CachedBufferer.partialFacing(partial, blockState, blockState.getValue(HORIZONTAL_FACING)).rotateCentered(Direction.UP, blockState.getValue(HORIZONTAL_FACING) == Direction.WEST || blockState.getValue(HORIZONTAL_FACING) == Direction.NORTH ? 0 : (180*(float)Math.PI/180f));

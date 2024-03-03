@@ -1,6 +1,7 @@
 package com.negodya1.vintageimprovements.infrastructure.ponder.scenes;
 
 import com.mojang.datafixers.functions.PointFreeRule;
+import com.negodya1.vintageimprovements.VintageItems;
 import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugeBlockEntity;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingTableBlockEntity;
 import com.simibubi.create.AllBlocks;
@@ -21,6 +22,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 
+import static net.minecraft.world.level.block.HorizontalDirectionalBlock.FACING;
 import static net.minecraft.world.level.block.LeverBlock.POWERED;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.AXIS;
 
@@ -164,6 +166,65 @@ public class CentrifugeScenes {
 		scene.world.showSection(util.select.fromTo(1, 4, 2, 2, 4, 3), Direction.DOWN);
 		scene.world.showSection(util.select.fromTo(1, 2, 2, 1, 3, 3), Direction.DOWN);
 		scene.idle(16);
+
+		scene.markAsFinished();
+		scene.idle(25);
+		scene.world.modifyEntities(ItemEntity.class, Entity::discard);
+	}
+
+	public static void redstone(SceneBuilder scene, SceneBuildingUtil util) {
+		scene.title("centrifuge_redstone", "Centrifuge Comparator interaction");
+		scene.configureBasePlate(0, 0, 5);
+		scene.world.showSection(util.select.layer(0), Direction.UP);
+
+		BlockPos centrifuge = util.grid.at(2, 1, 2);
+		Selection centrifugeSelect = util.select.position(2, 1, 2);
+		scene.world.setKineticSpeed(centrifugeSelect, 0);
+
+		scene.world.showSection(util.select.fromTo(0, 1, 0, 4, 1, 4), Direction.DOWN);
+		scene.idle(10);
+		Vec3 centrifugeTop = util.vector.topOf(centrifuge);
+		scene.overlay.showText(40)
+				.attachKeyFrame()
+				.text("Centrifuge can produce Comparator signal")
+				.pointAt(centrifugeTop)
+				.placeNearTarget();
+		scene.idle(50);
+
+		scene.overlay.showText(50)
+				.attachKeyFrame()
+				.text("You must install Redstone Module into the Centrifuge")
+				.pointAt(centrifugeTop)
+				.placeNearTarget();
+		scene.idle(10);
+
+		ItemStack module = new ItemStack(VintageItems.REDSTONE_MODULE.get());
+
+		scene.overlay.showControls(
+				new InputWindowElement(util.vector.blockSurface(centrifuge, Direction.NORTH), Pointing.RIGHT).rightClick()
+						.withItem(module), 30);
+		scene.world.modifyBlockEntity(centrifuge, CentrifugeBlockEntity.class,
+				ms -> ms.addRedstoneApp(module.copy()));
+		scene.idle(30);
+
+		ItemStack itemStack = new ItemStack(Items.MAGMA_CREAM);
+		Vec3 entitySpawn = util.vector.topOf(centrifuge.north().above(3));
+
+		ElementLink<EntityElement> entity2 =
+				scene.world.createItemEntity(entitySpawn, util.vector.of(0, 0.2, 0), itemStack);
+		scene.idle(18);
+		scene.world.modifyEntity(entity2, Entity::discard);
+		scene.world.modifyBlockEntity(centrifuge, CentrifugeBlockEntity.class,
+				ms -> ms.inputInv.setStackInSlot(0, itemStack));
+
+		scene.world.replaceBlocks(util.select.position(0,1,1), Blocks.COMPARATOR.defaultBlockState().setValue(POWERED, true).setValue(FACING, Direction.EAST), false);
+
+		scene.overlay.showText(60)
+				.attachKeyFrame()
+				.text("Centrifuge will produce a level 15 redstone signal as long as it has a recipe")
+				.pointAt(new Vec3(0,1,1))
+				.placeNearTarget();
+		scene.idle(70);
 
 		scene.markAsFinished();
 		scene.idle(25);

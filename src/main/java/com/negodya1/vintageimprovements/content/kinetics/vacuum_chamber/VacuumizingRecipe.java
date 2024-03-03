@@ -1,27 +1,51 @@
 package com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.negodya1.vintageimprovements.VintageBlocks;
 import com.negodya1.vintageimprovements.VintageRecipes;
 import com.negodya1.vintageimprovements.compat.jei.category.assemblies.AssemblyVacuumizing;
+import com.negodya1.vintageimprovements.foundation.utility.VintageLang;
 import com.simibubi.create.compat.jei.category.sequencedAssembly.SequencedAssemblySubCategory;
+import com.simibubi.create.content.processing.basin.BasinBlockEntity;
 import com.simibubi.create.content.processing.basin.BasinRecipe;
+import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder.ProcessingRecipeParams;
 import com.simibubi.create.content.processing.sequenced.IAssemblyRecipe;
+import com.simibubi.create.foundation.blockEntity.behaviour.filtering.FilteringBehaviour;
+import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
+import com.simibubi.create.foundation.fluid.FluidIngredient;
+import com.simibubi.create.foundation.recipe.DummyCraftingContainer;
+import com.simibubi.create.foundation.utility.Iterate;
 import com.simibubi.create.foundation.utility.Lang;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.items.IItemHandler;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Supplier;
 
 public class VacuumizingRecipe extends BasinRecipe implements IAssemblyRecipe {
 
+	int secondaryFluidResults;
+	int secondaryFluidInputs;
+
 	public VacuumizingRecipe(ProcessingRecipeParams params) {
 		super(VintageRecipes.VACUUMIZING, params);
+		secondaryFluidResults = -1;
+		secondaryFluidInputs = -1;
 	}
 
 	@Override
@@ -35,7 +59,7 @@ public class VacuumizingRecipe extends BasinRecipe implements IAssemblyRecipe {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public Component getDescriptionForAssembly() {
-		return Lang.translateDirect("recipe.assembly.vacuumizing");
+		return VintageLang.translateDirect("recipe.assembly.vacuumizing");
 	}
 
 	@Override
@@ -46,6 +70,207 @@ public class VacuumizingRecipe extends BasinRecipe implements IAssemblyRecipe {
 	@Override
 	public Supplier<Supplier<SequencedAssemblySubCategory>> getJEISubCategory() {
 		return () -> AssemblyVacuumizing::new;
+	}
+
+	public static boolean match(BasinBlockEntity basin, Recipe<?> recipe, VacuumChamberBlockEntity be) {
+		FilteringBehaviour filter = basin.getFilter();
+		if (filter == null)
+			return false;
+
+		boolean filterTest = filter.test(recipe.getResultItem());
+		if (recipe instanceof BasinRecipe) {
+			BasinRecipe basinRecipe = (BasinRecipe) recipe;
+			if (basinRecipe.getRollableResults()
+					.isEmpty()
+					&& !basinRecipe.getFluidResults()
+					.isEmpty())
+				filterTest = filter.test(basinRecipe.getFluidResults()
+						.get(0));
+		}
+
+		if (!filterTest)
+			return false;
+
+		return apply(basin, recipe, be, true);
+	}
+
+	public static boolean apply(BasinBlockEntity basin, Recipe<?> recipe, VacuumChamberBlockEntity be) {
+		return apply(basin, recipe, be, false);
+	}
+
+	private static boolean apply(BasinBlockEntity basin, Recipe<?> recipe, VacuumChamberBlockEntity be, boolean test) {
+		boolean isBasinRecipe = recipe instanceof BasinRecipe;
+		IItemHandler availableItems = basin.getCapability(ForgeCapabilities.ITEM_HANDLER)
+				.orElse(null);
+		IFluidHandler availableFluids = basin.getCapability(ForgeCapabilities.FLUID_HANDLER)
+				.orElse(null);
+		IFluidHandler availableSecondaryFluids = be.fluidCapability.orElse(null);
+
+		if (availableItems == null || availableFluids == null || availableSecondaryFluids == null)
+			return false;
+
+		BlazeBurnerBlock.HeatLevel heat = BasinBlockEntity.getHeatLevelOf(basin.getLevel()
+				.getBlockState(basin.getBlockPos()
+						.below(1)));
+		if (isBasinRecipe && !((BasinRecipe) recipe).getRequiredHeat()
+				.testBlazeBurner(heat))
+			return false;
+
+		List<ItemStack> recipeOutputItems = new ArrayList<>();
+		List<FluidStack> recipeOutputFluids = new ArrayList<>();
+		List<FluidStack> recipeSecondaryOutputFluids = new ArrayList<>();
+
+		List<Ingredient> ingredients = new LinkedList<>(recipe.getIngredients());
+		List<FluidIngredient> fluidIngredients =
+				isBasinRecipe ? ((BasinRecipe) recipe).getFluidIngredients() : Collections.emptyList();
+
+		for (boolean simulate : Iterate.trueAndFalse) {
+
+			if (!simulate && test)
+				return true;
+
+			int[] extractedItemsFromSlot = new int[availableItems.getSlots()];
+			int[] extractedFluidsFromTank = new int[availableFluids.getTanks()];
+			int[] extractedSecondaryFluidsFromTank = new int[availableSecondaryFluids.getTanks()];
+
+			Ingredients: for (int i = 0; i < ingredients.size(); i++) {
+				Ingredient ingredient = ingredients.get(i);
+
+				for (int slot = 0; slot < availableItems.getSlots(); slot++) {
+					if (simulate && availableItems.getStackInSlot(slot)
+							.getCount() <= extractedItemsFromSlot[slot])
+						continue;
+					ItemStack extracted = availableItems.extractItem(slot, 1, true);
+					if (!ingredient.test(extracted))
+						continue;
+					if (!simulate)
+						availableItems.extractItem(slot, 1, false);
+					extractedItemsFromSlot[slot]++;
+					continue Ingredients;
+				}
+
+				// something wasn't found
+				return false;
+			}
+
+			boolean fluidsAffected = false;
+			FluidIngredients: for (int i = 0; i < fluidIngredients.size(); i++) {
+				FluidIngredient fluidIngredient = fluidIngredients.get(i);
+				int amountRequired = fluidIngredient.getRequiredAmount();
+
+				if (recipe instanceof VacuumizingRecipe basinRecipe && basinRecipe.secondaryFluidInputs == i) {
+					for (int tank = 0; tank < availableSecondaryFluids.getTanks(); tank++) {
+						FluidStack fluidStack = availableSecondaryFluids.getFluidInTank(tank);
+						if (simulate && fluidStack.getAmount() <= extractedSecondaryFluidsFromTank[tank])
+							continue;
+						if (!fluidIngredient.test(fluidStack))
+							continue;
+						int drainedAmount = Math.min(amountRequired, fluidStack.getAmount());
+						if (!simulate) {
+							fluidStack.shrink(drainedAmount);
+							fluidsAffected = true;
+						}
+						amountRequired -= drainedAmount;
+						if (amountRequired != 0)
+							continue;
+						extractedSecondaryFluidsFromTank[tank] += drainedAmount;
+						continue FluidIngredients;
+					}
+				}
+				else {
+					for (int tank = 0; tank < availableFluids.getTanks(); tank++) {
+						FluidStack fluidStack = availableFluids.getFluidInTank(tank);
+						if (simulate && fluidStack.getAmount() <= extractedFluidsFromTank[tank])
+							continue;
+						if (!fluidIngredient.test(fluidStack))
+							continue;
+						int drainedAmount = Math.min(amountRequired, fluidStack.getAmount());
+						if (!simulate) {
+							fluidStack.shrink(drainedAmount);
+							fluidsAffected = true;
+						}
+						amountRequired -= drainedAmount;
+						if (amountRequired != 0)
+							continue;
+						extractedFluidsFromTank[tank] += drainedAmount;
+						continue FluidIngredients;
+					}
+				}
+
+
+				// something wasn't found
+				return false;
+			}
+
+			if (fluidsAffected) {
+				basin.getBehaviour(SmartFluidTankBehaviour.INPUT)
+						.forEach(SmartFluidTankBehaviour.TankSegment::onFluidStackChanged);
+				basin.getBehaviour(SmartFluidTankBehaviour.OUTPUT)
+						.forEach(SmartFluidTankBehaviour.TankSegment::onFluidStackChanged);
+				be.getBehaviour(SmartFluidTankBehaviour.INPUT)
+						.forEach(SmartFluidTankBehaviour.TankSegment::onFluidStackChanged);
+				be.getBehaviour(SmartFluidTankBehaviour.OUTPUT)
+						.forEach(SmartFluidTankBehaviour.TankSegment::onFluidStackChanged);
+			}
+
+			if (simulate) {
+				if (recipe instanceof VacuumizingRecipe basinRecipe) {
+					recipeOutputItems.addAll(basinRecipe.rollResults());
+					recipeOutputItems.addAll(basinRecipe.getRemainingItems(basin.getInputInventory()));
+
+					NonNullList<FluidStack> fss = basinRecipe.getFluidResults();
+
+					if (basinRecipe.secondaryFluidResults >= 0 && basinRecipe.secondaryFluidResults <= fss.size())
+						recipeSecondaryOutputFluids.add(fss.get(basinRecipe.secondaryFluidResults));
+					for (int i = 0; i < basinRecipe.secondaryFluidResults; i++)
+						recipeOutputFluids.add(fss.get(i));
+					for (int i = basinRecipe.secondaryFluidResults + 1; i < fss.size(); i++)
+						recipeOutputFluids.add(fss.get(i));
+				}
+			}
+
+			if (!basin.acceptOutputs(recipeOutputItems, recipeOutputFluids, simulate))
+				return false;
+
+			if (recipe instanceof VacuumizingRecipe basinRecipe)
+				if (basinRecipe.secondaryFluidResults >= 0)
+					if (!be.acceptOutputs(recipeSecondaryOutputFluids, simulate))
+						return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public void readAdditional(JsonObject json) {
+		if (json.has("secondaryFluidOutput")) secondaryFluidResults = json.get("secondaryFluidOutput").getAsInt();
+		if (json.has("secondaryFluidInput")) secondaryFluidInputs = json.get("secondaryFluidInput").getAsInt();
+	}
+
+	@Override
+	public void readAdditional(FriendlyByteBuf buffer) {
+		secondaryFluidResults = buffer.readInt();
+		secondaryFluidInputs = buffer.readInt();
+	}
+
+	@Override
+	public void writeAdditional(JsonObject json) {
+		json.addProperty("secondaryFluidOutput", secondaryFluidResults);
+		json.addProperty("secondaryFluidInput", secondaryFluidInputs);
+	}
+
+	@Override
+	public void writeAdditional(FriendlyByteBuf buffer) {
+		buffer.writeInt(secondaryFluidResults);
+		buffer.writeInt(secondaryFluidInputs);
+	}
+
+	public int getSecondaryFluidResults() {
+		return secondaryFluidResults;
+	}
+
+	public int getSecondaryFluidInputs() {
+		return secondaryFluidInputs;
 	}
 
 }

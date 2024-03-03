@@ -1,9 +1,6 @@
 package com.negodya1.vintageimprovements.content.kinetics.centrifuge;
 
-import com.negodya1.vintageimprovements.VintageBlockEntity;
-import com.negodya1.vintageimprovements.VintageBlocks;
-import com.negodya1.vintageimprovements.VintageImprovements;
-import com.negodya1.vintageimprovements.VintageShapes;
+import com.negodya1.vintageimprovements.*;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingTableBlockEntity;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.Create;
@@ -34,6 +31,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -71,6 +69,13 @@ public class CentrifugeBlock extends KineticBlock implements IBE<CentrifugeBlock
 			if (!heldItem.isEmpty()) {
 				if (player.getItemInHand(handIn).getItem() == AllBlocks.BASIN.get().asItem()) {
 					if (be.addBasin(player.getItemInHand(handIn))) {
+						player.getItemInHand(handIn).shrink(1);
+						return InteractionResult.SUCCESS;
+					}
+					return InteractionResult.PASS;
+				}
+				else if (player.getItemInHand(handIn).getItem() == VintageItems.REDSTONE_MODULE.get() && be.getBasins() == 4) {
+					if (be.addRedstoneApp(player.getItemInHand(handIn))) {
 						player.getItemInHand(handIn).shrink(1);
 						return InteractionResult.SUCCESS;
 					}
@@ -128,11 +133,6 @@ public class CentrifugeBlock extends KineticBlock implements IBE<CentrifugeBlock
 	@Override
 	public boolean hasShaftTowards(LevelReader world, BlockPos pos, BlockState state, Direction face) {
 		return face.getAxis() == Axis.Y;
-	}
-
-	@Override
-	public SpeedLevel getMinimumRequiredSpeedLevel() {
-		return SpeedLevel.FAST;
 	}
 
 	@Override
@@ -205,6 +205,22 @@ public class CentrifugeBlock extends KineticBlock implements IBE<CentrifugeBlock
 				pLevel.setBlockAndUpdate(structurePos, requiredStructure);
 			}
 		}
+	}
+
+	@Override
+	public boolean hasAnalogOutputSignal(BlockState state) {
+		return true;
+	}
+
+	@Override
+	public int getAnalogOutputSignal(BlockState blockState, Level worldIn, BlockPos pos) {
+		BlockEntity be = getBlockEntity(worldIn, pos);
+		if (be instanceof CentrifugeBlockEntity cbe) {
+			if (!cbe.getRedstoneApp()) return 0;
+			return (cbe.isProccesingNow() ? 15 : 0);
+		}
+
+		return 0;
 	}
 
 }

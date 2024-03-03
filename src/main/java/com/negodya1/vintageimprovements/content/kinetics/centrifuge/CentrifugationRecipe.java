@@ -5,11 +5,13 @@ import java.util.function.Supplier;
 
 import javax.annotation.Nonnull;
 
+import com.google.gson.JsonObject;
 import com.negodya1.vintageimprovements.VintageBlocks;
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintageRecipes;
 import com.negodya1.vintageimprovements.compat.jei.category.assemblies.AssemblyCentrifugation;
 import com.negodya1.vintageimprovements.compat.jei.category.assemblies.AssemblyVibrating;
+import com.negodya1.vintageimprovements.foundation.utility.VintageLang;
 import com.simibubi.create.AllRecipeTypes;
 import com.simibubi.create.compat.jei.category.sequencedAssembly.SequencedAssemblySubCategory;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlock.HeatLevel;
@@ -28,6 +30,7 @@ import com.simibubi.create.foundation.utility.Iterate;
 
 import com.simibubi.create.foundation.utility.Lang;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
@@ -45,6 +48,12 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 public class CentrifugationRecipe extends ProcessingRecipe<SmartInventory> implements IAssemblyRecipe {
+
+	int minimalRPM;
+
+	public static boolean match(CentrifugeBlockEntity centrifuge, Recipe<?> recipe) {
+		return apply(centrifuge, recipe, true);
+	}
 
 	public static boolean apply(CentrifugeBlockEntity centrifuge, Recipe<?> recipe) {
 		return apply(centrifuge, recipe, false);
@@ -201,7 +210,7 @@ public class CentrifugationRecipe extends ProcessingRecipe<SmartInventory> imple
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public Component getDescriptionForAssembly() {
-		return Lang.translateDirect("recipe.assembly.centrifugation");
+		return VintageLang.translateDirect("recipe.assembly.centrifugation");
 	}
 
 	@Override
@@ -212,6 +221,31 @@ public class CentrifugationRecipe extends ProcessingRecipe<SmartInventory> imple
 	@Override
 	public Supplier<Supplier<SequencedAssemblySubCategory>> getJEISubCategory() {
 		return () -> AssemblyCentrifugation::new;
+	}
+
+	@Override
+	public void readAdditional(JsonObject json) {
+		if (json.has("minimalRPM")) minimalRPM = json.get("minimalRPM").getAsInt();
+		else minimalRPM = 100;
+	}
+
+	@Override
+	public void readAdditional(FriendlyByteBuf buffer) {
+		minimalRPM = buffer.readInt();
+	}
+
+	@Override
+	public void writeAdditional(JsonObject json) {
+		json.addProperty("minimalRPM", minimalRPM);
+	}
+
+	@Override
+	public void writeAdditional(FriendlyByteBuf buffer) {
+		buffer.writeInt(minimalRPM);
+	}
+
+	public int getMinimalRPM() {
+		return minimalRPM;
 	}
 
 }

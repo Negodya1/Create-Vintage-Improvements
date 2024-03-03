@@ -149,11 +149,13 @@ public class VintageImprovements {
     public static final RegistryObject<Item> GRINDER_BELT = ITEMS.register("grinder_belt", () -> new Item(new Item.Properties().tab(VintageCreativeTab.instance)));
     public static final RegistryObject<Item> SPRING_COILING_MACHINE_WHEEL = ITEMS.register("spring_coiling_machine_wheel", () -> new Item(new Item.Properties().tab(VintageCreativeTab.instance)));
 
+    public static final RegistryObject<Item> SULFUR_CHUNK = ITEMS.register("sulfur_chunk", () -> new Item(new Item.Properties().tab(VintageCreativeTab.instance)));
+    public static final RegistryObject<Item> SULFUR = ITEMS.register("sulfur", () -> new Item(new Item.Properties().tab(VintageCreativeTab.instance)));
+    public static final RegistryObject<Item> VANADIUM_INGOT = ITEMS.register("vanadium_ingot", () -> new Item(new Item.Properties().tab(VintageCreativeTab.instance)));
+    public static final RegistryObject<Item> VANADIUM_NUGGET = ITEMS.register("vanadium_nugget", () -> new Item(new Item.Properties().tab(VintageCreativeTab.instance)));
 
     public VintageImprovements() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
-        modEventBus.addListener(this::commonSetup);
 
         MY_REGISTRATE.registerEventListeners(modEventBus);
 
@@ -163,11 +165,15 @@ public class VintageImprovements {
         ITEMS.register(modEventBus);
 
         VintageBlocks.register();
+        VintageItems.register();
         VintageBlockEntity.register();
         VintageRecipes.register(modEventBus);
         VintagePartialModels.init();
+        VintageFluids.register();
 
         onCtor();
+
+        modEventBus.addListener(this::commonSetup);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
@@ -179,7 +185,7 @@ public class VintageImprovements {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-
+        VintageFluids.registerFluidInteractions();
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

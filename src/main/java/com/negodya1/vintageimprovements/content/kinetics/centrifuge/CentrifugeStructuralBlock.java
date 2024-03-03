@@ -140,6 +140,10 @@ public class CentrifugeStructuralBlock extends DirectionalBlock implements IBE<C
 			pPlayer.getItemInHand(pHand).shrink(1);
 			return InteractionResult.SUCCESS;
 		}
+		if (wwt.getBasins() >= 4 && wwt.addRedstoneApp(pPlayer.getItemInHand(pHand))) {
+			pPlayer.getItemInHand(pHand).shrink(1);
+			return InteractionResult.SUCCESS;
+		}
 
 		if (wwt.getBasins() < 4 || wwt.getSpeed() != 0) return InteractionResult.PASS;
 
@@ -324,5 +328,15 @@ public class CentrifugeStructuralBlock extends DirectionalBlock implements IBE<C
 
 			if (remainder.isEmpty()) break;
 		}
+	}
+
+	@Override
+	public boolean hasAnalogOutputSignal(BlockState state) {
+		return true;
+	}
+
+	@Override
+	public int getAnalogOutputSignal(BlockState blockState, Level worldIn, BlockPos pos) {
+		return getBlockEntityOptional(worldIn, pos).map(CentrifugeStructuralBlockEntity::getAnalogSignal).orElse(0);
 	}
 }

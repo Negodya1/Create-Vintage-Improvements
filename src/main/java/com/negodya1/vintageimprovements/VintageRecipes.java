@@ -6,9 +6,11 @@ import java.util.function.Supplier;
 import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugationRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.curving_press.CurvingRecipe;
+import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.PressurizingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumizingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.LeavesVibratingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingRecipe;
+import com.negodya1.vintageimprovements.foundation.utility.VintageLang;
 import com.simibubi.create.AllTags;
 import net.minecraft.core.Registry;
 import org.jetbrains.annotations.Nullable;
@@ -40,7 +42,8 @@ public enum VintageRecipes implements IRecipeTypeInfo {
     VIBRATING(VibratingRecipe::new),
     LEAVES_VIBRATING(LeavesVibratingRecipe::new),
     CENTRIFUGATION(CentrifugationRecipe::new),
-    CURVING(CurvingRecipe::new);
+    CURVING(CurvingRecipe::new),
+    PRESSURIZING(PressurizingRecipe::new);
     private final ResourceLocation id;
     private final RegistryObject<RecipeSerializer<?>> serializerObject;
     @Nullable
@@ -48,7 +51,7 @@ public enum VintageRecipes implements IRecipeTypeInfo {
     private final Supplier<RecipeType<?>> type;
 
     VintageRecipes(Supplier<RecipeSerializer<?>> serializerSupplier, Supplier<RecipeType<?>> typeSupplier, boolean registerType) {
-        String name = Lang.asId(name());
+        String name = VintageLang.asId(name());
         id = VintageImprovements.asResource(name);
         serializerObject = Registers.SERIALIZER_REGISTER.register(name, serializerSupplier);
         if (registerType) {
@@ -61,7 +64,7 @@ public enum VintageRecipes implements IRecipeTypeInfo {
     }
 
     VintageRecipes(Supplier<RecipeSerializer<?>> serializerSupplier) {
-        String name = Lang.asId(name());
+        String name = VintageLang.asId(name());
         id = VintageImprovements.asResource(name);
         serializerObject = Registers.SERIALIZER_REGISTER.register(name, serializerSupplier);
         typeObject = Registers.TYPE_REGISTER.register(name, () -> RecipeType.simple(id));
