@@ -45,7 +45,7 @@
 	"create.recipe.assembly.vacuumizing": "真空处理",
 	"vintageimprovements.recipe.vacuumizing": "真空抽取",
 	
-	"block.vintageimprovements.vibrating_table": "",
+	"block.vintageimprovements.vibrating_table": "振动台",
 	"create.recipe.assembly.vibrating": "振击",
 	"vintageimprovements.recipe.vibrating": "振动加工",
 	"vintageimprovements.recipe.unpacking": "振动解包",
