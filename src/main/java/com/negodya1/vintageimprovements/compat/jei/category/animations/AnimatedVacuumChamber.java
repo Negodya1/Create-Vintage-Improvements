@@ -13,6 +13,32 @@ import net.minecraft.util.Mth;
 
 public class AnimatedVacuumChamber extends AnimatedKinetics {
 
+	public void draw(GuiGraphics graphics, int xOffset, int yOffset, boolean mode) {
+		int scale = 23;
+
+		draw(graphics, xOffset, yOffset);
+
+		PoseStack matrixStack = graphics.pose();
+		matrixStack.pushPose();
+		matrixStack.translate(xOffset, yOffset, 200);
+		matrixStack.mulPose(Axis.XP.rotationDegrees(-15.5f));
+		matrixStack.mulPose(Axis.YP.rotationDegrees(22.5f));
+
+		if (!mode)
+			blockElement(VintagePartialModels.VACUUM_CHAMBER_ARROWS)
+					.atLocal(0, 0, 0)
+					.scale(scale)
+					.render(graphics);
+		else
+			blockElement(VintagePartialModels.VACUUM_CHAMBER_ARROWS)
+					.atLocal(0, 0, 0)
+					.rotateBlock(0, 0, 180)
+					.scale(scale)
+					.render(graphics);
+
+		matrixStack.popPose();
+	}
+
 	@Override
 	public void draw(GuiGraphics graphics, int xOffset, int yOffset) {
 		PoseStack matrixStack = graphics.pose();

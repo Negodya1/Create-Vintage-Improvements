@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "tag": "forge:storage_blocks/sulfur"
+    }
+  },
+  "pattern": [
+    "B"
+  ],
+  "result": {
+    "count": 9,
+    "item": "vintageimprovements:sulfur"
+  }
+}

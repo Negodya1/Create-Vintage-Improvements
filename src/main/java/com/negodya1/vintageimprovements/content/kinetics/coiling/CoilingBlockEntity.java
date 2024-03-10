@@ -11,6 +11,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.collect.ImmutableList;
 
+import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintageRecipes;
 
 import com.simibubi.create.AllSoundEvents;
@@ -63,7 +64,6 @@ public class CoilingBlockEntity extends KineticBlockEntity {
 	private int recipeIndex;
 	private final LazyOptional<IItemHandler> invProvider;
 	private FilteringBehaviour filtering;
-
 	private ItemStack playEvent;
 
 	public CoilingBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
@@ -344,6 +344,8 @@ public class CoilingBlockEntity extends KineticBlockEntity {
 	}
 
 	public void start(ItemStack inserted) {
+		VintageImprovements.logThis("start");
+
 		if (inventory.isEmpty())
 			return;
 		if (level.isClientSide && !isVirtual())

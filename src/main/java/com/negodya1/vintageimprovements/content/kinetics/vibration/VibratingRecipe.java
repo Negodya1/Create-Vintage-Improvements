@@ -3,6 +3,7 @@ package com.negodya1.vintageimprovements.content.kinetics.vibration;
 import com.negodya1.vintageimprovements.VintageBlocks;
 import com.negodya1.vintageimprovements.VintageRecipes;
 import com.negodya1.vintageimprovements.compat.jei.category.assemblies.AssemblyVibrating;
+import com.negodya1.vintageimprovements.foundation.utility.VintageLang;
 import com.simibubi.create.compat.jei.category.sequencedAssembly.SequencedAssemblySubCategory;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder.ProcessingRecipeParams;
@@ -56,7 +57,7 @@ public class VibratingRecipe extends ProcessingRecipe<RecipeWrapper> implements 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public Component getDescriptionForAssembly() {
-		return Lang.translateDirect("recipe.assembly.vibrating");
+		return VintageLang.translateDirect("recipe.assembly.vibrating");
 	}
 	
 	@Override

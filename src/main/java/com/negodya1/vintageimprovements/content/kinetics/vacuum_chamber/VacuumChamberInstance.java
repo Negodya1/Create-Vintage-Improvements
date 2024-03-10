@@ -9,6 +9,8 @@ import com.simibubi.create.content.kinetics.base.flwdata.RotatingData;
 import com.simibubi.create.content.kinetics.simpleRelays.encased.EncasedCogInstance;
 import com.simibubi.create.foundation.render.AllMaterialSpecs;
 import com.simibubi.create.foundation.utility.AnimationTickHolder;
+import net.minecraft.world.entity.monster.warden.AngerLevel;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class VacuumChamberInstance extends EncasedCogInstance implements DynamicInstance {
 

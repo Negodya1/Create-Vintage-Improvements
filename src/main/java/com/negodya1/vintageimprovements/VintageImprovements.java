@@ -1,5 +1,6 @@
 package com.negodya1.vintageimprovements;
 
+import com.negodya1.vintageimprovements.infrastructure.config.VintageConfig;
 import com.negodya1.vintageimprovements.infrastructure.ponder.VintagePonder;
 import net.minecraftforge.fml.loading.FMLPaths;
 import org.slf4j.Logger;
@@ -94,6 +95,11 @@ public class VintageImprovements {
     public static final RegistryObject<Item> GRINDER_BELT = ITEMS.register("grinder_belt", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SPRING_COILING_MACHINE_WHEEL = ITEMS.register("spring_coiling_machine_wheel", () -> new Item(new Item.Properties()));
 
+    public static final RegistryObject<Item> SULFUR_CHUNK = ITEMS.register("sulfur_chunk", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> SULFUR = ITEMS.register("sulfur", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> VANADIUM_INGOT = ITEMS.register("vanadium_ingot", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> VANADIUM_NUGGET = ITEMS.register("vanadium_nugget", () -> new Item(new Item.Properties()));
+
     public static final RegistryObject<CreativeModeTab> VINTAGE_IMPROVEMENT_TAB = CREATIVE_MODE_TABS.register("vintage_improvement_tab", () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .title(Component.translatable("itemGroup." + MODID))
@@ -141,16 +147,24 @@ public class VintageImprovements {
                 output.accept(VintageBlocks.CENTRIFUGE.get());
 
                 output.accept(VintageBlocks.CURVING_PRESS.get());
+
+                output.accept(VintageItems.REDSTONE_MODULE.get());
+
+                output.accept(SULFUR_CHUNK.get());
+                output.accept(SULFUR.get());
+                output.accept(VintageBlocks.SULFUR_BLOCK.get());
+
+                output.accept(VANADIUM_NUGGET.get());
+                output.accept(VANADIUM_INGOT.get());
+                output.accept(VintageBlocks.VANADIUM_BLOCK.get());
+
+                output.accept(VintageFluids.SULFURIC_ACID.getBucket().get());
+
+                output.accept(VintageItems.COPPER_SULFATE);
             }).build());
 
     public VintageImprovements() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
-        // Register the commonSetup method for modloading
-        modEventBus.addListener(this::commonSetup);
-
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, VintageConfig.SPEC);
-        VintageConfig.loadConfig(VintageConfig.SPEC, FMLPaths.CONFIGDIR.get().resolve("vintageimprovements-common.toml"));
 
         MY_REGISTRATE.registerEventListeners(modEventBus);
 
@@ -165,12 +179,26 @@ public class VintageImprovements {
         VintageBlockEntity.register();
         VintageRecipes.register(modEventBus);
         VintagePartialModels.init();
+        VintageItems.register();
+        VintageFluids.register();
+
+        onCtor();
+
+        // Register the commonSetup method for modloading
+        modEventBus.addListener(this::commonSetup);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event) {}
+    public static void onCtor() {
+        ModLoadingContext modLoadingContext = ModLoadingContext.get();
+        VintageConfig.register(modLoadingContext);
+    }
+
+    private void commonSetup(final FMLCommonSetupEvent event) {
+        VintageFluids.registerFluidInteractions();
+    }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent

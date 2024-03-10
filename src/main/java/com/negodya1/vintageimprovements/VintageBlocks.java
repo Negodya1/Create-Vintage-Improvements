@@ -20,13 +20,17 @@ import com.simibubi.create.foundation.data.BlockStateGen;
 import com.simibubi.create.foundation.data.SharedProperties;
 
 import static com.simibubi.create.foundation.data.ModelGen.customItemModel;
-import static com.simibubi.create.foundation.data.TagGen.axeOrPickaxe;
 
 import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraftforge.common.Tags;
 
 import static com.negodya1.vintageimprovements.VintageImprovements.MY_REGISTRATE;
+import static com.simibubi.create.foundation.data.TagGen.*;
 
 public class VintageBlocks {
 
@@ -34,13 +38,14 @@ public class VintageBlocks {
         MY_REGISTRATE.setCreativeTab(VintageImprovements.VINTAGE_IMPROVEMENT_TAB);
     }
 
+    //Machines
     public static final BlockEntry<GrinderBlock> BELT_GRINDER = MY_REGISTRATE.block("belt_grinder", GrinderBlock::new)
             .initialProperties(SharedProperties::stone)
             .addLayer(() -> RenderType::cutoutMipped)
             .properties(p -> p.mapColor(MapColor.SAND))
             .transform(axeOrPickaxe())
             .blockstate(new GrinderGenerator()::generate)
-            .transform(BlockStressDefaults.setImpact(VintageConfig.BELT_GRINDER_STRESS_IMPACT.get()))
+            .transform(BlockStressDefaults.setImpact(4.0))
             .item()
             .tag(AllTags.AllItemTags.CONTRAPTION_CONTROLLED.tag)
             .transform(customItemModel())
@@ -52,7 +57,7 @@ public class VintageBlocks {
             .properties(p -> p.mapColor(MapColor.PODZOL))
             .transform(axeOrPickaxe())
             .blockstate(new CoilingGenerator()::generate)
-            .transform(BlockStressDefaults.setImpact(VintageConfig.COILING_MACHINE_STRESS_IMPACT.get()))
+            .transform(BlockStressDefaults.setImpact(4.0))
             .item()
             .tag(AllTags.AllItemTags.CONTRAPTION_CONTROLLED.tag)
             .transform(customItemModel())
@@ -64,7 +69,7 @@ public class VintageBlocks {
                     .transform(axeOrPickaxe())
                     .blockstate((c, p) -> p.simpleBlock(c.getEntry(), AssetLookup.partialBaseModel(c, p)))
                     .addLayer(() -> RenderType::cutoutMipped)
-                    .transform(BlockStressDefaults.setImpact(VintageConfig.VACUUM_CHAMBER_STRESS_IMPACT.get()))
+                    .transform(BlockStressDefaults.setImpact(4.0))
                     .item(AssemblyOperatorBlockItem::new)
                     .transform(customItemModel())
                     .register();
@@ -75,7 +80,7 @@ public class VintageBlocks {
             .properties(p -> p.mapColor(MapColor.PODZOL))
             .transform(axeOrPickaxe())
             .blockstate(new VibratingTableGenerator()::generate)
-            .transform(BlockStressDefaults.setImpact(VintageConfig.VIBRATING_TABLE_STRESS_IMPACT.get()))
+            .transform(BlockStressDefaults.setImpact(2.0))
             .item()
             .tag(AllTags.AllItemTags.CONTRAPTION_CONTROLLED.tag)
             .transform(customItemModel())
@@ -87,7 +92,7 @@ public class VintageBlocks {
             .properties(p -> p.mapColor(MapColor.DIRT))
             .transform(axeOrPickaxe())
             .blockstate(new CentrifugeGenerator()::generate)
-            .transform(BlockStressDefaults.setImpact(VintageConfig.CENTRIFUGE_STRESS_IMPACT.get()))
+            .transform(BlockStressDefaults.setImpact(2.0))
             .item(CentrifugeItem::new)
             .tag(AllTags.AllItemTags.CONTRAPTION_CONTROLLED.tag)
             .transform(customItemModel())
@@ -113,6 +118,32 @@ public class VintageBlocks {
                     .item(AssemblyOperatorBlockItem::new)
                     .transform(customItemModel())
                     .register();
+
+    //Building blocks
+    public static final BlockEntry<Block> VANADIUM_BLOCK = MY_REGISTRATE.block("vanadium_block", Block::new)
+            .initialProperties(() -> Blocks.IRON_BLOCK)
+            .properties(p -> p.mapColor(MapColor.GLOW_LICHEN).requiresCorrectToolForDrops())
+            .transform(pickaxeOnly())
+            .tag(BlockTags.NEEDS_IRON_TOOL)
+            .tag(Tags.Blocks.STORAGE_BLOCKS)
+            .tag(BlockTags.BEACON_BASE_BLOCKS)
+            .transform(tagBlockAndItem("storage_blocks/vanadium"))
+            .tag(Tags.Items.STORAGE_BLOCKS)
+            .build()
+            .lang("Block of Vanadium")
+            .register();
+
+    public static final BlockEntry<Block> SULFUR_BLOCK = MY_REGISTRATE.block("sulfur_block", Block::new)
+            .initialProperties(() -> Blocks.IRON_BLOCK)
+            .properties(p -> p.mapColor(MapColor.GLOW_LICHEN).requiresCorrectToolForDrops())
+            .transform(pickaxeOnly())
+            .tag(BlockTags.NEEDS_STONE_TOOL)
+            .tag(Tags.Blocks.STORAGE_BLOCKS)
+            .transform(tagBlockAndItem("storage_blocks/sulfur"))
+            .tag(Tags.Items.STORAGE_BLOCKS)
+            .build()
+            .lang("Block of Sulfur")
+            .register();
 
     public static void register() {}
 }

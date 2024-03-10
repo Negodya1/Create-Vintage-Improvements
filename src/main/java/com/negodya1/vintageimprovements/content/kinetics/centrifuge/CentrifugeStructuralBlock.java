@@ -13,6 +13,7 @@ import com.simibubi.create.content.fluids.transfer.GenericItemEmptying;
 import com.simibubi.create.content.fluids.transfer.GenericItemFilling;
 import com.simibubi.create.foundation.block.IBE;
 import com.simibubi.create.foundation.fluid.FluidHelper;
+import com.simibubi.create.foundation.item.ItemHelper;
 import com.simibubi.create.foundation.utility.Iterate;
 import com.simibubi.create.foundation.utility.VoxelShaper;
 import net.minecraft.sounds.SoundEvents;
@@ -140,6 +141,10 @@ public class CentrifugeStructuralBlock extends DirectionalBlock implements IBE<C
 			pPlayer.getItemInHand(pHand).shrink(1);
 			return InteractionResult.SUCCESS;
 		}
+		if (wwt.getBasins() >= 4 && wwt.addRedstoneApp(pPlayer.getItemInHand(pHand))) {
+			pPlayer.getItemInHand(pHand).shrink(1);
+			return InteractionResult.SUCCESS;
+		}
 
 		if (wwt.getBasins() < 4 || wwt.getSpeed() != 0) return InteractionResult.PASS;
 
@@ -179,6 +184,7 @@ public class CentrifugeStructuralBlock extends DirectionalBlock implements IBE<C
 
 	@Override
 	public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
+		pLevel.removeBlockEntity(pPos);
 		if (stillValid(pLevel, pPos, pState, false))
 			pLevel.destroyBlock(getMaster(pLevel, pPos, pState), true);
 	}
@@ -199,8 +205,8 @@ public class CentrifugeStructuralBlock extends DirectionalBlock implements IBE<C
 		if (stillValid(pLevel, pCurrentPos, pState, false)) {
 			BlockPos masterPos = getMaster(pLevel, pCurrentPos, pState);
 			if (!pLevel.getBlockTicks()
-					.hasScheduledTick(masterPos, AllBlocks.LARGE_WATER_WHEEL.get()))
-				pLevel.scheduleTick(masterPos, AllBlocks.LARGE_WATER_WHEEL.get(), 1);
+					.hasScheduledTick(masterPos, VintageBlocks.CENTRIFUGE.get()))
+				pLevel.scheduleTick(masterPos, VintageBlocks.CENTRIFUGE.get(), 1);
 			return pState;
 		}
 		if (!(pLevel instanceof Level level) || level.isClientSide())
@@ -235,8 +241,10 @@ public class CentrifugeStructuralBlock extends DirectionalBlock implements IBE<C
 
 	@Override
 	public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {
-		if (!stillValid(pLevel, pPos, pState, false))
+		if (!stillValid(pLevel, pPos, pState, false)) {
+			getBlockEntity(pLevel, pPos);
 			pLevel.setBlockAndUpdate(pPos, Blocks.AIR.defaultBlockState());
+		}
 	}
 
 	@OnlyIn(Dist.CLIENT)
@@ -323,5 +331,15 @@ public class CentrifugeStructuralBlock extends DirectionalBlock implements IBE<C
 
 			if (remainder.isEmpty()) break;
 		}
+	}
+
+	@Override
+	public boolean hasAnalogOutputSignal(BlockState state) {
+		return true;
+	}
+
+	@Override
+	public int getAnalogOutputSignal(BlockState blockState, Level worldIn, BlockPos pos) {
+		return getBlockEntityOptional(worldIn, pos).map(CentrifugeStructuralBlockEntity::getAnalogSignal).orElse(0);
 	}
 }

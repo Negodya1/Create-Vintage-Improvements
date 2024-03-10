@@ -1,8 +1,8 @@
 package com.negodya1.vintageimprovements.content.kinetics.vibration;
 
-import com.negodya1.vintageimprovements.VintageConfig;
 import com.negodya1.vintageimprovements.VintageRecipes;
 import com.negodya1.vintageimprovements.VintageRecipesList;
+import com.negodya1.vintageimprovements.infrastructure.config.VintageConfig;
 import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.content.kinetics.base.IRotate;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
@@ -231,7 +231,7 @@ public class VibratingTableBlockEntity extends KineticBlockEntity {
 	}
 
 	public static <C extends Container> boolean canUnpack(Recipe<C> recipe) {
-		if (!(recipe instanceof CraftingRecipe) || !VintageConfig.allowUnpackingOnVibratingTable) return false;
+		if (!(recipe instanceof CraftingRecipe) || !VintageConfig.server().recipes.allowUnpackingOnVibratingTable.get()) return false;
 		NonNullList<Ingredient> ingredients = recipe.getIngredients();
 		if (ingredients.size() == 1) return ingredients.get(0).getItems()[0].is(storageTag);
 		return false;
@@ -253,10 +253,10 @@ public class VibratingTableBlockEntity extends KineticBlockEntity {
 		if (VintageRecipes.VIBRATING.find(inventoryIn, level)
 				.isPresent()) return true;
 
-		if (VintageConfig.allowVibratingLeaves && VintageRecipes.LEAVES_VIBRATING.find(inventoryIn, level)
+		if (VintageConfig.server().recipes.allowVibratingLeaves.get() && VintageRecipes.LEAVES_VIBRATING.find(inventoryIn, level)
 				.isPresent()) return true;
 
-		return (tester.getStackInSlot(0).is(storageTag) && VintageConfig.allowUnpackingOnVibratingTable);
+		return (tester.getStackInSlot(0).is(storageTag) && VintageConfig.server().recipes.allowUnpackingOnVibratingTable.get());
 	}
 
 	private void process() {
@@ -281,7 +281,7 @@ public class VibratingTableBlockEntity extends KineticBlockEntity {
 				}
 			}
 
-			if (!found && VintageConfig.allowUnpackingOnVibratingTable && inputInv.getStackInSlot(0).is(storageTag)) {
+			if (!found && VintageConfig.server().recipes.allowUnpackingOnVibratingTable.get() && inputInv.getStackInSlot(0).is(storageTag)) {
 				List<CraftingRecipe> recipes = VintageRecipesList.getUnpacking();
 				for (CraftingRecipe recipe : recipes) {
 					if (recipe.getIngredients().size() > 1) continue;
@@ -308,7 +308,7 @@ public class VibratingTableBlockEntity extends KineticBlockEntity {
 				}
 			}
 
-			if (!found && VintageConfig.allowVibratingLeaves && inputInv.getStackInSlot(0).is(leavesTag)) {
+			if (!found && VintageConfig.server().recipes.allowVibratingLeaves.get() && inputInv.getStackInSlot(0).is(leavesTag)) {
 				ItemStack stackInSlot = inputInv.getStackInSlot(0);
 
 				if (stackInSlot.getItem() instanceof BlockItem) {

@@ -20,6 +20,8 @@ import com.negodya1.vintageimprovements.content.kinetics.grinder.PolishingRecipe
 import com.negodya1.vintageimprovements.content.kinetics.vibration.LeavesVibratingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingTableBlockEntity;
+import com.negodya1.vintageimprovements.infrastructure.config.VCRecipes;
+import com.negodya1.vintageimprovements.infrastructure.config.VintageConfig;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllRecipeTypes;
@@ -30,6 +32,7 @@ import com.simibubi.create.compat.jei.EmptyBackground;
 import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
 import com.simibubi.create.content.equipment.sandPaper.SandPaperPolishingRecipe;
 import com.simibubi.create.content.processing.basin.BasinRecipe;
+import com.simibubi.create.foundation.config.ConfigBase;
 import com.simibubi.create.infrastructure.config.AllConfigs;
 import com.simibubi.create.infrastructure.config.CRecipes;
 import mezz.jei.api.IModPlugin;
@@ -77,16 +80,6 @@ public class VintageJEI implements IModPlugin {
 				.emptyBackground(177, 85)
 				.build("polishing", GrinderPolishingCategory::new));
 
-		if (VintageConfig.allowSandpaperPolishingOnGrinder) {
-			ALL.add(builder(SandPaperPolishingRecipe.class)
-					.addAllRecipesIf(r -> r instanceof SandPaperPolishingRecipe
-					&& VintageRecipesList.isPolishing(r))
-					.catalyst(VintageBlocks.BELT_GRINDER::get)
-					.doubleItemIcon(VintageBlocks.BELT_GRINDER.get(), AllItems.SAND_PAPER)
-					.emptyBackground(177, 85)
-					.build("grinder_sandpaper_polishing", GrinderSandpaperPolishingCategory::new));
-		}
-
 		ALL.add(builder(CoilingRecipe.class)
 				.addTypedRecipes(VintageRecipes.COILING::getType)
 				.catalyst(VintageBlocks.SPRING_COILING_MACHINE::get)
@@ -102,6 +95,14 @@ public class VintageJEI implements IModPlugin {
 				.emptyBackground(177, 103)
 				.build("vacuumizing", VacuumizingCategory::new));
 
+		ALL.add(builder(BasinRecipe.class)
+				.addTypedRecipes(VintageRecipes.PRESSURIZING::getType)
+				.catalyst(VintageBlocks.VACUUM_CHAMBER::get)
+				.catalyst(AllBlocks.BASIN::get)
+				.doubleItemIcon(VintageBlocks.VACUUM_CHAMBER.get(), AllBlocks.BASIN.get())
+				.emptyBackground(177, 103)
+				.build("pressurizing", PressurizingCategory::new));
+
 		ALL.add(builder(VibratingRecipe.class)
 				.addTypedRecipes(VintageRecipes.VIBRATING::getType)
 				.catalyst(VintageBlocks.VIBRATING_TABLE::get)
@@ -112,30 +113,10 @@ public class VintageJEI implements IModPlugin {
 		ALL.add(builder(CentrifugationRecipe.class)
 				.addTypedRecipes(VintageRecipes.CENTRIFUGATION::getType)
 				.catalyst(VintageBlocks.CENTRIFUGE::get)
+				.catalyst(AllBlocks.BASIN::get)
 				.itemIcon(VintageBlocks.CENTRIFUGE)
-				.emptyBackground(177, 103)
+				.emptyBackground(177, 113)
 				.build("centrifugation", CentrifugationCategory::new));
-
-		if (VintageConfig.allowUnpackingOnVibratingTable) {
-			ALL.add(builder(CraftingRecipe.class)
-					.addAllRecipesIf(r -> r instanceof CraftingRecipe && !(r instanceof IShapedRecipe<?>)
-									&& r.getIngredients()
-									.size() == 1
-									&& VibratingTableBlockEntity.canUnpack(r) && !AllRecipeTypes.shouldIgnoreInAutomation(r))
-					.catalyst(VintageBlocks.VIBRATING_TABLE::get)
-					.doubleItemIcon(VintageBlocks.VIBRATING_TABLE.get(), Blocks.IRON_BLOCK)
-					.emptyBackground(177, 70)
-					.build("unpacking", UnpackingCategory::new));
-		}
-
-		if (VintageConfig.allowVibratingLeaves) {
-			ALL.add(builder(LeavesVibratingRecipe.class)
-					.addTypedRecipes(VintageRecipes.LEAVES_VIBRATING::getType)
-					.catalyst(VintageBlocks.VIBRATING_TABLE::get)
-					.doubleItemIcon(VintageBlocks.VIBRATING_TABLE.get(), Blocks.OAK_LEAVES)
-					.emptyBackground(177, 70)
-					.build("leaves_vibrating", LeavesVibratingCategory::new));
-		}
 
 		ALL.add(builder(CurvingRecipe.class)
 				.addTypedRecipes(VintageRecipes.CURVING::getType)
@@ -144,17 +125,44 @@ public class VintageJEI implements IModPlugin {
 				.emptyBackground(177, 70)
 				.build("curving", CurvingCategory::new));
 
-		if (VintageConfig.allowAutoCurvingRecipes) {
-			ALL.add(builder(CraftingRecipe.class)
-					.addAllRecipesIf(r -> r instanceof CraftingRecipe && r instanceof IShapedRecipe<?>
-							&& r.getIngredients().size() == 6
-							&& r.canCraftInDimensions(3, 2)
-							&& CurvingPressBlockEntity.canCurve(r) && !AllRecipeTypes.shouldIgnoreInAutomation(r))
-					.catalyst(VintageBlocks.CURVING_PRESS::get)
-					.doubleItemIcon(VintageBlocks.CURVING_PRESS.get(), AllItems.IRON_SHEET)
-					.emptyBackground(177, 70)
-					.build("auto_curving", AutoCurvingCategory::new));
-		}
+		ALL.add(builder(SandPaperPolishingRecipe.class)
+				.enableWhen(c -> c.allowSandpaperPolishingOnGrinder)
+				.addAllRecipesIf(r -> r instanceof SandPaperPolishingRecipe
+						&& VintageRecipesList.isPolishing(r))
+				.catalyst(VintageBlocks.BELT_GRINDER::get)
+				.doubleItemIcon(VintageBlocks.BELT_GRINDER.get(), AllItems.SAND_PAPER)
+				.emptyBackground(177, 85)
+				.build("grinder_sandpaper_polishing", GrinderSandpaperPolishingCategory::new));
+
+		ALL.add(builder(CraftingRecipe.class)
+				.enableWhen(c -> c.allowUnpackingOnVibratingTable)
+				.addAllRecipesIf(r -> r instanceof CraftingRecipe && !(r instanceof IShapedRecipe<?>)
+						&& r.getIngredients()
+						.size() == 1
+						&& VibratingTableBlockEntity.canUnpack(r) && !AllRecipeTypes.shouldIgnoreInAutomation(r))
+				.catalyst(VintageBlocks.VIBRATING_TABLE::get)
+				.doubleItemIcon(VintageBlocks.VIBRATING_TABLE.get(), Blocks.IRON_BLOCK)
+				.emptyBackground(177, 70)
+				.build("unpacking", UnpackingCategory::new));
+
+		ALL.add(builder(LeavesVibratingRecipe.class)
+				.enableWhen(c -> c.allowVibratingLeaves)
+				.addTypedRecipes(VintageRecipes.LEAVES_VIBRATING::getType)
+				.catalyst(VintageBlocks.VIBRATING_TABLE::get)
+				.doubleItemIcon(VintageBlocks.VIBRATING_TABLE.get(), Blocks.OAK_LEAVES)
+				.emptyBackground(177, 70)
+				.build("leaves_vibrating", LeavesVibratingCategory::new));
+
+		ALL.add(builder(CraftingRecipe.class)
+				.enableWhen(c -> c.allowAutoCurvingRecipes)
+				.addAllRecipesIf(r -> r instanceof CraftingRecipe && r instanceof IShapedRecipe<?>
+						&& r.getIngredients().size() == 6
+						&& r.canCraftInDimensions(3, 2)
+						&& CurvingPressBlockEntity.canCurve(r) && !AllRecipeTypes.shouldIgnoreInAutomation(r))
+				.catalyst(VintageBlocks.CURVING_PRESS::get)
+				.doubleItemIcon(VintageBlocks.CURVING_PRESS.get(), AllItems.IRON_SHEET)
+				.emptyBackground(177, 70)
+				.build("auto_curving", AutoCurvingCategory::new));
 
 		ALL.forEach(registration::addRecipeCategories);
 	}
@@ -176,7 +184,7 @@ public class VintageJEI implements IModPlugin {
 
 	private class CategoryBuilder<T extends Recipe<?>> {
 		private final Class<? extends T> recipeClass;
-		private Predicate<CRecipes> predicate = cRecipes -> true;
+		private Predicate<VCRecipes> predicate = cRecipes -> true;
 
 		private IDrawable background;
 		private IDrawable icon;
@@ -190,6 +198,11 @@ public class VintageJEI implements IModPlugin {
 
 		public CategoryBuilder<T> addRecipeListConsumer(Consumer<List<T>> consumer) {
 			recipeListConsumers.add(consumer);
+			return this;
+		}
+
+		public CategoryBuilder<T> enableWhen(Function<VCRecipes, ConfigBase.ConfigBool> configValue) {
+			predicate = c -> configValue.apply(c).get();
 			return this;
 		}
 
@@ -250,7 +263,7 @@ public class VintageJEI implements IModPlugin {
 
 		public CreateRecipeCategory<T> build(String name, CreateRecipeCategory.Factory<T> factory) {
 			Supplier<List<T>> recipesSupplier;
-			if (predicate.test(AllConfigs.server().recipes)) {
+			if (predicate.test(VintageConfig.server().recipes)) {
 				recipesSupplier = () -> {
 					List<T> recipes = new ArrayList<>();
 					for (Consumer<List<T>> consumer : recipeListConsumers)

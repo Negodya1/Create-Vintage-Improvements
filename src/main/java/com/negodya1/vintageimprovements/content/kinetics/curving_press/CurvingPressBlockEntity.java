@@ -3,10 +3,10 @@ package com.negodya1.vintageimprovements.content.kinetics.curving_press;
 import java.util.List;
 import java.util.Optional;
 
-import com.negodya1.vintageimprovements.VintageConfig;
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintageRecipes;
 import com.negodya1.vintageimprovements.VintageRecipesList;
+import com.negodya1.vintageimprovements.infrastructure.config.VintageConfig;
 import com.simibubi.create.AllRecipeTypes;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
@@ -93,19 +93,24 @@ public class CurvingPressBlockEntity extends KineticBlockEntity implements Curvi
 		ItemStack item = null;
 
 		NonNullList<Ingredient> in = recipe.getIngredients();
+		if (in.get(0).isEmpty()) return false;
 
 		int matches = 0;
+		boolean it = false;
 
-		Bp: for (Ingredient i : in) {
-			for (ItemStack stack : i.getItems()) {
-				if (item == null && stack.getItem() != ItemStack.EMPTY.getItem()) item = stack;
-				if (stack.getItem() == item.getItem()) {
+		for (Ingredient i : in) {
+			it = !it;
+
+			if (it) {
+				if (!i.isEmpty()) { if (item == null) item = i.getItems()[0]; }
+				else return false;
+
+				if (i.test(item)) {
 					matches++;
-					continue Bp;
+					continue;
 				}
-				if (stack.getItem() != ItemStack.EMPTY.getItem()) return false;
 			}
-
+			if (!i.isEmpty()) return false;
 		}
 
 		if (matches != 3) return false;
@@ -114,7 +119,7 @@ public class CurvingPressBlockEntity extends KineticBlockEntity implements Curvi
 	}
 
 	private boolean tryToCurve(ItemEntity itemEntity, boolean simulate) {
-		if (!VintageConfig.allowAutoCurvingRecipes) return false;
+		if (!VintageConfig.server().recipes.allowAutoCurvingRecipes.get()) return false;
 
 		List<CraftingRecipe> recipes = VintageRecipesList.getCurving();
 		Recipe: for (CraftingRecipe recipe : recipes) {
@@ -161,7 +166,7 @@ public class CurvingPressBlockEntity extends KineticBlockEntity implements Curvi
 	}
 
 	private boolean tryToCurve(List<ItemStack> outputList, ItemStack item, boolean simulate) {
-		if (!VintageConfig.allowAutoCurvingRecipes) return false;
+		if (!VintageConfig.server().recipes.allowAutoCurvingRecipes.get()) return false;
 
 		List<CraftingRecipe> recipes = VintageRecipesList.getCurving();
 		Recipe: for (CraftingRecipe recipe : recipes) {

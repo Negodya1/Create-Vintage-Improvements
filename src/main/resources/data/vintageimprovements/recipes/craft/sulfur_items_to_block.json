@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "G": {
+      "tag": "forge:gems/sulfur"
+    }
+  },
+  "pattern": [
+    "GGG",
+	"GGG",
+	"GGG"
+  ],
+  "result": {
+    "count": 1,
+    "item": "vintageimprovements:sulfur_block"
+  }
+}
