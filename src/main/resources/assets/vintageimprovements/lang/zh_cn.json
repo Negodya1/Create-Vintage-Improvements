@@ -66,8 +66,8 @@
 	"vintageimprovements.recipe.vacuumizing": "真空抽取",
 	"vintageimprovements.recipe.pressurizing": "Pressurizing", //
 	
-	"block.vintageimprovements.vibrating_table": "", //
-	"vintageimprovements.recipe.assembly.vibrating": "振击",
+	"block.vintageimprovements.vibrating_table": "振动台",
+	"create.recipe.assembly.vibrating": "振击",
 	"vintageimprovements.recipe.vibrating": "振动加工",
 	"vintageimprovements.recipe.unpacking": "振动解包",
 	"vintageimprovements.recipe.leaves_vibrating": "树叶振动处理",
