@@ -161,6 +161,27 @@ In the config you can turn on automatic recognition of bucket-like recipes for C
 </details>
 
 
+<details>
+<summary>Helve Hammer & Netherite Sheet</summary>
+
+Helve Hammer craft
+
+![Helve Hammer](https://cdn.modrinth.com/data/S27aYArf/images/33b49c35e1373d36ebdf848c41b3a1c2cb4908d4.png)
+
+Helve Hammer works with Smithing Table or Anvil. With Anvil Helve Hammer provides **hammering** recipes
+
+![Hammering Example](https://cdn.modrinth.com/data/S27aYArf/images/726b2018a7b64a65120c6dfa60e292905da943ab.png)
+
+Netherite Sheet can be used in custom recipes in mod packs.
+
+![Netherite Sheet](https://cdn.modrinth.com/data/S27aYArf/images/13efd001b311ac446ed9c8c374fe26353bf83aa4.png)
+
+With Smithing Table Helve Hammer provides **auto smithing** recipes
+
+![Auto Smithing](https://cdn.modrinth.com/data/S27aYArf/images/0d132c200790c95f5d726860d358a33a35c0d65b.png)
+
+</details>
+
 
 <details>
 <summary>Sulfur & Sulfuric Acid</summary>
