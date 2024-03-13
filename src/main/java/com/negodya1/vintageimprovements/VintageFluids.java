@@ -61,7 +61,6 @@ public class VintageFluids {
 				.tickRate(25)
 				.slopeFindDistance(3)
 				.explosionResistance(100f))
-			.tag(AllFluidTags.HONEY.tag)
 			.source(ForgeFlowingFluid.Source::new)
 			.bucket()
 			.build()

@@ -4,6 +4,7 @@ import com.blamejared.crafttweaker.api.recipe.RecipeList;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.PolishingRecipe;
 import com.simibubi.create.content.equipment.sandPaper.SandPaperPolishingRecipe;
 import com.simibubi.create.foundation.utility.VecHelper;
+import mezz.jei.api.constants.RecipeTypes;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.MinecraftServer;
@@ -12,6 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraft.world.level.Level;
 
@@ -22,15 +24,22 @@ public class VintageRecipesList {
     static List<CraftingRecipe> unpacking;
     static List<CraftingRecipe> curving;
     static List<PolishingRecipe> polishing;
+    static List<SmithingRecipe> smithing;
 
     static public void init(MinecraftServer level) {
         unpacking = new ArrayList<>();
         curving = new ArrayList<>();
+        smithing = new ArrayList<>();
 
         polishing = level.getRecipeManager().getAllRecipesFor(VintageRecipes.POLISHING.getType());
 
         initUnpacking(level);
         initCurving(level);
+        initSmithing(level);
+    }
+
+    static void initSmithing(MinecraftServer level) {
+        smithing = level.getRecipeManager().getAllRecipesFor(RecipeType.SMITHING);
     }
 
     static void initUnpacking(MinecraftServer level) {
@@ -84,6 +93,10 @@ public class VintageRecipesList {
 
     static public List<CraftingRecipe> getCurving() {
         return curving;
+    }
+
+    static public List<SmithingRecipe> getSmithing() {
+        return smithing;
     }
 
     static public boolean isPolishing(Recipe<?> r) {

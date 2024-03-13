@@ -1,0 +1,14 @@
+{
+	"type": "vintageimprovements:hammering",
+	"hammerBlows": 3,
+	"ingredients": [
+		{
+		  "tag": "forge:ingots/netherite"
+		}
+	],
+	"results": [
+		{
+		  "item": "vintageimprovements:netherite_sheet"
+		}
+	]
+}

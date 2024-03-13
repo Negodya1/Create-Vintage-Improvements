@@ -1,4 +1,4 @@
-package com.negodya1.vintageimprovements.content.kinetics.centrifuge;
+package com.negodya1.vintageimprovements.content.kinetics.helve_hammer;
 
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingTableBlock;
 import com.simibubi.create.foundation.data.SpecialBlockStateGen;
@@ -9,7 +9,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.generators.ModelFile;
 
-public class CentrifugeGenerator extends SpecialBlockStateGen {
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
+
+public class HelveGenerator extends SpecialBlockStateGen {
 
 	@Override
 	protected int getXRotation(BlockState state) {
@@ -17,7 +19,10 @@ public class CentrifugeGenerator extends SpecialBlockStateGen {
 	}
 
 	@Override
-	protected int getYRotation(BlockState state) { return 0; }
+	protected int getYRotation(BlockState state) {
+		Direction facing = state.getValue(HORIZONTAL_FACING);
+		return horizontalAngle(facing);
+	}
 
 	@Override
 	public <T extends Block> ModelFile getModel(DataGenContext<Block, T> ctx, RegistrateBlockstateProvider prov,

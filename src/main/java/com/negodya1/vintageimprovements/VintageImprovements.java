@@ -100,6 +100,8 @@ public class VintageImprovements {
     public static final RegistryObject<Item> VANADIUM_INGOT = ITEMS.register("vanadium_ingot", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> VANADIUM_NUGGET = ITEMS.register("vanadium_nugget", () -> new Item(new Item.Properties()));
 
+    public static final RegistryObject<Item> NETHERITE_SHEET = ITEMS.register("netherite_sheet", () -> new Item(new Item.Properties()));
+
     public static final RegistryObject<CreativeModeTab> VINTAGE_IMPROVEMENT_TAB = CREATIVE_MODE_TABS.register("vintage_improvement_tab", () -> CreativeModeTab.builder()
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .title(Component.translatable("itemGroup." + MODID))
@@ -161,6 +163,9 @@ public class VintageImprovements {
                 output.accept(VintageFluids.SULFURIC_ACID.getBucket().get());
 
                 output.accept(VintageItems.COPPER_SULFATE);
+
+                output.accept(VintageBlocks.HELVE.get());
+                output.accept(NETHERITE_SHEET.get());
             }).build());
 
     public VintageImprovements() {

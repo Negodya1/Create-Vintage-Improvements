@@ -38,13 +38,17 @@ public class VintagePonder {
 
         HELPER.addStoryBoard(VintageItems.REDSTONE_MODULE, "centrifuge/redstone", CentrifugeScenes::redstone, AllPonderTags.REDSTONE);
 
+        HELPER.forComponents(VintageBlocks.HELVE)
+                .addStoryBoard("helve_hammer/processing", HelveScenes::processing, AllPonderTags.KINETIC_APPLIANCES);
+
         PonderRegistry.TAGS.forTag(AllPonderTags.KINETIC_APPLIANCES)
                 .add(VintageBlocks.BELT_GRINDER)
                 .add(VintageBlocks.SPRING_COILING_MACHINE)
                 .add(VintageBlocks.VACUUM_CHAMBER)
                 .add(VintageBlocks.VIBRATING_TABLE)
                 .add(VintageBlocks.CENTRIFUGE)
-                .add(VintageBlocks.CURVING_PRESS);
+                .add(VintageBlocks.CURVING_PRESS)
+                .add(VintageBlocks.HELVE);
 
         PonderRegistry.TAGS.forTag(AllPonderTags.REDSTONE)
                 .add(VintageItems.REDSTONE_MODULE);

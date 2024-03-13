@@ -17,6 +17,8 @@ import com.negodya1.vintageimprovements.content.kinetics.curving_press.CurvingPr
 import com.negodya1.vintageimprovements.content.kinetics.curving_press.CurvingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderBlockEntity;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.PolishingRecipe;
+import com.negodya1.vintageimprovements.content.kinetics.helve_hammer.AutoSmithingRecipe;
+import com.negodya1.vintageimprovements.content.kinetics.helve_hammer.HammeringRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.LeavesVibratingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingTableBlockEntity;
@@ -37,6 +39,7 @@ import com.simibubi.create.infrastructure.config.AllConfigs;
 import com.simibubi.create.infrastructure.config.CRecipes;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
@@ -49,6 +52,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SmithingRecipe;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.crafting.IShapedRecipe;
@@ -125,6 +129,22 @@ public class VintageJEI implements IModPlugin {
 				.emptyBackground(177, 70)
 				.build("curving", CurvingCategory::new));
 
+		ALL.add(builder(HammeringRecipe.class)
+				.addTypedRecipes(VintageRecipes.HAMMERING::getType)
+				.catalyst(VintageBlocks.HELVE::get)
+				.catalyst(Blocks.ANVIL::asItem)
+				.doubleItemIcon(VintageBlocks.HELVE, Blocks.ANVIL)
+				.emptyBackground(177, 85)
+				.build("hammering", HammeringCategory::new));
+
+		ALL.add(builder(AutoSmithingRecipe.class)
+				.addTypedRecipes(VintageRecipes.AUTO_SMITHING::getType)
+				.catalyst(VintageBlocks.HELVE::get)
+				.catalyst(Blocks.SMITHING_TABLE::asItem)
+				.doubleItemIcon(VintageBlocks.HELVE, Blocks.SMITHING_TABLE)
+				.emptyBackground(177, 70)
+				.build("auto_smithing", AutoSmithingCategory::new));
+
 		ALL.add(builder(SandPaperPolishingRecipe.class)
 				.enableWhen(c -> c.allowSandpaperPolishingOnGrinder)
 				.addAllRecipesIf(r -> r instanceof SandPaperPolishingRecipe
@@ -176,6 +196,10 @@ public class VintageJEI implements IModPlugin {
 	@Override
 	public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
 		ALL.forEach(c -> c.registerCatalysts(registration));
+
+		registration.getJeiHelpers().getRecipeType(new ResourceLocation("minecraft", "smithing")).ifPresent(type -> {
+			registration.addRecipeCatalyst(new ItemStack(VintageBlocks.HELVE.get()), type);
+		});
 	}
 
 	private <T extends Recipe<?>> CategoryBuilder<T> builder(Class<? extends T> recipeClass) {

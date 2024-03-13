@@ -1,4 +1,4 @@
-package com.negodya1.vintageimprovements.content.kinetics.centrifuge;
+package com.negodya1.vintageimprovements.content.kinetics.helve_hammer;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -10,6 +10,7 @@ import com.negodya1.vintageimprovements.VintageBlocks;
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintageRecipes;
 import com.negodya1.vintageimprovements.compat.jei.category.assemblies.AssemblyCentrifugation;
+import com.negodya1.vintageimprovements.compat.jei.category.assemblies.AssemblyHammering;
 import com.negodya1.vintageimprovements.compat.jei.category.assemblies.AssemblyVibrating;
 import com.negodya1.vintageimprovements.foundation.utility.VintageLang;
 import com.simibubi.create.AllRecipeTypes;
@@ -49,39 +50,33 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 
-public class CentrifugationRecipe extends ProcessingRecipe<SmartInventory> implements IAssemblyRecipe {
+public class HammeringRecipe extends ProcessingRecipe<SmartInventory> implements IAssemblyRecipe {
 
-	int minimalRPM;
+	int hammerBlows;
 
-	public static boolean match(CentrifugeBlockEntity centrifuge, Recipe<?> recipe) {
+	public static boolean match(HelveBlockEntity centrifuge, Recipe<?> recipe) {
 		return apply(centrifuge, recipe, true);
 	}
 
-	public static boolean apply(CentrifugeBlockEntity centrifuge, Recipe<?> recipe) {
+	public static boolean apply(HelveBlockEntity centrifuge, Recipe<?> recipe) {
 		return apply(centrifuge, recipe, false);
 	}
 
-	private static boolean apply(CentrifugeBlockEntity centrifuge, Recipe<?> recipe, boolean test) {
+	private static boolean apply(HelveBlockEntity centrifuge, Recipe<?> recipe, boolean test) {
 		IItemHandlerModifiable availableItems = (IItemHandlerModifiable) centrifuge.getCapability(ForgeCapabilities.ITEM_HANDLER)
 				.orElse(null);
-		IFluidHandler availableFluids = centrifuge.getCapability(ForgeCapabilities.FLUID_HANDLER)
-				.orElse(null);
 
-		if (availableItems == null || availableFluids == null)
+		if (availableItems == null)
 			return false;
 
 		List<ItemStack> recipeOutputItems = new ArrayList<>();
-		List<FluidStack> recipeOutputFluids = new ArrayList<>();
-
 		List<Ingredient> ingredients = new LinkedList<>(recipe.getIngredients());
-		List<FluidIngredient> fluidIngredients = ((CentrifugationRecipe) recipe).getFluidIngredients();
 
 		for (boolean simulate : Iterate.trueAndFalse) {
 			if (!simulate && test)
 				return true;
 
 			int[] extractedItemsFromSlot = new int[availableItems.getSlots()];
-			int[] extractedFluidsFromTank = new int[availableFluids.getTanks()];
 
 			Ingredients: for (int i = 0; i < ingredients.size(); i++) {
 				Ingredient ingredient = ingredients.get(i);
@@ -105,82 +100,33 @@ public class CentrifugationRecipe extends ProcessingRecipe<SmartInventory> imple
 				return false;
 			}
 
-			boolean fluidsAffected = false;
-			FluidIngredients: for (int i = 0; i < fluidIngredients.size(); i++) {
-				FluidIngredient fluidIngredient = fluidIngredients.get(i);
-				int amountRequired = fluidIngredient.getRequiredAmount();
-
-				for (int tank = 0; tank < availableFluids.getTanks(); tank++) {
-					FluidStack fluidStack = availableFluids.getFluidInTank(tank);
-					if (simulate && fluidStack.getAmount() <= extractedFluidsFromTank[tank])
-						continue;
-					if (!fluidIngredient.test(fluidStack))
-						continue;
-					int drainedAmount = Math.min(amountRequired, fluidStack.getAmount());
-					if (!simulate) {
-						fluidStack.shrink(drainedAmount);
-						fluidsAffected = true;
-					}
-					amountRequired -= drainedAmount;
-					if (amountRequired != 0)
-						continue;
-					extractedFluidsFromTank[tank] += drainedAmount;
-					continue FluidIngredients;
-				}
-
-				// something wasn't found
-				return false;
-			}
-
-			if (fluidsAffected) {
-				centrifuge.getBehaviour(SmartFluidTankBehaviour.INPUT)
-						.forEach(TankSegment::onFluidStackChanged);
-				centrifuge.getBehaviour(SmartFluidTankBehaviour.OUTPUT)
-						.forEach(TankSegment::onFluidStackChanged);
-			}
-
 			if (simulate) {
-				if (recipe instanceof CentrifugationRecipe centrifugeRecipe) {
+				if (recipe instanceof HammeringRecipe centrifugeRecipe) {
 					recipeOutputItems.addAll(centrifugeRecipe.rollResults());
-					recipeOutputFluids.addAll(centrifugeRecipe.getFluidResults());
 					recipeOutputItems.addAll(centrifugeRecipe.getRemainingItems(centrifuge.getInputInventory()));
 				}
 			}
 
-			if (!centrifuge.acceptOutputs(recipeOutputItems, recipeOutputFluids, simulate))
+			if (!centrifuge.acceptOutputs(recipeOutputItems.get(0), simulate))
 				return false;
 		}
 
 		return true;
 	}
 
-	public CentrifugationRecipe(ProcessingRecipeParams params) {
-		super(VintageRecipes.CENTRIFUGATION, params);
+	public HammeringRecipe(ProcessingRecipeParams params) {
+		super(VintageRecipes.HAMMERING, params);
+		hammerBlows = 1;
 	}
 
 	@Override
 	protected int getMaxInputCount() {
-		return 9;
+		return 3;
 	}
 
 	@Override
 	protected int getMaxOutputCount() {
-		return 4;
-	}
-
-	@Override
-	protected int getMaxFluidInputCount() {
-		return 2;
-	}
-
-	@Override
-	protected int getMaxFluidOutputCount() {
-		return 2;
-	}
-
-	@Override
-	protected boolean canSpecifyDuration() {
-		return true;
+		return 1;
 	}
 
 	@Override
@@ -202,41 +148,41 @@ public class CentrifugationRecipe extends ProcessingRecipe<SmartInventory> imple
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public Component getDescriptionForAssembly() {
-		return VintageLang.translateDirect("recipe.assembly.centrifugation");
+		return VintageLang.translateDirect("recipe.assembly.hammering");
 	}
 
 	@Override
 	public void addRequiredMachines(Set<ItemLike> list) {
-		list.add(VintageBlocks.CENTRIFUGE.get());
+		list.add(VintageBlocks.HELVE.get());
 	}
 
 	@Override
 	public Supplier<Supplier<SequencedAssemblySubCategory>> getJEISubCategory() {
-		return () -> AssemblyCentrifugation::new;
+		return () -> AssemblyHammering::new;
 	}
 
 	@Override
 	public void readAdditional(JsonObject json) {
-		if (json.has("minimalRPM")) minimalRPM = json.get("minimalRPM").getAsInt();
-		else minimalRPM = 100;
+		if (json.has("hammerBlows")) hammerBlows = json.get("hammerBlows").getAsInt();
+		else hammerBlows = 1;
 	}
 
 	@Override
 	public void readAdditional(FriendlyByteBuf buffer) {
-		minimalRPM = buffer.readInt();
+		hammerBlows = buffer.readInt();
 	}
 
 	@Override
 	public void writeAdditional(JsonObject json) {
-		json.addProperty("minimalRPM", minimalRPM);
+		json.addProperty("hammerBlows", hammerBlows);
 	}
 
 	@Override
 	public void writeAdditional(FriendlyByteBuf buffer) {
-		buffer.writeInt(minimalRPM);
+		buffer.writeInt(hammerBlows);
 	}
 
-	public int getMinimalRPM() {
-		return minimalRPM;
+	public int getHammerBlows() {
+		return hammerBlows;
 	}
 }
