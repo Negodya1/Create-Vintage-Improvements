@@ -224,6 +224,16 @@ Copper Sulfate can be crafted by Pressurizing Copper Ingot with Water & Sulfuric
 
 </details>
 
+# Compats
+
+<details>
+<summary>Create Big Cannons</summary>
+
+[Create Big Cannons](https://modrinth.com/mod/create-big-cannons) Recoil Spring recipe changed with Coiling instead Pressing
+
+![Recoil Spring](https://cdn.modrinth.com/data/S27aYArf/images/34b62078adc90edb311888071a6c0938fd04a8cd.png)
+
+</details>
 
 # Translations
 
