@@ -237,8 +237,6 @@ Copper Sulfate can be crafted by Pressurizing Copper Ingot with Water & Sulfuric
 
 # F.A.Q.
 
-# F.A.Q.
-
 > Fabric?
 
 After 1.0.0.0 version release
