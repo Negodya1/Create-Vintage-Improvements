@@ -235,6 +235,26 @@ Copper Sulfate can be crafted by Pressurizing Copper Ingot with Water & Sulfuric
 
 </details>
 
+# F.A.Q.
+
+# F.A.Q.
+
+> Fabric?
+
+After 1.0.0.0 version release
+
+> Can I use your mod in my mod pack?
+
+Yes of course
+
+> Where I can put my suggestion or bug I found?
+
+On [GitHub issues page](https://github.com/Negodya1/Create-Vintage-Improvements/issues) or [Discord](https://discord.gg/W5fXSTtpfM) suggestions/bug-report channel
+
+> Where I can put my language translation?
+
+You can fork [GitHub repository](https://github.com/Negodya1/Create-Vintage-Improvements) and then pull request your translation
+
 # Translations
 
 - en_us
