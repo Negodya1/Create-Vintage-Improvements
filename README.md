@@ -4,6 +4,8 @@
 
 [Modrinth](https://modrinth.com/mod/create-vintage-improvements)
 
+[Discord](https://discord.gg/GbaQGNd6)
+
 # About
 
 Vintage Improvements is [Create](https://modrinth.com/mod/create) addon which adds new Kinetics Machines, metal rods, wires & springs to compat with [Ad Astra](https://modrinth.com/mod/ad-astra) & [Create Crafts & Addtitions](https://modrinth.com/mod/createaddition)
