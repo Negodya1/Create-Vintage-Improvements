@@ -5,6 +5,7 @@
 	"item.vintageimprovements.desh_rod": "戴斯棒",
 	"item.vintageimprovements.ostrum_rod": "紫金棒",
 	"item.vintageimprovements.calorite_rod": "耐热金属棒",
+	"item.vintageimprovements.netherite_rod": "Netherite Rod", //
 	
 	"item.vintageimprovements.steel_wire": "钢线",
 	"item.vintageimprovements.desh_wire": "戴斯线",
@@ -20,6 +21,7 @@
 	"item.vintageimprovements.golden_spring": "金弹簧",
 	"item.vintageimprovements.copper_spring": "铜弹簧",
 	"item.vintageimprovements.brass_spring": "黄铜弹簧",
+	"item.vintageimprovements.netherite_spring": "Netherite Spring", //
 	
 	"item.vintageimprovements.small_steel_spring": "钢小弹簧",
 	"item.vintageimprovements.small_desh_spring": "戴斯小弹簧",
@@ -192,5 +194,13 @@
 	"vintageimprovements.gui.goggles.no_operating_block": "Place an Anvil or a Smithing Table under Hammer to work", //
 	"vintageimprovements.gui.goggles.hammer_blows": "Hammer blows remaining:", //
 	
-	"vintageimprovements.item_description.machine_rpm_requirements": "This machine have minimal RPM requirements:" //
+	"vintageimprovements.item_description.machine_rpm_requirements": "This machine have minimal RPM requirements:", //
+	
+	"trim_material.vintageimprovements.vanadium": "Vanadium Material", //
+	"trim_material.vintageimprovements.brass": "Brass Material", //
+	"trim_material.vintageimprovements.andesite": "Andesite Material", //
+	"trim_material.vintageimprovements.rose_quartz": "Rose Quartz Material", //
+	"trim_material.vintageimprovements.shadow": "Shadow Steel Material", //
+	"trim_material.vintageimprovements.radiance": "Refined Radiance Material", //
+	"trim_material.vintageimprovements.zinc": "Zinc Material" //
 }

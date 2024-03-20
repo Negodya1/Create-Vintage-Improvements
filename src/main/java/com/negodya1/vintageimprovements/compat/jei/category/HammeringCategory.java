@@ -57,13 +57,17 @@ public class HammeringCategory extends CreateRecipeCategory<HammeringRecipe> {
 			i++;
 		}
 
-		ProcessingOutput results = recipe.getRollableResults().get(0);
+		i = 0;
+		List<ProcessingOutput> results = recipe.getRollableResults();
 
-		builder
-				.addSlot(RecipeIngredientRole.OUTPUT, 138, 48)
-				.setBackground(getRenderedSlot(results), -1, -1)
-				.addItemStack(results.getStack())
-				.addTooltipCallback(addStochasticTooltip(results));
+		for (ProcessingOutput result : results) {
+			builder
+					.addSlot(RecipeIngredientRole.OUTPUT, 148 - (10 * results.size()) + 19 * i, 48)
+					.setBackground(getRenderedSlot(result), -1, -1)
+					.addItemStack(result.getStack())
+					.addTooltipCallback(addStochasticTooltip(result));
+			i++;
+		}
 	}
 
 	@Override

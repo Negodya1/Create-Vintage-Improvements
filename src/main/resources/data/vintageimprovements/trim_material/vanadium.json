@@ -1,0 +1,9 @@
+{
+  "asset_name": "vanadium",
+  "description": {
+    "color": "#b8bcdc",
+    "translate": "trim_material.vintageimprovements.vanadium"
+  },
+  "ingredient": "vintageimprovements:vanadium_ingot",
+  "item_model_index": 0.1
+}

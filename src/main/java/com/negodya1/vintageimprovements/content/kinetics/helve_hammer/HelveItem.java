@@ -7,6 +7,7 @@ import com.simibubi.create.CreateClient;
 import com.simibubi.create.content.kinetics.BlockStressValues;
 import com.simibubi.create.content.kinetics.base.IRotate;
 import com.simibubi.create.content.kinetics.crank.ValveHandleBlock;
+import com.simibubi.create.content.processing.AssemblyOperatorUseContext;
 import com.simibubi.create.foundation.item.KineticStats;
 import com.simibubi.create.foundation.item.TooltipHelper;
 import com.simibubi.create.foundation.item.TooltipModifier;
@@ -31,9 +32,12 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.AnvilBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -61,9 +65,9 @@ public class HelveItem extends BlockItem {
 		Direction clickedFace = ctx.getClickedFace();
 		if (clickedFace.getAxis() != Axis.Y)
 			result = super.place(BlockPlaceContext.at(ctx, ctx.getClickedPos()
-				.relative(clickedFace), clickedFace));
+					.relative(clickedFace), clickedFace));
 		if (result == InteractionResult.FAIL && ctx.getLevel()
-			.isClientSide())
+				.isClientSide())
 			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> showBounds(ctx));
 		return result;
 	}
@@ -79,7 +83,7 @@ public class HelveItem extends BlockItem {
 
 		int xOffset = 2;
 
-		CreateClient.OUTLINER.showAABB(Pair.of("helve_hammer", pos), new AABB(pos).inflate((direction == Direction.NORTH || direction == Direction.SOUTH ? 0 : xOffset), 0, (direction == Direction.NORTH || direction == Direction.SOUTH ? xOffset : 0))
+		CreateClient.OUTLINER.showAABB(Pair.of("helve_hammer", pos), new AABB(pos.relative(context.getHorizontalDirection())).inflate((direction == Direction.NORTH || direction == Direction.SOUTH ? 0 : xOffset), 0, (direction == Direction.NORTH || direction == Direction.SOUTH ? xOffset : 0))
 			.deflate(contract.x, contract.y, contract.z))
 			.colored(0xFF_ff5d6c);
 		Lang.translate("large_water_wheel.not_enough_space")

@@ -107,7 +107,7 @@ public class HammeringRecipe extends ProcessingRecipe<SmartInventory> implements
 				}
 			}
 
-			if (!centrifuge.acceptOutputs(recipeOutputItems.get(0), simulate))
+			if (!centrifuge.acceptOutputs(recipeOutputItems, simulate))
 				return false;
 		}
 
@@ -126,7 +126,7 @@ public class HammeringRecipe extends ProcessingRecipe<SmartInventory> implements
 
 	@Override
 	protected int getMaxOutputCount() {
-		return 1;
+		return 3;
 	}
 
 	@Override

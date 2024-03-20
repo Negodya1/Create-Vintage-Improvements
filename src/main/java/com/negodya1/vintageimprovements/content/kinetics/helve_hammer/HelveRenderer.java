@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintagePartialModels;
+import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugeBlockEntity;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderBlockEntity;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingTableBlockEntity;
 import com.simibubi.create.AllBlocks;
@@ -88,6 +89,21 @@ public class HelveRenderer extends KineticBlockEntityRenderer<HelveKineticBlockE
 
 		if (Backend.canUseInstancing(be.getLevel()))
 			return;
+
+		renderShaft(be, ms, buffer, light, overlay);
+	}
+
+	protected void renderShaft(HelveKineticBlockEntity be, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
+		KineticBlockEntityRenderer.renderRotatingBuffer(be, getRotatedModel(be, be.getBlockState()), ms, buffer.getBuffer(RenderType.solid()), light);
+	}
+
+	protected SuperByteBuffer getRotatedModel(HelveKineticBlockEntity be, BlockState state) {
+		return CachedBufferer.block(KineticBlockEntityRenderer.KINETIC_BLOCK,
+				getRenderedBlockState(be));
+	}
+
+	protected BlockState getRenderedBlockState(HelveKineticBlockEntity be) {
+		return KineticBlockEntityRenderer.shaft(KineticBlockEntityRenderer.getRotationAxisOf(be));
 	}
 
 }

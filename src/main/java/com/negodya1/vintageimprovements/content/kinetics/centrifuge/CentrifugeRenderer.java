@@ -1,13 +1,17 @@
 package com.negodya1.vintageimprovements.content.kinetics.centrifuge;
 
 import com.jozufozu.flywheel.backend.Backend;
+import com.jozufozu.flywheel.core.PartialModel;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintagePartialModels;
+import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingBlockEntity;
+import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderBlockEntity;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingTableBlockEntity;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllPartialModels;
+import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntityRenderer;
 import com.simibubi.create.foundation.render.CachedBufferer;
 import com.simibubi.create.foundation.render.SuperByteBuffer;
@@ -51,6 +55,8 @@ import net.minecraftforge.items.ItemStackHandler;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
 public class CentrifugeRenderer extends KineticBlockEntityRenderer<CentrifugeBlockEntity> {
 
@@ -195,6 +201,11 @@ public class CentrifugeRenderer extends KineticBlockEntityRenderer<CentrifugeBlo
 				}
 			}
 		}
+
+		if (Backend.canUseInstancing(be.getLevel()))
+			return;
+
+		renderShaft(be, ms, buffer, light, overlay);
 	}
 
 	protected void renderItem(CentrifugeBlockEntity be, BlockPos pos, PoseStack ms, MultiBufferSource buffer, int light, int overlay, ItemStack stack) {
@@ -247,4 +258,16 @@ public class CentrifugeRenderer extends KineticBlockEntityRenderer<CentrifugeBlo
 		return yMax;
 	}
 
+	protected void renderShaft(CentrifugeBlockEntity be, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
+		KineticBlockEntityRenderer.renderRotatingBuffer(be, getRotatedModel(be, be.getBlockState()), ms, buffer.getBuffer(RenderType.solid()), light);
+	}
+
+	protected SuperByteBuffer getRotatedModel(CentrifugeBlockEntity be, BlockState state) {
+		return CachedBufferer.block(KineticBlockEntityRenderer.KINETIC_BLOCK,
+				getRenderedBlockState(be));
+	}
+
+	protected BlockState getRenderedBlockState(CentrifugeBlockEntity be) {
+		return KineticBlockEntityRenderer.shaft(KineticBlockEntityRenderer.getRotationAxisOf(be));
+	}
 }

@@ -5,6 +5,7 @@
 	"item.vintageimprovements.desh_rod": "Дешовый стержень",
 	"item.vintageimprovements.ostrum_rod": "Острумовый стержень",
 	"item.vintageimprovements.calorite_rod": "Калоритовый стержень",
+	"item.vintageimprovements.netherite_rod": "Незеритовый стержень",
 	
 	"item.vintageimprovements.steel_wire": "Стальной провод",
 	"item.vintageimprovements.desh_wire": "Дешевый провод",
@@ -20,6 +21,7 @@
 	"item.vintageimprovements.golden_spring": "Золотая пружина",
 	"item.vintageimprovements.copper_spring": "Медная пружина",
 	"item.vintageimprovements.brass_spring": "Латунная пружина",
+	"item.vintageimprovements.netherite_spring": "Незеритовая пружина",
 	
 	"item.vintageimprovements.small_steel_spring": "Малая стальная пружина",
 	"item.vintageimprovements.small_desh_spring": "Малая дешевая пружина",
@@ -192,5 +194,13 @@
 	"vintageimprovements.gui.goggles.no_operating_block": "Для работы установите под молот наковальню или стол кузнеца",
 	"vintageimprovements.gui.goggles.hammer_blows": "Осталось ударов молотом:",
 	
-	"vintageimprovements.item_description.machine_rpm_requirements": "Эта машина имеет требования к минимальным об/мин:"
+	"vintageimprovements.item_description.machine_rpm_requirements": "Эта машина имеет требования к минимальным об/мин:",
+	
+	"trim_material.vintageimprovements.vanadium": "Ванадиевая",
+	"trim_material.vintageimprovements.brass": "Латунная",
+	"trim_material.vintageimprovements.andesite": "Андезитная",
+	"trim_material.vintageimprovements.rose_quartz": "Из розового кварца",
+	"trim_material.vintageimprovements.shadow": "Из теневой стали",
+	"trim_material.vintageimprovements.radiance": "Из очищенного сияния",
+	"trim_material.vintageimprovements.zinc": "Цинковая"
 }

@@ -3,16 +3,22 @@ package com.negodya1.vintageimprovements.compat.jei.category.assemblies;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.negodya1.vintageimprovements.compat.jei.category.animations.AnimatedHelve;
 import com.negodya1.vintageimprovements.compat.jei.category.animations.AnimatedVacuumChamber;
+import com.negodya1.vintageimprovements.content.kinetics.helve_hammer.HammeringRecipe;
 import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
 import com.simibubi.create.compat.jei.category.sequencedAssembly.SequencedAssemblySubCategory;
 import com.simibubi.create.content.processing.sequenced.SequencedRecipe;
 import com.simibubi.create.foundation.fluid.FluidIngredient;
+import com.simibubi.create.foundation.gui.AllIcons;
+import com.simibubi.create.foundation.utility.Components;
 import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 
 import static com.simibubi.create.compat.jei.category.CreateRecipeCategory.getRenderedSlot;
 
@@ -55,6 +61,16 @@ public class AssemblyHammering extends SequencedAssemblySubCategory {
         ms.scale(.5f, .5f, .5f);
         helve.draw(graphics, getWidth() / 2, 30, true);
         ms.popPose();
+
+        if (recipe.getRecipe() instanceof HammeringRecipe hammering && hammering.getHammerBlows() > 1) {
+            Font font = Minecraft.getInstance().font;
+
+            ms.pushPose();
+            AllIcons.I_SEQ_REPEAT.render(graphics, 5, 20);
+            Component repeat = Components.literal("x" + hammering.getHammerBlows());
+            graphics.drawString(font, repeat, 5, 35, 0x888888, false);
+            ms.popPose();
+        }
     }
 
 }

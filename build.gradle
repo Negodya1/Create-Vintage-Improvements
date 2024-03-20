@@ -148,7 +148,7 @@ dependencies {
     compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}"))
     runtimeOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}"))
 
-    implementation fg.deobf("curse.maven:crafttweaker-239197:4992680")
+    //implementation fg.deobf("curse.maven:crafttweaker-239197:4992680")
 
     implementation fg.deobf("com.simibubi.create:create-${create_minecraft_version}:${create_version}:slim") { transitive = false }
     implementation fg.deobf("com.jozufozu.flywheel:flywheel-forge-${flywheel_minecraft_version}:${flywheel_version}")
@@ -156,15 +156,16 @@ dependencies {
 
     implementation fg.deobf("curse.maven:createaddition-439890:4909014")
 
-    implementation fg.deobf("curse.maven:resourceful-lib-570073:4927082")
-    implementation fg.deobf("curse.maven:resourceful-config-714059:4683092")
-    implementation fg.deobf("curse.maven:botarium-704113:4831434")
-    implementation fg.deobf("curse.maven:ad-astra-635042:4894852")
+    //implementation fg.deobf("curse.maven:resourceful-lib-570073:4927082")
+    //implementation fg.deobf("curse.maven:resourceful-config-714059:4683092")
+    //implementation fg.deobf("curse.maven:botarium-704113:4831434")
+    //implementation fg.deobf("curse.maven:ad-astra-635042:4894852")
 
-    implementation fg.deobf("curse.maven:jade-324717:4986594")
-    implementation fg.deobf("curse.maven:jade-addons-583345:4925840")
+    //implementation fg.deobf("curse.maven:jade-324717:4986594")
+    //implementation fg.deobf("curse.maven:jade-addons-583345:4925840")
 
     //implementation fg.deobf("curse.maven:embeddium-908741:4984832")
+    //implementation fg.deobf("curse.maven:oculus-581495:5108615")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

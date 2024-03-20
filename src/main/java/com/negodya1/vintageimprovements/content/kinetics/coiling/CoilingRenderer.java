@@ -1,11 +1,13 @@
 package com.negodya1.vintageimprovements.content.kinetics.coiling;
 
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_AXIS;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
 import com.jozufozu.flywheel.backend.Backend;
 import com.jozufozu.flywheel.core.PartialModel;
 import com.jozufozu.flywheel.core.virtual.VirtualRenderWorld;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintagePartialModels;
 import com.simibubi.create.AllPartialModels;
@@ -31,9 +33,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
-public class CoilingRenderer extends SafeBlockEntityRenderer<CoilingBlockEntity> {
+public class CoilingRenderer extends KineticBlockEntityRenderer<CoilingBlockEntity> {
 
 	public CoilingRenderer(BlockEntityRendererProvider.Context context) {
+		super(context);
 	}
 
 	@Override
@@ -87,7 +90,19 @@ public class CoilingRenderer extends SafeBlockEntityRenderer<CoilingBlockEntity>
 	}
 
 	protected void renderShaft(CoilingBlockEntity be, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
-		KineticBlockEntityRenderer.renderRotatingBuffer(be, getRotatedModel(be), ms, buffer.getBuffer(RenderType.solid()), light);
+		BlockState blockState = be.getBlockState();
+		PartialModel partial = AllPartialModels.SHAFT_HALF;
+
+		VertexConsumer vb = buffer.getBuffer(RenderType.solid());
+
+		SuperByteBuffer superBuffer = CachedBufferer.partial(partial, blockState);
+		standardKineticRotationTransform(superBuffer, be, light);
+		superBuffer.rotateCentered(Direction.UP,
+				AngleHelper.rad(be.getBlockState().getValue(HORIZONTAL_FACING) == Direction.NORTH ? 0 :
+						be.getBlockState().getValue(HORIZONTAL_FACING) == Direction.SOUTH ? 180 :
+								be.getBlockState().getValue(HORIZONTAL_FACING) == Direction.EAST ? 270 : 90));
+
+		superBuffer.renderInto(ms, vb);
 	}
 
 	protected void renderSpring(CoilingBlockEntity be, float partialTicks, PoseStack ms, MultiBufferSource buffer, int light, int overlay) {
@@ -134,52 +149,6 @@ public class CoilingRenderer extends SafeBlockEntityRenderer<CoilingBlockEntity>
 
 			ms.popPose();
 		}
-	}
-
-	protected SuperByteBuffer getRotatedModel(KineticBlockEntity be) {
-		return CachedBufferer.partial(AllPartialModels.SHAFT_HALF, getRenderedBlockState(be));
-	}
-
-	protected BlockState getRenderedBlockState(KineticBlockEntity be) {
-		return KineticBlockEntityRenderer.shaft(KineticBlockEntityRenderer.getRotationAxisOf(be));
-	}
-
-	public static void renderInContraption(MovementContext context, VirtualRenderWorld renderWorld,
-		ContraptionMatrices matrices, MultiBufferSource buffer) {
-		BlockState state = context.state;
-		Direction facing = state.getValue(CoilingBlock.HORIZONTAL_FACING);
-
-		Vec3 facingVec = Vec3.atLowerCornerOf(context.state.getValue(CoilingBlock.HORIZONTAL_FACING)
-			.getNormal());
-		facingVec = context.rotation.apply(facingVec);
-
-		Direction closestToFacing = Direction.getNearest(facingVec.x, facingVec.y, facingVec.z);
-
-		boolean horizontal = closestToFacing.getAxis()
-			.isHorizontal();
-		boolean backwards = VecHelper.isVecPointingTowards(context.relativeMotion, facing.getOpposite());
-		boolean moving = context.getAnimationSpeed() != 0;
-		boolean shouldAnimate =
-			(context.contraption.stalled && horizontal) || (!context.contraption.stalled && !backwards && moving);
-
-		SuperByteBuffer superBuffer;
-		if (shouldAnimate)
-			superBuffer = CachedBufferer.partial(VintagePartialModels.GRINDER_BELT_ACTIVE, state);
-		else
-			superBuffer = CachedBufferer.partial(VintagePartialModels.GRINDER_BELT_INACTIVE, state);
-
-		superBuffer.transform(matrices.getModel())
-			.centre()
-			.rotateY(AngleHelper.horizontalAngle(facing))
-			.rotateX(AngleHelper.verticalAngle(facing));
-
-		if (!CoilingBlock.isHorizontal(state)) {
-			superBuffer.rotateZ(0);
-		}
-
-		superBuffer.unCentre()
-			.light(matrices.getWorld(), ContraptionRenderDispatcher.getContraptionWorldLight(context, renderWorld))
-			.renderInto(matrices.getViewProjection(), buffer.getBuffer(RenderType.cutoutMipped()));
 	}
 
 }

@@ -67,6 +67,7 @@ public class VintageImprovements {
     public static final RegistryObject<Item> CALORITE_ROD = ITEMS.register("calorite_rod", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> OSTRUM_ROD = ITEMS.register("ostrum_rod", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> DESH_ROD = ITEMS.register("desh_rod", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> NETHERITE_ROD = ITEMS.register("netherite_rod", () -> new Item(new Item.Properties()));
 
     public static final RegistryObject<Item> STEEL_WIRE = ITEMS.register("steel_wire", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> CALORITE_WIRE = ITEMS.register("calorite_wire", () -> new Item(new Item.Properties()));
@@ -82,6 +83,7 @@ public class VintageImprovements {
     public static final RegistryObject<Item> GOLDEN_SPRING = ITEMS.register("golden_spring", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> COPPER_SPRING = ITEMS.register("copper_spring", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> BRASS_SPRING = ITEMS.register("brass_spring", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> NETHERITE_SPRING = ITEMS.register("netherite_spring", () -> new Item(new Item.Properties()));
 
     public static final RegistryObject<Item> SMALL_STEEL_SPRING = ITEMS.register("small_steel_spring", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SMALL_CALORITE_SPRING = ITEMS.register("small_calorite_spring", () -> new Item(new Item.Properties()));
@@ -91,7 +93,6 @@ public class VintageImprovements {
     public static final RegistryObject<Item> SMALL_GOLDEN_SPRING = ITEMS.register("small_golden_spring", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SMALL_COPPER_SPRING = ITEMS.register("small_copper_spring", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SMALL_BRASS_SPRING = ITEMS.register("small_brass_spring", () -> new Item(new Item.Properties()));
-
     public static final RegistryObject<Item> GRINDER_BELT = ITEMS.register("grinder_belt", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SPRING_COILING_MACHINE_WHEEL = ITEMS.register("spring_coiling_machine_wheel", () -> new Item(new Item.Properties()));
 
@@ -111,6 +112,7 @@ public class VintageImprovements {
                 output.accept(CALORITE_ROD.get());
                 output.accept(OSTRUM_ROD.get());
                 output.accept(DESH_ROD.get());
+                output.accept(NETHERITE_ROD.get());
 
                 output.accept(BRASS_WIRE.get());
                 output.accept(STEEL_WIRE.get());
@@ -132,6 +134,7 @@ public class VintageImprovements {
                 output.accept(CALORITE_SPRING.get());
                 output.accept(OSTRUM_SPRING.get());
                 output.accept(DESH_SPRING.get());
+                output.accept(NETHERITE_SPRING.get());
 
                 output.accept(SMALL_IRON_SPRING.get());
                 output.accept(SMALL_GOLDEN_SPRING.get());

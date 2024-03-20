@@ -70,7 +70,13 @@ public class VintageRecipesList {
                 it = !it;
 
                 if (it) {
-                    if (!i.isEmpty()) { if (item == null) item = i.getItems()[0]; }
+                    if (!i.isEmpty()) {
+                        if (item == null) {
+                            if (i.getItems().length <= 0)
+                                continue Recipe;
+                            item = i.getItems()[0];
+                        }
+                    }
                     else continue Recipe;
 
                     if (i.test(item)) {

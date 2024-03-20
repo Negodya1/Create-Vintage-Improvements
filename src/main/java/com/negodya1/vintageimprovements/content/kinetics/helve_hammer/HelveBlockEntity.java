@@ -2,6 +2,7 @@ package com.negodya1.vintageimprovements.content.kinetics.helve_hammer;
 
 import com.negodya1.vintageimprovements.*;
 import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugationRecipe;
+import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugeBlock;
 import com.negodya1.vintageimprovements.foundation.utility.VintageLang;
 import com.negodya1.vintageimprovements.infrastructure.config.VintageConfig;
 import com.simibubi.create.AllBlocks;
@@ -272,9 +273,6 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 				return;
 			}
 
-			timer = 500;
-			hammerBlows = 1;
-			sendData();
 		}
 		else if (operatingMode == 2) {
 			if (level.isClientSide && timer > 0 && timer - getProcessingSpeed() * 2 <= 0) {
@@ -374,7 +372,7 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 			if (!found) return;
 		}
 
-		if (HammeringRecipe.apply(this, lastHammeringRecipe) && lastRecipeIsAssembly) lastHammeringRecipe = null;
+		if (HammeringRecipe.apply(this, lastHammeringRecipe)) lastHammeringRecipe = null;
 
 		sendData();
 		setChanged();
@@ -458,6 +456,37 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 		return outputInv;
 	}
 
+	public boolean acceptOutputs(List<ItemStack> outputItems, boolean simulate) {
+		outputInv.allowInsertion();
+		boolean acceptOutputsInner = acceptOutputsInner(outputItems, simulate);
+		outputInv.forbidInsertion();
+		return acceptOutputsInner;
+	}
+
+	private boolean acceptOutputsInner(List<ItemStack> outputItems, boolean simulate) {
+		BlockState blockState = getBlockState();
+		if (!(blockState.getBlock() instanceof HelveBlock))
+			return false;
+
+		IItemHandler targetInv = outputInv;
+
+		if (targetInv == null && !outputItems.isEmpty())
+			return false;
+		if (!acceptItemOutputsIntoHelve(outputItems, simulate, targetInv))
+			return false;
+
+		return true;
+	}
+
+	private boolean acceptItemOutputsIntoHelve(List<ItemStack> outputItems, boolean simulate, IItemHandler targetInv) {
+		for (ItemStack itemStack : outputItems) {
+			if (!ItemHandlerHelper.insertItemStacked(targetInv, itemStack.copy(), simulate)
+					.isEmpty())
+				return false;
+		}
+		return true;
+	}
+
 	public boolean acceptOutputs(ItemStack item, boolean simulate) {
 		outputInv.allowInsertion();
 		boolean acceptOutputsInner = acceptOutputsInner(item, simulate);
@@ -475,10 +504,10 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 		if (targetInv == null && !item.isEmpty())
 			return false;
 
-		return acceptItemOutputsIntoCentrifuge(item, simulate, targetInv);
+		return acceptItemOutputsIntoHelve(item, simulate, targetInv);
 	}
 
-	private boolean acceptItemOutputsIntoCentrifuge(ItemStack itemStack, boolean simulate, IItemHandler targetInv) {
+	private boolean acceptItemOutputsIntoHelve(ItemStack itemStack, boolean simulate, IItemHandler targetInv) {
 		return ItemHandlerHelper.insertItemStacked(targetInv, itemStack.copy(), simulate).isEmpty();
 	}
 
@@ -537,7 +566,7 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 
 		}
 
-		if (operatingMode == 1 && hammerBlows > 0)
+		if (operatingMode == 1 && hammerBlows > 0 && lastHammeringRecipe != null)
 			VintageLang.translate("gui.goggles.hammer_blows")
 					.add(Lang.text(" ")).add(VintageLang.number(hammerBlows))
 					.forGoggles(tooltip);
