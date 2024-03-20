@@ -1,10 +1,13 @@
+## Need hosting?
+
+[![Banner](https://www.bisecthosting.com/partners/custom-banners/25d79f00-76c2-4045-a231-62a85437014f.webp)](https://bisecthosting.com/thebadguy)
+
 # Links
 
-[CurseForge](https://www.curseforge.com/minecraft/mc-mods/create-vintage-improvements)
-
-[Modrinth](https://modrinth.com/mod/create-vintage-improvements)
-
-[Discord](https://discord.gg/GbaQGNd6)
+[![GitHub](https://cdn.modrinth.com/data/cached_images/ceeb2af61953a1741b4cc0a9ed98302e93e5f7e1.png)](https://github.com/Negodya1/Create-Vintage-Improvements)
+[![CurseForge](https://cdn.modrinth.com/data/cached_images/742719616d0e8ce6fc10fbdae2b1eb0a24ea6ff2.png)](https://www.curseforge.com/minecraft/mc-mods/create-vintage-improvements)
+[![Modrinth](https://cdn.modrinth.com/data/cached_images/a78e162b7b8065d2a35409066cd61e82ccc9e4fb.png)](https://modrinth.com/mod/create-vintage-improvements)
+[![Discord](https://cdn.modrinth.com/data/cached_images/d293dd00bfd49134e3336d9137b4e5f858be2bd2.png)](https://discord.gg/u6TjVXGT3w)
 
 # About
 
@@ -174,7 +177,7 @@ Helve Hammer works with Smithing Table or Anvil. With Anvil Helve Hammer provide
 
 ![Hammering Example](https://cdn.modrinth.com/data/S27aYArf/images/726b2018a7b64a65120c6dfa60e292905da943ab.png)
 
-Netherite Sheet can be used in custom recipes in mod packs.
+Netherite Sheet can be used in custom recipes in mod packs
 
 ![Netherite Sheet](https://cdn.modrinth.com/data/S27aYArf/images/13efd001b311ac446ed9c8c374fe26353bf83aa4.png)
 
@@ -206,11 +209,17 @@ And finally, Sulfur Trioxide with Water form Sulfuric Acid
 
 
 <details>
-<summary>Vanadium</summary>
+<summary>Vanadium & New armor trim materials</summary>
 
 ![Vanadium Items](https://cdn.modrinth.com/data/S27aYArf/images/f8747e7986b057c759ddccd523648a71a60be893.png)
 
 Vanadium Nuggets can be obtain by crushing Crimsite, Basalt or Tuff. Vanadium Ingots/Blocks can be crafted, thay can be used in Beacon as Payment/Base
+
+![Armor Trims Example](https://cdn.modrinth.com/data/S27aYArf/images/f2e5208c1cc4512ff5817b2016164e75a1f12e1a.png)
+
+Also you can use Vanadium and Create resources (Brass, Andesite Alloy, Zinc, Rose Quartz, Shadow Steel and Refined Radiance) as armor trim material
+
+![Armor Trims Example 2](https://cdn.modrinth.com/data/S27aYArf/images/7cf02e1ccacd1e00822f23b1c8c3a1be5cd8276d.png)
 
 </details>
 
@@ -227,6 +236,7 @@ Copper Sulfate can be crafted by Pressurizing Copper Ingot with Water & Sulfuric
 </details>
 
 # Compats
+
 
 <details>
 <summary>Create Big Cannons</summary>
@@ -260,7 +270,3 @@ You can fork [GitHub repository](https://github.com/Negodya1/Create-Vintage-Impr
 - en_us
 - ru_ru
 - zh_cn by **Catchmons**
-
-## Need hosting?
-
-[![Banner](https://www.bisecthosting.com/partners/custom-banners/25d79f00-76c2-4045-a231-62a85437014f.webp)](https://bisecthosting.com/thebadguy)
