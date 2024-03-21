@@ -1,0 +1,9 @@
+{
+  "asset_name": "radiance",
+  "description": {
+    "color": "#f5fae1",
+    "translate": "trim_material.vintageimprovements.radiance"
+  },
+  "ingredient": "create:refined_radiance",
+  "item_model_index": 0.1
+}

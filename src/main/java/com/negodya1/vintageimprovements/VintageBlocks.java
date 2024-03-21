@@ -7,6 +7,7 @@ import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugeSt
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingBlock;
 import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingGenerator;
 import com.negodya1.vintageimprovements.content.kinetics.curving_press.CurvingPressBlock;
+import com.negodya1.vintageimprovements.content.kinetics.helve_hammer.*;
 import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumChamberBlock;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingTableBlock;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingTableGenerator;
@@ -116,6 +117,38 @@ public class VintageBlocks {
                     .transform(BlockStressDefaults.setImpact(8.0))
                     .item(AssemblyOperatorBlockItem::new)
                     .transform(customItemModel())
+                    .register();
+
+    public static final BlockEntry<HelveBlock> HELVE = MY_REGISTRATE.block("helve_hammer", HelveBlock::new)
+            .initialProperties(SharedProperties::stone)
+            .properties(p -> p.noOcclusion().color(MaterialColor.DIRT))
+            .transform(axeOrPickaxe())
+            .blockstate(new HelveGenerator()::generate)
+            .item(HelveItem::new)
+            .tag(AllTags.AllItemTags.CONTRAPTION_CONTROLLED.tag)
+            .transform(customItemModel())
+            .register();
+
+    public static final BlockEntry<HelveStructuralBlock> HELVE_STRUCTURAL =
+            MY_REGISTRATE.block("helve_structure", HelveStructuralBlock::new)
+                    .initialProperties(SharedProperties::wooden)
+                    .blockstate((c, p) -> p.getVariantBuilder(c.get())
+                            .forAllStatesExcept(BlockStateGen.mapToAir(p), HelveStructuralBlock.FACING))
+                    .properties(p -> p.noOcclusion().color(MaterialColor.DIRT))
+                    .transform(axeOrPickaxe())
+                    .lang("Helve Hammer")
+                    .register();
+
+    public static final BlockEntry<HelveKineticBlock> HELVE_KINETIC =
+            MY_REGISTRATE.block("helve_kinetic", HelveKineticBlock::new)
+                    .initialProperties(SharedProperties::wooden)
+                    .addLayer(() -> RenderType::cutoutMipped)
+                    .blockstate((c, p) -> p.getVariantBuilder(c.get())
+                            .forAllStatesExcept(BlockStateGen.mapToAir(p), HelveKineticBlock.FACING))
+                    .properties(p -> p.noOcclusion().color(MaterialColor.DIRT))
+                    .transform(axeOrPickaxe())
+                    .transform(BlockStressDefaults.setImpact(8.0))
+                    .lang("Helve Hammer")
                     .register();
 
     //Building blocks

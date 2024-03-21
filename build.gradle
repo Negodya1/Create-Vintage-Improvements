@@ -147,10 +147,12 @@ dependencies {
 
     implementation fg.deobf("curse.maven:createaddition-439890:4929703")
 
-    implementation fg.deobf("curse.maven:resourceful-lib-570073:4477753")
-    implementation fg.deobf("curse.maven:resourceful-config-714059:4444198")
-    implementation fg.deobf("curse.maven:botarium-704113:4306551")
-    implementation fg.deobf("curse.maven:ad-astra-635042:4643668")
+    //implementation fg.deobf("curse.maven:resourceful-lib-570073:4477753")
+    //implementation fg.deobf("curse.maven:resourceful-config-714059:4444198")
+    //implementation fg.deobf("curse.maven:botarium-704113:4306551")
+    //implementation fg.deobf("curse.maven:ad-astra-635042:4643668")
+
+    //implementation fg.deobf("curse.maven:oculus-581495:4763262")
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

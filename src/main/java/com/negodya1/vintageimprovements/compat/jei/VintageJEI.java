@@ -16,6 +16,9 @@ import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.curving_press.CurvingPressBlockEntity;
 import com.negodya1.vintageimprovements.content.kinetics.curving_press.CurvingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.PolishingRecipe;
+import com.negodya1.vintageimprovements.content.kinetics.helve_hammer.AutoSmithingRecipe;
+import com.negodya1.vintageimprovements.content.kinetics.helve_hammer.AutoUpgradeRecipe;
+import com.negodya1.vintageimprovements.content.kinetics.helve_hammer.HammeringRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.LeavesVibratingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingTableBlockEntity;
@@ -164,6 +167,22 @@ public class VintageJEI implements IModPlugin {
 				.emptyBackground(177, 70)
 				.build("auto_curving", AutoCurvingCategory::new));
 
+		ALL.add(builder(HammeringRecipe.class)
+				.addTypedRecipes(VintageRecipes.HAMMERING::getType)
+				.catalyst(VintageBlocks.HELVE::get)
+				.catalyst(Blocks.ANVIL::asItem)
+				.doubleItemIcon(VintageBlocks.HELVE.get(), Blocks.ANVIL)
+				.emptyBackground(177, 85)
+				.build("hammering", HammeringCategory::new));
+
+		ALL.add(builder(AutoUpgradeRecipe.class)
+				.addTypedRecipes(VintageRecipes.AUTO_UPGRADE::getType)
+				.catalyst(VintageBlocks.HELVE::get)
+				.catalyst(Blocks.SMITHING_TABLE::asItem)
+				.doubleItemIcon(VintageBlocks.HELVE.get(), Blocks.SMITHING_TABLE)
+				.emptyBackground(177, 70)
+				.build("auto_smithing", AutoSmithingCategory::new));
+
 		ALL.forEach(registration::addRecipeCategories);
 	}
 
@@ -176,6 +195,10 @@ public class VintageJEI implements IModPlugin {
 	@Override
 	public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
 		ALL.forEach(c -> c.registerCatalysts(registration));
+
+		registration.getJeiHelpers().getRecipeType(new ResourceLocation("minecraft", "smithing")).ifPresent(type -> {
+			registration.addRecipeCatalyst(new ItemStack(VintageBlocks.HELVE.get()), type);
+		});
 	}
 
 	private <T extends Recipe<?>> CategoryBuilder<T> builder(Class<? extends T> recipeClass) {

@@ -5,6 +5,7 @@
 	"item.vintageimprovements.desh_rod": "Desh Rod",
 	"item.vintageimprovements.ostrum_rod": "Ostrum Rod",
 	"item.vintageimprovements.calorite_rod": "Calorite Rod",
+	"item.vintageimprovements.netherite_rod": "Netherite Rod",
 	
 	"item.vintageimprovements.steel_wire": "Steel Wire",
 	"item.vintageimprovements.desh_wire": "Desh Wire",
@@ -20,6 +21,7 @@
 	"item.vintageimprovements.golden_spring": "Golden Spring",
 	"item.vintageimprovements.copper_spring": "Copper Spring",
 	"item.vintageimprovements.brass_spring": "Brass Spring",
+	"item.vintageimprovements.netherite_spring": "Netherite Spring",
 	
 	"item.vintageimprovements.small_steel_spring": "Small Steel Spring",
 	"item.vintageimprovements.small_desh_spring": "Small Desh Spring",
@@ -48,6 +50,8 @@
 	
 	"item.vintageimprovements.copper_sulfate": "Copper Sulfate",
 	"item.vintageimprovements.copper_sulfate.tooltip.summary": "May be used as Bone Meal",
+	
+	"item.vintageimprovements.netherite_sheet": "Netherite Sheet",
 	
 	"block.vintageimprovements.belt_grinder": "Belt Grinder",
 	"item.vintageimprovements.grinder_belt": "Grinder Belt",
@@ -80,6 +84,11 @@
 	"vintageimprovements.recipe.assembly.curving": "Process in Curving Press",
 	"vintageimprovements.recipe.curving": "Curving",
 	"vintageimprovements.recipe.auto_curving": "Curving",
+	
+	"block.vintageimprovements.helve_hammer": "Helve Hammer",
+	"vintageimprovements.recipe.assembly.hammering": "Process with Helve Hammer",
+	"vintageimprovements.recipe.hammering": "Hammering",
+	"vintageimprovements.recipe.auto_smithing": "Auto Smithing",
 	
 	"vintageimprovements.ponder.belt_grinder_processing.header": "Processing Items on the Belt Grinder",
 	"vintageimprovements.ponder.belt_grinder_processing.text_1": "Belt Grinders can process a variety of items",
@@ -129,6 +138,17 @@
     "vintageimprovements.ponder.curving_press.text_3": "When items are provided on a belt...",
     "vintageimprovements.ponder.curving_press.text_4": "The Press will hold and process them automatically",
 	
+	"vintageimprovements.ponder.helve_hammer.header": "Processing Items with the Helve Hammer",
+	"vintageimprovements.ponder.helve_hammer.text_1": "Helve Hammer have two operating modes",
+	"vintageimprovements.ponder.helve_hammer.text_2": "This mode depends on block under Hammer",
+	"vintageimprovements.ponder.helve_hammer.text_3": "There are two options: Anvil and Smithing Table",
+	"vintageimprovements.ponder.helve_hammer.text_4": "With Smithing Table Helve Hammer will process any Smithing recipes",
+	"vintageimprovements.ponder.helve_hammer.text_5": "With Anvil Helve Hammer will process special Hammering recipes",
+	"vintageimprovements.ponder.helve_hammer.text_6": "They can be powered from the side using shafts",
+	"vintageimprovements.ponder.helve_hammer.text_7": "Throw or Insert items at the top of Anvil or Smithing Table",
+	"vintageimprovements.ponder.helve_hammer.text_8": "After required hammer blows, the result can be obtained via Right-click",
+	"vintageimprovements.ponder.helve_hammer.text_9": "The items can also be extracted/inserted by automation",
+	
 	"vintageimprovements.jei.text.required_speed": "Required Speed:",
 	"vintageimprovements.jei.text.low": "Low",
 	"vintageimprovements.jei.text.medium": "Medium",
@@ -142,10 +162,19 @@
 	"vintageimprovements.jei.text.leaves_vibrating.text5": "same as using",
 	"vintageimprovements.jei.text.leaves_vibrating.text6": "Fortune III hoe.",
 	
+	"vintageimprovements.jei.text.auto_smithing.text1": "Helve Hammer",
+	"vintageimprovements.jei.text.auto_smithing.text2": "with Smithing",
+	"vintageimprovements.jei.text.auto_smithing.text3": "Table, will",
+	"vintageimprovements.jei.text.auto_smithing.text4": "process all",
+	"vintageimprovements.jei.text.auto_smithing.text5": "smithing recipes",
+	"vintageimprovements.jei.text.auto_smithing.text6": "",
+	
 	"vintageimprovements.jei.text.minimal_rpm": "Minimal RPM:",
 	
 	"vintageimprovements.jei.text.secondary_fluid_result": "This fluid is secondary result, and appears inside the Compressor after craft",
 	"vintageimprovements.jei.text.secondary_fluid_ingredient": "This fluid is secondary ingredient, and must be insreted inside the Сompressor to craft",
+	
+	"vintageimprovements.jei.text.hammer_blows": "Hammer Blows:",
 	
 	"vintageimprovements.gui.goggles.low": "Low",
 	"vintageimprovements.gui.goggles.medium": "Medium",
@@ -159,6 +188,19 @@
 	"vintageimprovements.gui.goggles.current_mode": "Current operating mode:",
 	"vintageimprovements.gui.goggles.vacuumizing_mode": "Vacuumizing",
 	"vintageimprovements.gui.goggles.pressurizing_mode": "Pressurizing",
+	"vintageimprovements.gui.goggles.hammering_mode": "Hammering",
+	"vintageimprovements.gui.goggles.smithing_mode": "Auto Smithing",
 	
-	"vintageimprovements.item_description.machine_rpm_requirements": "This machine have minimal RPM requirements:"
+	"vintageimprovements.gui.goggles.no_operating_block": "Place an Anvil or a Smithing Table under Hammer to work",
+	"vintageimprovements.gui.goggles.hammer_blows": "Hammer blows remaining:",
+	
+	"vintageimprovements.item_description.machine_rpm_requirements": "This machine have minimal RPM requirements:",
+	
+	"trim_material.vintageimprovements.vanadium": "Vanadium Material",
+	"trim_material.vintageimprovements.brass": "Brass Material",
+	"trim_material.vintageimprovements.andesite": "Andesite Material",
+	"trim_material.vintageimprovements.rose_quartz": "Rose Quartz Material",
+	"trim_material.vintageimprovements.shadow": "Shadow Steel Material",
+	"trim_material.vintageimprovements.radiance": "Refined Radiance Material",
+	"trim_material.vintageimprovements.zinc": "Zinc Material"
 }

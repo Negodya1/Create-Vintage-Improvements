@@ -5,6 +5,7 @@
 	"item.vintageimprovements.desh_rod": "Дешовый стержень",
 	"item.vintageimprovements.ostrum_rod": "Острумовый стержень",
 	"item.vintageimprovements.calorite_rod": "Калоритовый стержень",
+	"item.vintageimprovements.netherite_rod": "Незеритовый стержень",
 	
 	"item.vintageimprovements.steel_wire": "Стальной провод",
 	"item.vintageimprovements.desh_wire": "Дешевый провод",
@@ -20,6 +21,7 @@
 	"item.vintageimprovements.golden_spring": "Золотая пружина",
 	"item.vintageimprovements.copper_spring": "Медная пружина",
 	"item.vintageimprovements.brass_spring": "Латунная пружина",
+	"item.vintageimprovements.netherite_spring": "Незеритовая пружина",
 	
 	"item.vintageimprovements.small_steel_spring": "Малая стальная пружина",
 	"item.vintageimprovements.small_desh_spring": "Малая дешевая пружина",
@@ -48,6 +50,8 @@
 	
 	"item.vintageimprovements.copper_sulfate": "Медный купорос",
 	"vintageimprovements.item_description.copper_sulfate": "Может быть использована вместо костной муки",
+	
+	"item.vintageimprovements.netherite_sheet": "Незеритовая пластина",
 	
 	"block.vintageimprovements.belt_grinder": "Ленточный гриндер",
 	"item.vintageimprovements.grinder_belt": "Лента гриндера",
@@ -80,6 +84,11 @@
 	"vintageimprovements.recipe.assembly.curving": "Обработайте гибочным прессом",
 	"vintageimprovements.recipe.curving": "Сгибание",
 	"vintageimprovements.recipe.auto_curving": "Сгибание",
+	
+	"block.vintageimprovements.helve_hammer": "Рычажный молот",
+	"vintageimprovements.recipe.assembly.hammering": "Обработайте рычажным молотом",
+	"vintageimprovements.recipe.hammering": "Ковка",
+	"vintageimprovements.recipe.auto_smithing": "Автоматический стол кузнеца",
 	
 	"vintageimprovements.ponder.belt_grinder_processing.header": "Обработкой предметов на ленточном гриндере",
 	"vintageimprovements.ponder.belt_grinder_processing.text_1": "Ленточные гриндеры могут обрабатывать множество предметов",
@@ -129,6 +138,17 @@
 	"vintageimprovements.ponder.curving_press.text_3": "Когда предметы подаются на конвейере...",
 	"vintageimprovements.ponder.curving_press.text_4": "...пресс будет задерживать и сгибать их автоматически",
 	
+	"vintageimprovements.ponder.helve_hammer.header": "Обработкой предметов рычажным молотом",
+	"vintageimprovements.ponder.helve_hammer.text_1": "Рычажный молот имеет два режима работы",
+	"vintageimprovements.ponder.helve_hammer.text_2": "Режим зависит от блока под молотом",
+	"vintageimprovements.ponder.helve_hammer.text_3": "Есть два варианта: наковальня и стол кузнеца",
+	"vintageimprovements.ponder.helve_hammer.text_4": "Со столом кузнеца рычажный молот будет выполнять его рецепты",
+	"vintageimprovements.ponder.helve_hammer.text_5": "С наковальней рычажный молот будет выполнять специальные рецепты ковки",
+	"vintageimprovements.ponder.helve_hammer.text_6": "Молот принимает вращение от валов сбоку",
+	"vintageimprovements.ponder.helve_hammer.text_7": "Бросьте или добавьте предметы сверху",
+	"vintageimprovements.ponder.helve_hammer.text_8": "После необходимого количества ударов молотом, результат можно забрать кликнув ПКМ",
+	"vintageimprovements.ponder.helve_hammer.text_9": "Предметы также можно ввести/вывести автоматически",
+	
 	"vintageimprovements.jei.text.required_speed": "Треб. Скорость:",
 	"vintageimprovements.jei.text.low": "Низкая",
 	"vintageimprovements.jei.text.medium": "Средняя",
@@ -142,10 +162,19 @@
 	"vintageimprovements.jei.text.leaves_vibrating.text5": "как при ломании",
 	"vintageimprovements.jei.text.leaves_vibrating.text6": "их с Удачей III.",
 	
+	"vintageimprovements.jei.text.auto_smithing.text1": "Рычажный молот",
+	"vintageimprovements.jei.text.auto_smithing.text2": "над столом",
+	"vintageimprovements.jei.text.auto_smithing.text3": "кузнеца будет",
+	"vintageimprovements.jei.text.auto_smithing.text4": "выполнять все",
+	"vintageimprovements.jei.text.auto_smithing.text5": "его рецепты",
+	"vintageimprovements.jei.text.auto_smithing.text6": "",
+	
 	"vintageimprovements.jei.text.minimal_rpm": "Минимальные об/мин:",
 	
 	"vintageimprovements.jei.text.secondary_fluid_result": "Эта жидкость - второстепенный продукт, и попадает внутрь компрессора после крафта",
 	"vintageimprovements.jei.text.secondary_fluid_ingredient": "Эта жидкость - второстепенный ингредиент, и должна быть помещена внутрь компрессора для крафта",
+	
+	"vintageimprovements.jei.text.hammer_blows": "Ударов молотом:",
 	
 	"vintageimprovements.gui.goggles.low": "Низкая",
 	"vintageimprovements.gui.goggles.medium": "Средняя",
@@ -159,6 +188,19 @@
 	"vintageimprovements.gui.goggles.current_mode": "Текущий режим работы:",
 	"vintageimprovements.gui.goggles.vacuumizing_mode": "Вакуумирование",
 	"vintageimprovements.gui.goggles.pressurizing_mode": "Нагнетание",
+	"vintageimprovements.gui.goggles.hammering_mode": "Ковка",
+	"vintageimprovements.gui.goggles.smithing_mode": "Автоматический стол кузнеца",
 	
-	"vintageimprovements.item_description.machine_rpm_requirements": "Эта машина имеет требования к минимальным об/мин:"
+	"vintageimprovements.gui.goggles.no_operating_block": "Для работы установите под молот наковальню или стол кузнеца",
+	"vintageimprovements.gui.goggles.hammer_blows": "Осталось ударов молотом:",
+	
+	"vintageimprovements.item_description.machine_rpm_requirements": "Эта машина имеет требования к минимальным об/мин:",
+	
+	"trim_material.vintageimprovements.vanadium": "Ванадиевая",
+	"trim_material.vintageimprovements.brass": "Латунная",
+	"trim_material.vintageimprovements.andesite": "Андезитная",
+	"trim_material.vintageimprovements.rose_quartz": "Из розового кварца",
+	"trim_material.vintageimprovements.shadow": "Из теневой стали",
+	"trim_material.vintageimprovements.radiance": "Из очищенного сияния",
+	"trim_material.vintageimprovements.zinc": "Цинковая"
 }

@@ -43,7 +43,8 @@ public class VintagePartialModels {
 			GRINDER_BELT_ACTIVE_OBSIDIAN = block("belt_grinder/belt_active_obsidian"),
 			GRINDER_BELT_INACTIVE_OBSIDIAN = block("belt_grinder/belt_inactive_obsidian"),
 			GRINDER_BELT_REVERSED_OBSIDIAN = block("belt_grinder/belt_reversed_obsidian"),
-			VACUUM_CHAMBER_ARROWS = block("vacuum_chamber/arrows");
+			VACUUM_CHAMBER_ARROWS = block("vacuum_chamber/arrows"),
+			HELVE_HAMMER = block("helve_hammer/head");
 
 	private static PartialModel block(String path) {
 		return new PartialModel(VintageImprovements.asResource("block/" + path));

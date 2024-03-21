@@ -6,6 +6,9 @@
 	"vintageimprovements:vibrating_table",
 	"vintageimprovements:centrifuge",
 	"vintageimprovements:centrifuge_structure",
-	"vintageimprovements:curving_press"
+	"vintageimprovements:curving_press",
+	"vintageimprovements:helve_hammer",
+	"vintageimprovements:helve_structure",
+	"vintageimprovements:helve_kinetic"
   ]
 }
