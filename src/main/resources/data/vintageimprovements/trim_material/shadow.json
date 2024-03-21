@@ -1,0 +1,9 @@
+{
+  "asset_name": "shadow",
+  "description": {
+    "color": "#575366",
+    "translate": "trim_material.vintageimprovements.shadow"
+  },
+  "ingredient": "create:shadow_steel",
+  "item_model_index": 0.37
+}

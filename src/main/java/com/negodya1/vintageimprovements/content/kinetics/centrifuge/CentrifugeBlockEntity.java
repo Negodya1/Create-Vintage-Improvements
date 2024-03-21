@@ -225,7 +225,7 @@ public class CentrifugeBlockEntity extends KineticBlockEntity implements IHaveGo
 			ingredientRotation.setValue(ingredientRotation.getValue() + ingredientRotationSpeed.getValue());
 		}
 
-		if (Mth.abs(getSpeed()) < IRotate.SpeedLevel.FAST.getSpeedValue() || getBasins() < 4)
+		if (getBasins() < 4)
 			return;
 		for (int i = 0; i < outputInv.getSlots(); i++)
 			if (outputInv.getStackInSlot(i)

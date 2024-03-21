@@ -1,0 +1,14 @@
+{
+	"type":"vintageimprovements:coiling",
+	"ingredients": [ {
+      "tag": "forge:rods/netherite"
+    }
+  ],
+	"results": [
+		{
+			"item": "vintageimprovements:netherite_spring",
+			"count": 1
+		}
+	],
+  "processingTime": 120
+}

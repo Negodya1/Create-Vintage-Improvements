@@ -1,0 +1,20 @@
+{
+	"type": "vintageimprovements:hammering",
+	"hammerBlows": 3,
+	"ingredients": [
+		{
+		  "tag": "forge:ingots/iron"
+		}
+	],
+	"results": [
+		{
+		  "item": "vintageimprovements:netherite_sheet"
+		},
+		{
+		  "item": "vintageimprovements:netherite_rod"
+		},
+		{
+		  "item": "vintageimprovements:netherite_spring"
+		}
+	]
+}

@@ -5,6 +5,7 @@
 	"item.vintageimprovements.desh_rod": "戴斯棒",
 	"item.vintageimprovements.ostrum_rod": "紫金棒",
 	"item.vintageimprovements.calorite_rod": "耐热金属棒",
+	"item.vintageimprovements.netherite_rod": "Netherite Rod", //
 	
 	"item.vintageimprovements.steel_wire": "钢线",
 	"item.vintageimprovements.desh_wire": "戴斯线",
@@ -20,6 +21,7 @@
 	"item.vintageimprovements.golden_spring": "金弹簧",
 	"item.vintageimprovements.copper_spring": "铜弹簧",
 	"item.vintageimprovements.brass_spring": "黄铜弹簧",
+	"item.vintageimprovements.netherite_spring": "Netherite Spring", //
 	
 	"item.vintageimprovements.small_steel_spring": "钢小弹簧",
 	"item.vintageimprovements.small_desh_spring": "戴斯小弹簧",
@@ -49,6 +51,8 @@
 	"item.vintageimprovements.copper_sulfate": "Copper Sulfate", //
 	"vintageimprovements.item_description.copper_sulfate": "May be used as Bone Meal", //
 	
+	"item.vintageimprovements.netherite_sheet": "Netherite Sheet", //
+	
 	"block.vintageimprovements.belt_grinder": "砂带磨床",
 	"item.vintageimprovements.grinder_belt": "砂带",
 	"vintageimprovements.recipe.assembly.polishing": "磨床打磨",
@@ -66,7 +70,7 @@
 	"vintageimprovements.recipe.vacuumizing": "真空抽取",
 	"vintageimprovements.recipe.pressurizing": "Pressurizing", //
 	
-	"block.vintageimprovements.vibrating_table": "", //
+	"block.vintageimprovements.vibrating_table": "振动台", //
 	"vintageimprovements.recipe.assembly.vibrating": "振击",
 	"vintageimprovements.recipe.vibrating": "振动加工",
 	"vintageimprovements.recipe.unpacking": "振动解包",
@@ -80,6 +84,11 @@
 	"vintageimprovements.recipe.assembly.curving": "进行冲压",
 	"vintageimprovements.recipe.curving": "冲压",
 	"vintageimprovements.recipe.auto_curving": "冲压",
+	
+	"block.vintageimprovements.helve_hammer": "Helve Hammer", //
+	"vintageimprovements.recipe.assembly.hammering": "Process with Helve Hammer", //
+	"vintageimprovements.recipe.hammering": "Hammering", //
+	"vintageimprovements.recipe.auto_smithing": "Auto Smithing", //
 	
 	"vintageimprovements.ponder.belt_grinder_processing.header": "用砂带磨床给物品抛光",
 	"vintageimprovements.ponder.belt_grinder_processing.text_1": "砂带磨床可以处理各种物品",
@@ -129,6 +138,17 @@
     "vintageimprovements.ponder.curving_press.text_3": "当传动带上的物品经过冲压机下方时……",
     "vintageimprovements.ponder.curving_press.text_4": "冲压机会使物品停下，然后自动处理这一物品",
 	
+	"vintageimprovements.ponder.helve_hammer.header": "Processing Items with the Helve Hammer", //
+	"vintageimprovements.ponder.helve_hammer.text_1": "Helve Hammer have two operating modes", //
+	"vintageimprovements.ponder.helve_hammer.text_2": "This mode depends on block under Hammer", //
+	"vintageimprovements.ponder.helve_hammer.text_3": "There are two options: Anvil and Smithing Table", //
+	"vintageimprovements.ponder.helve_hammer.text_4": "With Smithing Table Helve Hammer will process any Smithing recipes", //
+	"vintageimprovements.ponder.helve_hammer.text_5": "With Anvil Helve Hammer will process special Hammering recipes", //
+	"vintageimprovements.ponder.helve_hammer.text_6": "They can be powered from the side using shafts", //
+	"vintageimprovements.ponder.helve_hammer.text_7": "Throw or Insert items at the top of Anvil or Smithing Table", //
+	"vintageimprovements.ponder.helve_hammer.text_8": "After required hammer blows, the result can be obtained via Right-click", //
+	"vintageimprovements.ponder.helve_hammer.text_9": "The items can also be extracted/inserted by automation", //
+	
 	"vintageimprovements.jei.text.required_speed": "需求转速：",
 	"vintageimprovements.jei.text.low": "低",
 	"vintageimprovements.jei.text.medium": "中",
@@ -142,10 +162,19 @@
 	"vintageimprovements.jei.text.leaves_vibrating.text5": "具有时运III附魔",
 	"vintageimprovements.jei.text.leaves_vibrating.text6": "的锄相同",
 	
+	"vintageimprovements.jei.text.auto_smithing.text1": "Helve Hammer", //
+	"vintageimprovements.jei.text.auto_smithing.text2": "with Smithing", //
+	"vintageimprovements.jei.text.auto_smithing.text3": "Table, will", //
+	"vintageimprovements.jei.text.auto_smithing.text4": "process all", //
+	"vintageimprovements.jei.text.auto_smithing.text5": "smithing recipes", //
+	"vintageimprovements.jei.text.auto_smithing.text6": "", //
+	
 	"vintageimprovements.jei.text.minimal_rpm": "Minimal RPM:", //
 	
 	"vintageimprovements.jei.text.secondary_fluid_result": "This fluid is secondary result, and gets inside the Compressor after craft", //
 	"vintageimprovements.jei.text.secondary_fluid_ingredient": "This fluid is secondary ingredient, and must be placed inside the Сompressor to craft", //
+	
+	"vintageimprovements.jei.text.hammer_blows": "Hammer Blows:", //
 	
 	"vintageimprovements.gui.goggles.low": "低",
 	"vintageimprovements.gui.goggles.medium": "中",
@@ -159,6 +188,19 @@
 	"vintageimprovements.gui.goggles.current_mode": "Current operating mode:", //
 	"vintageimprovements.gui.goggles.vacuumizing_mode": "Vacuumizing", //
 	"vintageimprovements.gui.goggles.pressurizing_mode": "Pressurizing", //
+	"vintageimprovements.gui.goggles.hammering_mode": "Hammering", //
+	"vintageimprovements.gui.goggles.smithing_mode": "Auto Smithing", //
 	
-	"vintageimprovements.item_description.machine_rpm_requirements": "This machine have minimal RPM requirements:" //
+	"vintageimprovements.gui.goggles.no_operating_block": "Place an Anvil or a Smithing Table under Hammer to work", //
+	"vintageimprovements.gui.goggles.hammer_blows": "Hammer blows remaining:", //
+	
+	"vintageimprovements.item_description.machine_rpm_requirements": "This machine have minimal RPM requirements:", //
+	
+	"trim_material.vintageimprovements.vanadium": "Vanadium Material", //
+	"trim_material.vintageimprovements.brass": "Brass Material", //
+	"trim_material.vintageimprovements.andesite": "Andesite Material", //
+	"trim_material.vintageimprovements.rose_quartz": "Rose Quartz Material", //
+	"trim_material.vintageimprovements.shadow": "Shadow Steel Material", //
+	"trim_material.vintageimprovements.radiance": "Refined Radiance Material", //
+	"trim_material.vintageimprovements.zinc": "Zinc Material" //
 }

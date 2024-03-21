@@ -17,9 +17,8 @@ public class CentrifugeGenerator extends SpecialBlockStateGen {
 	}
 
 	@Override
-	protected int getYRotation(BlockState state) {
-		Direction facing = state.getValue(VibratingTableBlock.HORIZONTAL_FACING);
-		return horizontalAngle(facing);
+	protected int getYRotation(BlockState state) { 
+		return 0; 
 	}
 
 	@Override

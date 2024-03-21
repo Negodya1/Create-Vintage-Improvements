@@ -13,6 +13,7 @@ import com.negodya1.vintageimprovements.content.kinetics.curving_press.CurvingPr
 import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderBlockEntity;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderInstance;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderRenderer;
+import com.negodya1.vintageimprovements.content.kinetics.helve_hammer.*;
 import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumChamberBlockEntity;
 import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumChamberInstance;
 import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumChamberRenderer;
@@ -69,6 +70,19 @@ public class VintageBlockEntity {
             .instance(() -> CurvingPressInstance::new)
             .validBlocks(VintageBlocks.CURVING_PRESS)
             .renderer(() -> CurvingPressRenderer::new)
+            .register();
+
+    public static final BlockEntityEntry<HelveBlockEntity> HELVE = MY_REGISTRATE
+            .blockEntity("helve_hammer", HelveBlockEntity::new)
+            .validBlocks(VintageBlocks.HELVE)
+            .renderer(() -> HelveItemsRenderer::new)
+            .register();
+
+    public static final BlockEntityEntry<HelveKineticBlockEntity> HELVE_KINETIC = MY_REGISTRATE
+            .blockEntity("helve_kinetic", HelveKineticBlockEntity::new)
+            .instance(() -> HelveInstance::new)
+            .validBlocks(VintageBlocks.HELVE_KINETIC)
+            .renderer(() -> HelveRenderer::new)
             .register();
 
     public static void register() {}

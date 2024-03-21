@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "vintageimprovements:block/helve_hammer/block",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "vintageimprovements:block/helve_hammer/block"
+    },
+    "facing=south": {
+      "model": "vintageimprovements:block/helve_hammer/block",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "vintageimprovements:block/helve_hammer/block",
+      "y": 270
+    },
+    "facing=up": {
+      "model": "vintageimprovements:block/helve_hammer/block",
+      "y": 270
+    },
+    "facing=down": {
+      "model": "vintageimprovements:block/helve_hammer/block",
+      "y": 270
+    }
+  }
+}

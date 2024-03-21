@@ -1,0 +1,71 @@
+{
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "tag": "forge:plates/gold"
+  },
+  "loops": 3,
+  "results": [
+    {
+      "item": "vintageimprovements:redstone_module"
+    }
+  ],
+  "sequence": [
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "vintageimprovements:incomplete_redstone_module"
+        }
+      ],
+      "results": [
+        {
+          "item": "vintageimprovements:incomplete_redstone_module"
+        }
+      ]
+    },
+    {
+      "type": "vintageimprovements:hammering",
+      "ingredients": [
+        {
+          "item": "vintageimprovements:incomplete_redstone_module"
+        }
+      ],
+      "results": [
+        {
+          "item": "vintageimprovements:incomplete_redstone_module"
+        }
+      ]
+    },
+	{
+      "type": "vintageimprovements:hammering",
+	  "hammerBlows": 3,
+      "ingredients": [
+        {
+          "item": "vintageimprovements:incomplete_redstone_module"
+        }
+      ],
+      "results": [
+        {
+          "item": "vintageimprovements:incomplete_redstone_module"
+        }
+      ]
+    },
+	{
+      "type": "vintageimprovements:hammering",
+	  "hammerBlows": 2,
+      "ingredients": [
+        {
+          "item": "vintageimprovements:incomplete_redstone_module"
+        }
+      ],
+      "results": [
+        {
+          "item": "vintageimprovements:incomplete_redstone_module"
+        }
+      ]
+    }
+  ],
+  "transitionalItem": {
+    "item": "vintageimprovements:incomplete_redstone_module"
+  }
+}

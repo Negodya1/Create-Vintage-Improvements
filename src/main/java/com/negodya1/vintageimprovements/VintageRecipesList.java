@@ -6,7 +6,9 @@ import com.simibubi.create.foundation.utility.VecHelper;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.inventory.SmithingMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
@@ -21,15 +23,22 @@ public class VintageRecipesList {
     static List<CraftingRecipe> unpacking;
     static List<CraftingRecipe> curving;
     static List<PolishingRecipe> polishing;
+    static List<UpgradeRecipe> smithing;
 
     static public void init(MinecraftServer level) {
         unpacking = new ArrayList<>();
         curving = new ArrayList<>();
+        smithing = new ArrayList<>();
 
         polishing = level.getRecipeManager().getAllRecipesFor(VintageRecipes.POLISHING.getType());
 
         initUnpacking(level);
         initCurving(level);
+        initSmithing(level);
+    }
+
+    static void initSmithing(MinecraftServer level) {
+        smithing = level.getRecipeManager().getAllRecipesFor(RecipeType.SMITHING);
     }
 
     static void initUnpacking(MinecraftServer level) {
@@ -60,7 +69,12 @@ public class VintageRecipesList {
                 it = !it;
 
                 if (it) {
-                    if (!i.isEmpty()) { if (item == null) item = i.getItems()[0]; }
+                    if (!i.isEmpty()) {
+                        if (item == null) {
+                            if (i.getItems().length == 0) continue Recipe;
+                            item = i.getItems()[0];
+                        }
+                    }
                     else continue Recipe;
 
                     if (i.test(item)) {
@@ -83,6 +97,10 @@ public class VintageRecipesList {
 
     static public List<CraftingRecipe> getCurving() {
         return curving;
+    }
+
+    static public List<UpgradeRecipe> getSmithing() {
+        return smithing;
     }
 
     static public boolean isPolishing(Recipe<?> r) {

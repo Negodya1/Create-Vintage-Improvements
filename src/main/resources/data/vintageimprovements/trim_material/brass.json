@@ -1,0 +1,9 @@
+{
+  "asset_name": "brass",
+  "description": {
+    "color": "#fbcc68",
+    "translate": "trim_material.vintageimprovements.brass"
+  },
+  "ingredient": "create:brass_ingot",
+  "item_model_index": 0.6
+}

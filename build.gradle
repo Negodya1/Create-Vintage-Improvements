@@ -16,7 +16,7 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle'
 
 
-version = '1.18.2-0.1.2.0'
+version = '1.18.2-0.1.3.2'
 group = 'com.negodya1.vintageimprovements' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'vintageimprovements'
 

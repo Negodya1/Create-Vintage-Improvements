@@ -143,12 +143,6 @@ public class CentrifugationRecipe extends ProcessingRecipe<SmartInventory> imple
 					recipeOutputItems.addAll(centrifugeRecipe.rollResults());
 					recipeOutputFluids.addAll(centrifugeRecipe.getFluidResults());
 					recipeOutputItems.addAll(centrifugeRecipe.getRemainingItems(centrifuge.getInputInventory()));
-				} else {
-					recipeOutputItems.add(recipe.getResultItem());
-
-					if (recipe instanceof CraftingRecipe craftingRecipe) {
-						recipeOutputItems.addAll(craftingRecipe.getRemainingItems(new DummyCraftingContainer(availableItems, extractedItemsFromSlot)));
-					}
 				}
 			}
 
@@ -159,12 +153,8 @@ public class CentrifugationRecipe extends ProcessingRecipe<SmartInventory> imple
 		return true;
 	}
 
-	protected CentrifugationRecipe(IRecipeTypeInfo type, ProcessingRecipeParams params) {
-		super(type, params);
-	}
-
 	public CentrifugationRecipe(ProcessingRecipeParams params) {
-		this(VintageRecipes.CENTRIFUGATION, params);
+		super(VintageRecipes.CENTRIFUGATION, params);
 	}
 
 	@Override
