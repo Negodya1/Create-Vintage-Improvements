@@ -1,206 +1,172 @@
 {
-	"itemGroup.vintageimprovements": "机械动力：经典改进",
-	
-	"item.vintageimprovements.steel_rod": "钢棒",
-	"item.vintageimprovements.desh_rod": "戴斯棒",
-	"item.vintageimprovements.ostrum_rod": "紫金棒",
-	"item.vintageimprovements.calorite_rod": "耐热金属棒",
-	"item.vintageimprovements.netherite_rod": "Netherite Rod", //
-	
-	"item.vintageimprovements.steel_wire": "钢线",
-	"item.vintageimprovements.desh_wire": "戴斯线",
-	"item.vintageimprovements.ostrum_wire": "紫金线",
-	"item.vintageimprovements.calorite_wire": "耐热金属线",
-	"item.vintageimprovements.brass_wire": "黄铜线",
-	
-	"item.vintageimprovements.steel_spring": "钢弹簧",
-	"item.vintageimprovements.desh_spring": "戴斯弹簧",
-	"item.vintageimprovements.ostrum_spring": "紫金弹簧",
-	"item.vintageimprovements.calorite_spring": "耐热金属弹簧",
-	"item.vintageimprovements.iron_spring": "铁弹簧",
-	"item.vintageimprovements.golden_spring": "金弹簧",
-	"item.vintageimprovements.copper_spring": "铜弹簧",
-	"item.vintageimprovements.brass_spring": "黄铜弹簧",
-	"item.vintageimprovements.netherite_spring": "Netherite Spring", //
-	
-	"item.vintageimprovements.small_steel_spring": "钢小弹簧",
-	"item.vintageimprovements.small_desh_spring": "戴斯小弹簧",
-	"item.vintageimprovements.small_ostrum_spring": "紫金小弹簧",
-	"item.vintageimprovements.small_calorite_spring": "耐热金属小弹簧",
-	"item.vintageimprovements.small_iron_spring": "铁小弹簧",
-	"item.vintageimprovements.small_golden_spring": "金小弹簧",
-	"item.vintageimprovements.small_copper_spring": "铜小弹簧",
-	"item.vintageimprovements.small_brass_spring": "黄铜小弹簧",
-	
-	"item.vintageimprovements.redstone_module": "Redstone Module", //
-	"item.vintageimprovements.incomplete_redstone_module": "Incomplete Redstone Module", //
-	
-	"item.vintageimprovements.vanadium_nugget": "Vanadium Nugget", //
-	"item.vintageimprovements.vanadium_ingot": "Vanadium Ingot", //
-	"block.vintageimprovements.vanadium_block": "Block of Vanadium", //
-	
-	"item.vintageimprovements.sulfur_chunk": "Chunk of Sulfur", //
-	"item.vintageimprovements.sulfur": "Sulfur", //
-	"block.vintageimprovements.sulfur_block": "Block of Sulfur", //
-	"fluid.vintageimprovements.sulfuric_acid": "Sulfuric Acid", //
-	"block.vintageimprovements.sulfuric_acid": "Sulfuric Acid", //
-	"fluid.vintageimprovements.sulfur_dioxide": "Sulfur Dioxide", //
-	"fluid.vintageimprovements.sulfur_trioxide": "Sulfur Trioxide", //
-	"item.vintageimprovements.sulfuric_acid_bucket": "Sulfuric Acid Bucket", //
-	
-	"item.vintageimprovements.copper_sulfate": "Copper Sulfate", //
-	"vintageimprovements.item_description.copper_sulfate": "May be used as Bone Meal", //
-	
-	"item.vintageimprovements.netherite_sheet": "Netherite Sheet", //
-	
-	"block.vintageimprovements.belt_grinder": "砂带磨床",
-	"item.vintageimprovements.grinder_belt": "砂带",
-	"vintageimprovements.recipe.assembly.polishing": "磨床打磨",
-	"vintageimprovements.recipe.polishing": "打磨",
-	"vintageimprovements.recipe.grinder_sandpaper_polishing": "打磨",
-	
-	"block.vintageimprovements.spring_coiling_machine": "卷簧机",
-	"item.vintageimprovements.spring_coiling_machine_wheel": "卷簧轮",
-	"vintageimprovements.recipe.assembly.coiling": "用卷簧机卷制",
-	"vintageimprovements.recipe.coiling": "卷制",
-	
-	"block.vintageimprovements.vacuum_chamber": "Compressor", //
-	"vintageimprovements.recipe.assembly.vacuumizing": "真空处理",
-	"vintageimprovements.recipe.assembly.pressurizing": "Pressurize", //
-	"vintageimprovements.recipe.vacuumizing": "真空抽取",
-	"vintageimprovements.recipe.pressurizing": "Pressurizing", //
-	
-	"block.vintageimprovements.vibrating_table": "振动台", //
-	"vintageimprovements.recipe.assembly.vibrating": "振击",
-	"vintageimprovements.recipe.vibrating": "振动加工",
-	"vintageimprovements.recipe.unpacking": "振动解包",
-	"vintageimprovements.recipe.leaves_vibrating": "树叶振动处理",
-	
-	"block.vintageimprovements.centrifuge": "离心机",
-	"vintageimprovements.recipe.assembly.centrifugation": "离心机处理",
-	"vintageimprovements.recipe.centrifugation": "离心",
-	
-	"block.vintageimprovements.curving_press": "动力冲压机",
-	"vintageimprovements.recipe.assembly.curving": "进行冲压",
-	"vintageimprovements.recipe.curving": "冲压",
-	"vintageimprovements.recipe.auto_curving": "冲压",
-	
-	"block.vintageimprovements.helve_hammer": "Helve Hammer", //
-	"vintageimprovements.recipe.assembly.hammering": "Process with Helve Hammer", //
-	"vintageimprovements.recipe.hammering": "Hammering", //
-	"vintageimprovements.recipe.auto_smithing": "Auto Smithing", //
-	
-	"vintageimprovements.ponder.belt_grinder_processing.header": "用砂带磨床给物品抛光",
-	"vintageimprovements.ponder.belt_grinder_processing.text_1": "砂带磨床可以处理各种物品",
-	"vintageimprovements.ponder.belt_grinder_processing.text_2": "物品的弹出方向始终与通入砂带磨床的旋转转向相反",
-	"vintageimprovements.ponder.belt_grinder_processing.text_3": "一些特殊的配方需要一定的转速",
-	"vintageimprovements.ponder.belt_grinder_processing.text_4": "磨床有低（16 RPM 及以下）、中（16 到 64 RPM）和高三档转速",
-	
-	"vintageimprovements.ponder.spring_coiling_processing.header": "用卷簧机处理物品",
-	"vintageimprovements.ponder.spring_coiling_processing.text_1": "卷簧机可以处理各种物品",
-	"vintageimprovements.ponder.spring_coiling_processing.text_2": "处理后的物品总是会输出到卷簧机的前方",
-	
-	"vintageimprovements.ponder.vacuum_chamber.header": "Processing Items with the Compressor", //
-	"vintageimprovements.ponder.vacuum_chamber.text_1": "Compressor have two operating modes, that can be changed via right click with Wrench", //
-	"vintageimprovements.ponder.vacuum_chamber.text_2": "Some of those recipes may require the heat of a Blaze Burner", //
-	
-	"vintageimprovements.ponder.vacuum_chamber_secondary.header": "Secondary Fluids Output/Input", //
-	"vintageimprovements.ponder.vacuum_chamber_secondary.text_1": "Some recipes fluid results appear inside Compressor block", //
-	"vintageimprovements.ponder.vacuum_chamber_secondary.text_2": "To drain results you must use a Mechanical Pump", //
-	"vintageimprovements.ponder.vacuum_chamber_secondary.text_3": "Some recipes require fluids inside the Compressor", //
-	"vintageimprovements.ponder.vacuum_chamber_secondary.text_4": "You can fill the Compressor using a Mechanical Pump", //
-	
-	"vintageimprovements.ponder.vibrating_table.header": "用振动台处理物品",
-	"vintageimprovements.ponder.vibrating_table.text_1": "振动台可以处理各种物品",
-	"vintageimprovements.ponder.vibrating_table.text_2": "振动台还可以解包存储方块",
-	"vintageimprovements.ponder.vibrating_table.text_3": "或者振动树叶获取对应掉落物，概率与使用时运III附魔的锄相同",
-	"vintageimprovements.ponder.vibrating_table.text_4": "可以用传动杆从侧面提供动力",
-	"vintageimprovements.ponder.vibrating_table.text_5": "在顶部扔下或置入物品",
-	"vintageimprovements.ponder.vibrating_table.text_6": "一段时间后，就可以右击获得产物",
-	"vintageimprovements.ponder.vibrating_table.text_7": "也可通过自动化提取输出产物",
-	
-	"vintageimprovements.ponder.centrifuge.header": "用离心机处理物品和流体",
-	"vintageimprovements.ponder.centrifuge.text_1": "离心机可以处理各种物品或流体",
-	"vintageimprovements.ponder.centrifuge.text_2": "工作前，必须在离心机上安装四个工作盆",
-	"vintageimprovements.ponder.centrifuge.text_3": "可以用传动杆从上方或下方为其提供动力",
-	"vintageimprovements.ponder.centrifuge.text_4": "只有在离心机停止时才能置入物品和流体",
-	"vintageimprovements.ponder.centrifuge.text_5": "产物可通过右击或自动化取出……",
-	"vintageimprovements.ponder.centrifuge.text_6": "……但只有在离心机停止时才能取出",
-	
-	"vintageimprovements.ponder.centrifuge_redstone.header": "Centrifuge Comparator interaction", //
-	"vintageimprovements.ponder.centrifuge_redstone.text_1": "Centrifuge can produce Comparator signal", //
-	"vintageimprovements.ponder.centrifuge_redstone.text_2": "You must install Redstone Module into the Centrifuge", //
-	"vintageimprovements.ponder.centrifuge_redstone.text_3": "Centrifuge will produce a level 15 redstone signal as long as it has a recipe", //
-	
-	"vintageimprovements.ponder.curving_press.header": "用冲压机加工物品",
-    "vintageimprovements.ponder.curving_press.text_1": "动力冲压机可以处理位于其下方的物品",
-    "vintageimprovements.ponder.curving_press.text_2": "在其下方丢入物品，或者将物品放在置物台上，都算作有效的物品输入",
-    "vintageimprovements.ponder.curving_press.text_3": "当传动带上的物品经过冲压机下方时……",
-    "vintageimprovements.ponder.curving_press.text_4": "冲压机会使物品停下，然后自动处理这一物品",
-	
-	"vintageimprovements.ponder.helve_hammer.header": "Processing Items with the Helve Hammer", //
-	"vintageimprovements.ponder.helve_hammer.text_1": "Helve Hammer have two operating modes", //
-	"vintageimprovements.ponder.helve_hammer.text_2": "This mode depends on block under Hammer", //
-	"vintageimprovements.ponder.helve_hammer.text_3": "There are two options: Anvil and Smithing Table", //
-	"vintageimprovements.ponder.helve_hammer.text_4": "With Smithing Table Helve Hammer will process any Smithing recipes", //
-	"vintageimprovements.ponder.helve_hammer.text_5": "With Anvil Helve Hammer will process special Hammering recipes", //
-	"vintageimprovements.ponder.helve_hammer.text_6": "They can be powered from the side using shafts", //
-	"vintageimprovements.ponder.helve_hammer.text_7": "Throw or Insert items at the top of Anvil or Smithing Table", //
-	"vintageimprovements.ponder.helve_hammer.text_8": "After required hammer blows, the result can be obtained via Right-click", //
-	"vintageimprovements.ponder.helve_hammer.text_9": "The items can also be extracted/inserted by automation", //
-	
-	"vintageimprovements.jei.text.required_speed": "需求转速：",
-	"vintageimprovements.jei.text.low": "低",
-	"vintageimprovements.jei.text.medium": "中",
-	"vintageimprovements.jei.text.high": "高",
-	"vintageimprovements.jei.text.any": "任意",
-	
-	"vintageimprovements.jei.text.leaves_vibrating.text1": "任意种类的树叶",
-	"vintageimprovements.jei.text.leaves_vibrating.text2": "均可被振动处理",
-	"vintageimprovements.jei.text.leaves_vibrating.text3": "获得对应掉落物",
-	"vintageimprovements.jei.text.leaves_vibrating.text4": "获得概率与使用",
-	"vintageimprovements.jei.text.leaves_vibrating.text5": "具有时运III附魔",
-	"vintageimprovements.jei.text.leaves_vibrating.text6": "的锄相同",
-	
-	"vintageimprovements.jei.text.auto_smithing.text1": "Helve Hammer", //
-	"vintageimprovements.jei.text.auto_smithing.text2": "with Smithing", //
-	"vintageimprovements.jei.text.auto_smithing.text3": "Table, will", //
-	"vintageimprovements.jei.text.auto_smithing.text4": "process all", //
-	"vintageimprovements.jei.text.auto_smithing.text5": "smithing recipes", //
-	"vintageimprovements.jei.text.auto_smithing.text6": "", //
-	
-	"vintageimprovements.jei.text.minimal_rpm": "Minimal RPM:", //
-	
-	"vintageimprovements.jei.text.secondary_fluid_result": "This fluid is secondary result, and gets inside the Compressor after craft", //
-	"vintageimprovements.jei.text.secondary_fluid_ingredient": "This fluid is secondary ingredient, and must be placed inside the Сompressor to craft", //
-	
-	"vintageimprovements.jei.text.hammer_blows": "Hammer Blows:", //
-	
-	"vintageimprovements.gui.goggles.low": "低",
-	"vintageimprovements.gui.goggles.medium": "中",
-	"vintageimprovements.gui.goggles.high": "高",
-	"vintageimprovements.gui.goggles.current_speed": "速度：",
-	
-	"vintageimprovements.gui.goggles.not_enough_basins": "工作盆数量不足，离心机无法工作。所缺数量:",
-	"vintageimprovements.gui.goggles.redstone_module": "Redstone Module installed", //
-	"vintageimprovements.gui.goggles.not_enough_rpm": "Not enough Rotations per Minute for current recipe. Necessary:", //
-	
-	"vintageimprovements.gui.goggles.current_mode": "Current operating mode:", //
-	"vintageimprovements.gui.goggles.vacuumizing_mode": "Vacuumizing", //
-	"vintageimprovements.gui.goggles.pressurizing_mode": "Pressurizing", //
-	"vintageimprovements.gui.goggles.hammering_mode": "Hammering", //
-	"vintageimprovements.gui.goggles.smithing_mode": "Auto Smithing", //
-	
-	"vintageimprovements.gui.goggles.no_operating_block": "Place an Anvil or a Smithing Table under Hammer to work", //
-	"vintageimprovements.gui.goggles.hammer_blows": "Hammer blows remaining:", //
-	
-	"vintageimprovements.item_description.machine_rpm_requirements": "This machine have minimal RPM requirements:", //
-	
-	"trim_material.vintageimprovements.vanadium": "Vanadium Material", //
-	"trim_material.vintageimprovements.brass": "Brass Material", //
-	"trim_material.vintageimprovements.andesite": "Andesite Material", //
-	"trim_material.vintageimprovements.rose_quartz": "Rose Quartz Material", //
-	"trim_material.vintageimprovements.shadow": "Shadow Steel Material", //
-	"trim_material.vintageimprovements.radiance": "Refined Radiance Material", //
-	"trim_material.vintageimprovements.zinc": "Zinc Material" //
+  "itemGroup.vintageimprovements": "机械动力：经典改进",
+  "item.vintageimprovements.steel_rod": "钢棒",
+  "item.vintageimprovements.desh_rod": "戴斯棒",
+  "item.vintageimprovements.ostrum_rod": "紫金棒",
+  "item.vintageimprovements.calorite_rod": "耐热金属棒",
+  "item.vintageimprovements.netherite_rod": "下界合金棒",
+  "item.vintageimprovements.steel_wire": "钢线",
+  "item.vintageimprovements.desh_wire": "戴斯线",
+  "item.vintageimprovements.ostrum_wire": "紫金线",
+  "item.vintageimprovements.calorite_wire": "耐热金属线",
+  "item.vintageimprovements.brass_wire": "黄铜线",
+  "item.vintageimprovements.steel_spring": "钢弹簧",
+  "item.vintageimprovements.desh_spring": "戴斯弹簧",
+  "item.vintageimprovements.ostrum_spring": "紫金弹簧",
+  "item.vintageimprovements.calorite_spring": "耐热金属弹簧",
+  "item.vintageimprovements.iron_spring": "铁弹簧",
+  "item.vintageimprovements.golden_spring": "金弹簧",
+  "item.vintageimprovements.copper_spring": "铜弹簧",
+  "item.vintageimprovements.brass_spring": "黄铜弹簧",
+  "item.vintageimprovements.netherite_spring": "下界合金弹簧",
+  "item.vintageimprovements.electrum_spring": "琥珀金弹簧",
+  "item.vintageimprovements.blaze_spring": "烈焰弹簧",
+  "item.vintageimprovements.small_steel_spring": "钢小弹簧",
+  "item.vintageimprovements.small_desh_spring": "戴斯小弹簧",
+  "item.vintageimprovements.small_ostrum_spring": "紫金小弹簧",
+  "item.vintageimprovements.small_calorite_spring": "耐热金属小弹簧",
+  "item.vintageimprovements.small_iron_spring": "铁小弹簧",
+  "item.vintageimprovements.small_golden_spring": "金小弹簧",
+  "item.vintageimprovements.small_copper_spring": "铜小弹簧",
+  "item.vintageimprovements.small_brass_spring": "黄铜小弹簧",
+  "item.vintageimprovements.small_electrum_spring": "琥珀金小弹簧",
+  "item.vintageimprovements.redstone_module": "红石模块",
+  "item.vintageimprovements.incomplete_redstone_module": "红石模块（半成品）",
+  "item.vintageimprovements.vanadium_nugget": "钒粒",
+  "item.vintageimprovements.vanadium_ingot": "钒锭",
+  "block.vintageimprovements.vanadium_block": "钒块",
+  "item.vintageimprovements.sulfur_chunk": "硫磺粒",
+  "item.vintageimprovements.sulfur": "硫磺",
+  "block.vintageimprovements.sulfur_block": "硫磺块",
+  "fluid.vintageimprovements.sulfuric_acid": "硫酸",
+  "block.vintageimprovements.sulfuric_acid": "硫酸",
+  "fluid.vintageimprovements.sulfur_dioxide": "二氧化硫",
+  "fluid.vintageimprovements.sulfur_trioxide": "三氧化硫",
+  "item.vintageimprovements.sulfuric_acid_bucket": "硫酸桶",
+  "item.vintageimprovements.copper_sulfate": "硫酸铜",
+  "item.vintageimprovements.copper_sulfate.tooltip.summary": "可用作骨粉",
+  "item.vintageimprovements.netherite_sheet": "下界合金板",
+  "block.vintageimprovements.belt_grinder": "砂带磨床",
+  "item.vintageimprovements.grinder_belt": "砂带",
+  "vintageimprovements.recipe.assembly.polishing": "磨床打磨",
+  "vintageimprovements.recipe.polishing": "打磨",
+  "vintageimprovements.recipe.grinder_sandpaper_polishing": "打磨",
+  "block.vintageimprovements.spring_coiling_machine": "卷簧机",
+  "item.vintageimprovements.spring_coiling_machine_wheel": "卷簧轮",
+  "vintageimprovements.recipe.assembly.coiling": "用卷簧机卷制",
+  "vintageimprovements.recipe.coiling": "卷制",
+  "block.vintageimprovements.vacuum_chamber": "压缩机",
+  "vintageimprovements.recipe.assembly.vacuumizing": "抽真空",
+  "vintageimprovements.recipe.assembly.pressurizing": "加压",
+  "vintageimprovements.recipe.vacuumizing": "真空处理",
+  "vintageimprovements.recipe.pressurizing": "加压处理",
+  "block.vintageimprovements.vibrating_table": "振动台",
+  "vintageimprovements.recipe.assembly.vibrating": "振动",
+  "vintageimprovements.recipe.vibrating": "振动处理",
+  "vintageimprovements.recipe.unpacking": "振动解包",
+  "vintageimprovements.recipe.leaves_vibrating": "树叶振动处理",
+  "block.vintageimprovements.centrifuge": "离心机",
+  "vintageimprovements.recipe.assembly.centrifugation": "离心机处理",
+  "vintageimprovements.recipe.centrifugation": "离心分离",
+  "block.vintageimprovements.curving_press": "冲压机",
+  "vintageimprovements.recipe.assembly.curving": "冲压机处理",
+  "vintageimprovements.recipe.curving": "冲压",
+  "vintageimprovements.recipe.auto_curving": "冲压",
+  "block.vintageimprovements.helve_hammer": "杠杆锤",
+  "vintageimprovements.recipe.assembly.hammering": "杠杆锤处理",
+  "vintageimprovements.recipe.hammering": "锤打",
+  "vintageimprovements.recipe.auto_smithing": "自动锻造",
+  "vintageimprovements.ponder.belt_grinder_processing.header": "在砂带磨床上处理物品",
+  "vintageimprovements.ponder.belt_grinder_processing.text_1": "砂带磨床可以处理各种物品",
+  "vintageimprovements.ponder.belt_grinder_processing.text_2": "被加工物品始终逆着磨床的转动方向移动",
+  "vintageimprovements.ponder.belt_grinder_processing.text_3": "一些配方需要特定的转速",
+  "vintageimprovements.ponder.belt_grinder_processing.text_4": "有三档转速：低（16 RPM 及以下）、中（16 到 64 RPM）、高",
+  "vintageimprovements.ponder.spring_coiling_processing.header": "在卷簧机上处理物品",
+  "vintageimprovements.ponder.spring_coiling_processing.text_1": "卷簧机可以处理各种物品",
+  "vintageimprovements.ponder.spring_coiling_processing.text_2": "处理好的物品总是移动到卷黄机的前方",
+  "vintageimprovements.ponder.vacuum_chamber.header": "用压缩机处理物品",
+  "vintageimprovements.ponder.vacuum_chamber.text_1": "压缩机有两种工作模式，可以通过扳手右键来切换",
+  "vintageimprovements.ponder.vacuum_chamber.text_2": "其中的一些配方可能需要烈焰人燃烧室加热",
+  "vintageimprovements.ponder.vacuum_chamber_secondary.header": "次要流体输出/输入",
+  "vintageimprovements.ponder.vacuum_chamber_secondary.text_1": "有些配方的流体产物会出现在压缩机方块内",
+  "vintageimprovements.ponder.vacuum_chamber_secondary.text_2": "需要用动力泵抽取这些产物",
+  "vintageimprovements.ponder.vacuum_chamber_secondary.text_3": "有些配方需要压缩机内的流体",
+  "vintageimprovements.ponder.vacuum_chamber_secondary.text_4": "可以用动力泵向压缩机中输入",
+  "vintageimprovements.ponder.vibrating_table.header": "用振动台处理物品",
+  "vintageimprovements.ponder.vibrating_table.text_1": "振动台可以处理各种物品",
+  "vintageimprovements.ponder.vibrating_table.text_2": "振动台还可以解包存储方块",
+  "vintageimprovements.ponder.vibrating_table.text_3": "或者振动树叶获取对应掉落物，概率与使用时运III附魔的锄相同",
+  "vintageimprovements.ponder.vibrating_table.text_4": "可以用传动杆从侧面提供动力",
+  "vintageimprovements.ponder.vibrating_table.text_5": "在顶部扔下或置入物品",
+  "vintageimprovements.ponder.vibrating_table.text_6": "一段时间后，就可以右击获得产物",
+  "vintageimprovements.ponder.vibrating_table.text_7": "也可通过自动化提取输出产物",
+  "vintageimprovements.ponder.centrifuge.header": "用离心机处理物品和流体",
+  "vintageimprovements.ponder.centrifuge.text_1": "离心机可以处理各种物品或流体",
+  "vintageimprovements.ponder.centrifuge.text_2": "工作前，必须在离心机上安装四个工作盆",
+  "vintageimprovements.ponder.centrifuge.text_3": "可以用传动杆从上方或下方为其提供动力",
+  "vintageimprovements.ponder.centrifuge.text_4": "只有在离心机停止时才能置入物品和流体",
+  "vintageimprovements.ponder.centrifuge.text_5": "产物可通过右击或自动化取出……",
+  "vintageimprovements.ponder.centrifuge.text_6": "……但只有在离心机停止时才能取出",
+  "vintageimprovements.ponder.centrifuge_redstone.header": "离心机与比较器的交互",
+  "vintageimprovements.ponder.centrifuge_redstone.text_1": "离心机可以产生比较器信号",
+  "vintageimprovements.ponder.centrifuge_redstone.text_2": "必须在离心机中安装红石模块",
+  "vintageimprovements.ponder.centrifuge_redstone.text_3": "只要在处理配方，离心机就能产生15级红石信号",
+  "vintageimprovements.ponder.curving_press.header": "用冲压机处理物品",
+  "vintageimprovements.ponder.curving_press.text_1": "冲压机可处理放在其下方的物品",
+  "vintageimprovements.ponder.curving_press.text_2": "输入的物品可以投放或放置在冲压机下方的置物台上",
+  "vintageimprovements.ponder.curving_press.text_3": "当物品放在传送带上时……",
+  "vintageimprovements.ponder.curving_press.text_4": "冲压机会自动截停并处理这些物品",
+  "vintageimprovements.ponder.helve_hammer.header": "用杠杆锤处理物品",
+  "vintageimprovements.ponder.helve_hammer.text_1": "杠杆锤有两种工作模式",
+  "vintageimprovements.ponder.helve_hammer.text_2": "模式取决于锤下的方块",
+  "vintageimprovements.ponder.helve_hammer.text_3": "有两种选择：铁砧和锻造台",
+  "vintageimprovements.ponder.helve_hammer.text_4": "有了锻造台，杠杆锤可以处理任何锻造配方",
+  "vintageimprovements.ponder.helve_hammer.text_5": "有了铁砧，杠杆锤可以处理特殊的锤击配方",
+  "vintageimprovements.ponder.helve_hammer.text_6": "可以用传动杆从侧面为它们提供动力",
+  "vintageimprovements.ponder.helve_hammer.text_7": "在铁砧或锻造台顶部扔下或置入物品",
+  "vintageimprovements.ponder.helve_hammer.text_8": "经过所需的锤击次数后，产物可以右键取出",
+  "vintageimprovements.ponder.helve_hammer.text_9": "物品也可以自动化取出或置入",
+  "vintageimprovements.jei.text.required_speed": "需求转速：",
+  "vintageimprovements.jei.text.low": "低",
+  "vintageimprovements.jei.text.medium": "中",
+  "vintageimprovements.jei.text.high": "高",
+  "vintageimprovements.jei.text.any": "任意",
+  "vintageimprovements.jei.text.leaves_vibrating.text1": "任意种类的树叶",
+  "vintageimprovements.jei.text.leaves_vibrating.text2": "均可被振动处理",
+  "vintageimprovements.jei.text.leaves_vibrating.text3": "获得对应掉落物",
+  "vintageimprovements.jei.text.leaves_vibrating.text4": "获得概率与使用",
+  "vintageimprovements.jei.text.leaves_vibrating.text5": "具有时运III附魔",
+  "vintageimprovements.jei.text.leaves_vibrating.text6": "的锄相同",
+  "vintageimprovements.jei.text.auto_smithing.text1": "下方放有",
+  "vintageimprovements.jei.text.auto_smithing.text2": "锻造台的",
+  "vintageimprovements.jei.text.auto_smithing.text3": "杠杆锤，",
+  "vintageimprovements.jei.text.auto_smithing.text4": "可以处理",
+  "vintageimprovements.jei.text.auto_smithing.text5": "所有锻造",
+  "vintageimprovements.jei.text.auto_smithing.text6": "配方",
+  "vintageimprovements.jei.text.minimal_rpm": "最小RPM：",
+  "vintageimprovements.jei.text.secondary_fluid_result": "此流体是次要产物，合成完成后出现在压缩机内部",
+  "vintageimprovements.jei.text.secondary_fluid_ingredient": "此流体是次要原料，必须注入压缩机内部才能开始合成",
+  "vintageimprovements.jei.text.hammer_blows": "锤击次数：",
+  "vintageimprovements.gui.goggles.low": "低",
+  "vintageimprovements.gui.goggles.medium": "中",
+  "vintageimprovements.gui.goggles.high": "高",
+  "vintageimprovements.gui.goggles.current_speed": "速度：",
+  "vintageimprovements.gui.goggles.not_enough_basins": "工作盆数量不足，离心机无法工作。所缺数量:",
+  "vintageimprovements.gui.goggles.redstone_module": "红石模块已安装",
+  "vintageimprovements.gui.goggles.not_enough_rpm": "当前配方转速不足。所需RPM：",
+  "vintageimprovements.gui.goggles.current_mode": "当前工作模式：",
+  "vintageimprovements.gui.goggles.vacuumizing_mode": "真空处理",
+  "vintageimprovements.gui.goggles.pressurizing_mode": "加压处理",
+  "vintageimprovements.gui.goggles.hammering_mode": "锤击",
+  "vintageimprovements.gui.goggles.smithing_mode": "自动锻造",
+  "vintageimprovements.gui.goggles.no_operating_block": "在锤子下方放置铁砧或锻造台，以开始工作",
+  "vintageimprovements.gui.goggles.hammer_blows": "剩余锤击次数：",
+  "vintageimprovements.item_description.machine_rpm_requirements": "该机器需要的最低RPM为：",
+  "trim_material.vintageimprovements.vanadium": "钒质",
+  "trim_material.vintageimprovements.brass": "黄铜质",
+  "trim_material.vintageimprovements.andesite": "安山合金质",
+  "trim_material.vintageimprovements.rose_quartz": "玫瑰石英质",
+  "trim_material.vintageimprovements.shadow": "暗影钢质",
+  "trim_material.vintageimprovements.radiance": "光辉石质",
+  "trim_material.vintageimprovements.zinc": "锌质"
 }
