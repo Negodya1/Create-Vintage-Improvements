@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import com.negodya1.vintageimprovements.VintageBlocks;
 import com.negodya1.vintageimprovements.VintageRecipes;
 import com.negodya1.vintageimprovements.compat.jei.category.assemblies.AssemblyPressurizing;
+import com.negodya1.vintageimprovements.foundation.utility.VintageLang;
 import com.simibubi.create.compat.jei.category.sequencedAssembly.SequencedAssemblySubCategory;
 import com.simibubi.create.content.processing.basin.BasinBlockEntity;
 import com.simibubi.create.content.processing.basin.BasinRecipe;
@@ -58,7 +59,7 @@ public class PressurizingRecipe extends BasinRecipe implements IAssemblyRecipe {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public Component getDescriptionForAssembly() {
-		return Lang.translateDirect("recipe.assembly.pressurizing");
+		return VintageLang.translateDirect("recipe.assembly.pressurizing");
 	}
 
 	@Override

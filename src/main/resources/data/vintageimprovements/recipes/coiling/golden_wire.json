@@ -1,5 +1,6 @@
 {
 	"type":"vintageimprovements:coiling",
+	"springColor": "FAD64A",
 	"ingredients": [ {
       "tag": "forge:wires/gold"
     }

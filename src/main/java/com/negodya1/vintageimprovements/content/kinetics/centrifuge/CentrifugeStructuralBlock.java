@@ -138,11 +138,13 @@ public class CentrifugeStructuralBlock extends DirectionalBlock implements IBE<C
 		if (!(pLevel.getBlockEntity(getMaster(pLevel, pPos, pState)) instanceof CentrifugeBlockEntity wwt))
 			return InteractionResult.FAIL;
 		if (wwt.addBasin(pPlayer.getItemInHand(pHand))) {
-			pPlayer.getItemInHand(pHand).shrink(1);
+			if (!pPlayer.isCreative())
+				pPlayer.getItemInHand(pHand).shrink(1);
 			return InteractionResult.SUCCESS;
 		}
 		if (wwt.getBasins() >= 4 && wwt.addRedstoneApp(pPlayer.getItemInHand(pHand))) {
-			pPlayer.getItemInHand(pHand).shrink(1);
+			if (!pPlayer.isCreative())
+				pPlayer.getItemInHand(pHand).shrink(1);
 			return InteractionResult.SUCCESS;
 		}
 

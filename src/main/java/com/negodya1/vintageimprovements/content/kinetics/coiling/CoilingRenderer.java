@@ -10,6 +10,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintagePartialModels;
+import com.negodya1.vintageimprovements.VintageRecipes;
 import com.simibubi.create.AllPartialModels;
 import com.simibubi.create.content.contraptions.behaviour.MovementContext;
 import com.simibubi.create.content.contraptions.render.ContraptionMatrices;
@@ -141,7 +142,7 @@ public class CoilingRenderer extends KineticBlockEntityRenderer<CoilingBlockEnti
 
 				superBuffer.translate(offset, 0, 0);
 
-				superBuffer.color(0xFFFFFF)
+				superBuffer.color(be.getSpringColor())
 						.light(light)
 						.renderInto(ms, buffer.getBuffer(RenderType.cutoutMipped()));
 				break;

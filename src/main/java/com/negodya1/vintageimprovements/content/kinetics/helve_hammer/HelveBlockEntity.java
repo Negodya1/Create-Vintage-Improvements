@@ -1,8 +1,10 @@
 package com.negodya1.vintageimprovements.content.kinetics.helve_hammer;
 
+import com.google.common.collect.ImmutableList;
 import com.negodya1.vintageimprovements.*;
 import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugationRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugeBlock;
+import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.PressurizingRecipe;
 import com.negodya1.vintageimprovements.foundation.utility.VintageLang;
 import com.negodya1.vintageimprovements.infrastructure.config.VintageConfig;
 import com.simibubi.create.AllBlocks;
@@ -242,17 +244,36 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 
 			if (lastHammeringRecipe == null || !HammeringRecipe.match(this, lastHammeringRecipe)) {
 
-				Optional<HammeringRecipe> assemblyRecipe = SequencedAssemblyRecipe.getRecipe(level, inputInv,
-						VintageRecipes.HAMMERING.getType(), HammeringRecipe.class);
+				for (int i = 0; i < inputInv.getSlots(); i++) {
+					Optional<HammeringRecipe> assemblyRecipe = SequencedAssemblyRecipe.
+							getRecipe(level, inputInv.getStackInSlot(i),
+									VintageRecipes.HAMMERING.getType(), HammeringRecipe.class);
+					if (assemblyRecipe.isPresent()) {
+						boolean found = true;
 
-				if (assemblyRecipe.isPresent()) {
-					lastHammeringRecipe = assemblyRecipe.get();
-					timer = 500;
-					hammerBlows = assemblyRecipe.get().hammerBlows;
-					lastRecipeIsAssembly = true;
+						for (Ingredient cur : assemblyRecipe.get().getIngredients()) {
+							boolean find = false;
 
-					sendData();
-					return;
+							for (ItemStack item : cur.getItems()) {
+								if (item.getCount() <= inputInv.countItem(item.getItem())) {
+									find = true;
+									break;
+								}
+							}
+
+							found = find;
+						}
+
+						if (found) {
+							lastHammeringRecipe = assemblyRecipe.get();
+							timer = 500;
+							hammerBlows = assemblyRecipe.get().hammerBlows;
+							lastRecipeIsAssembly = true;
+
+							sendData();
+							return;
+						}
+					}
 				}
 
 				lastRecipeIsAssembly = false;
@@ -266,11 +287,6 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 					}
 					return;
 				}
-
-				timer = 500;
-				hammerBlows = 1;
-				sendData();
-				return;
 			}
 
 		}
@@ -372,7 +388,23 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 			if (!found) return;
 		}
 
-		if (HammeringRecipe.apply(this, lastHammeringRecipe)) lastHammeringRecipe = null;
+		if (HammeringRecipe.apply(this, lastHammeringRecipe)) {
+			lastHammeringRecipe = null;
+			if (VintageConfig.server().recipes.damageAnvilAfterHammeringRecipe.get()) {
+				if (!level.isClientSide) {
+					if (level.getBlockState(worldPosition.below()).getBlock() instanceof AnvilBlock) {
+						if (level.random.nextInt() % 100 < VintageConfig.server().recipes.chanceToDamageAnvilAfterHammeringRecipe.get()) {
+							BlockState state = AnvilBlock.damage(level.getBlockState(worldPosition.below()));
+							if (state == null)
+								level.destroyBlock(worldPosition.below(), false);
+							else
+								level.setBlockAndUpdate(worldPosition.below(), state);
+
+						}
+					}
+				}
+			}
+		}
 
 		sendData();
 		setChanged();

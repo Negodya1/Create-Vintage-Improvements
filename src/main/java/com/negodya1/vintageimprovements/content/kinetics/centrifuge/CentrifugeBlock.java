@@ -70,14 +70,16 @@ public class CentrifugeBlock extends KineticBlock implements IBE<CentrifugeBlock
 			if (!heldItem.isEmpty()) {
 				if (player.getItemInHand(handIn).getItem() == AllBlocks.BASIN.asItem()) {
 					if (be.addBasin(player.getItemInHand(handIn))) {
-						player.getItemInHand(handIn).shrink(1);
+						if (!player.isCreative())
+							player.getItemInHand(handIn).shrink(1);
 						return InteractionResult.SUCCESS;
 					}
 					return InteractionResult.PASS;
 				}
 				else if (player.getItemInHand(handIn).getItem() == VintageItems.REDSTONE_MODULE.get() && be.getBasins() == 4) {
 					if (be.addRedstoneApp(player.getItemInHand(handIn))) {
-						player.getItemInHand(handIn).shrink(1);
+						if (!player.isCreative())
+							player.getItemInHand(handIn).shrink(1);
 						return InteractionResult.SUCCESS;
 					}
 					return InteractionResult.PASS;

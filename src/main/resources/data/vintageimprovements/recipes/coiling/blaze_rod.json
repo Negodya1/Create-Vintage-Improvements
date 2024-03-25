@@ -1,13 +1,13 @@
 {
 	"type":"vintageimprovements:coiling",
-	"springColor": "5D595E",
+	"springColor": "D8AE26",
 	"ingredients": [ {
-      "tag": "forge:rods/steel"
+      "tag": "forge:rods/blaze"
     }
   ],
 	"results": [
 		{
-			"item": "vintageimprovements:steel_spring",
+			"item": "vintageimprovements:blaze_spring",
 			"count": 1
 		}
 	],

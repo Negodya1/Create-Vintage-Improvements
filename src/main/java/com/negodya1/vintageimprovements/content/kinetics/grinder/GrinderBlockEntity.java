@@ -138,6 +138,7 @@ public class GrinderBlockEntity extends KineticBlockEntity implements IHaveGoggl
 		inventory.deserializeNBT(compound.getCompound("Inventory"));
 		recipeIndex = compound.getInt("RecipeIndex");
 		textureType = compound.getInt("TextureType");
+
 		if (compound.contains("PlayEvent"))
 			playEvent = ItemStack.of(compound.getCompound("PlayEvent"));
 	}

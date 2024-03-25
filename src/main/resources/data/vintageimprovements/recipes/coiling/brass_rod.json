@@ -1,9 +1,10 @@
 {
 	"type":"vintageimprovements:coiling",
+	"springColor": "B57849",
 	"ingredients": [ {
-      "tag": "forge:rods/brass"
-    }
-  ],
+			"tag": "forge:rods/brass"
+		}
+	],
 	"results": [
 		{
 			"item": "vintageimprovements:brass_spring",

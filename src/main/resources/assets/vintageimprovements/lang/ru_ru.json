@@ -22,6 +22,8 @@
 	"item.vintageimprovements.copper_spring": "Медная пружина",
 	"item.vintageimprovements.brass_spring": "Латунная пружина",
 	"item.vintageimprovements.netherite_spring": "Незеритовая пружина",
+	"item.vintageimprovements.electrum_spring": "Электрумовая пружина",
+	"item.vintageimprovements.blaze_spring": "Огненная пружина",
 	
 	"item.vintageimprovements.small_steel_spring": "Малая стальная пружина",
 	"item.vintageimprovements.small_desh_spring": "Малая дешевая пружина",
@@ -31,6 +33,7 @@
 	"item.vintageimprovements.small_golden_spring": "Малая золотая пружина",
 	"item.vintageimprovements.small_copper_spring": "Малая медная пружина",
 	"item.vintageimprovements.small_brass_spring": "Малая латунная пружина",
+	"item.vintageimprovements.small_electrum_spring": "Малая электрумовая пружина",
 	
 	"item.vintageimprovements.redstone_module": "Редстоун модуль",
 	"item.vintageimprovements.incomplete_redstone_module": "Незаконченный Редстоун Модуль",

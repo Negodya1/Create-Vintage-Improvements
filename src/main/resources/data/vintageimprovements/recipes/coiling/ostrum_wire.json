@@ -1,5 +1,6 @@
 {
 	"type":"vintageimprovements:coiling",
+	"springColor": "A86C73",
 	"ingredients": [ {
       "tag": "forge:wires/ostrum"
     }

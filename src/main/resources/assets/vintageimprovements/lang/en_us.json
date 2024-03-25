@@ -22,6 +22,8 @@
 	"item.vintageimprovements.copper_spring": "Copper Spring",
 	"item.vintageimprovements.brass_spring": "Brass Spring",
 	"item.vintageimprovements.netherite_spring": "Netherite Spring",
+	"item.vintageimprovements.electrum_spring": "Electrum Spring",
+	"item.vintageimprovements.blaze_spring": "Blaze Spring",
 	
 	"item.vintageimprovements.small_steel_spring": "Small Steel Spring",
 	"item.vintageimprovements.small_desh_spring": "Small Desh Spring",
@@ -31,6 +33,7 @@
 	"item.vintageimprovements.small_golden_spring": "Small Golden Spring",
 	"item.vintageimprovements.small_copper_spring": "Small Copper Spring",
 	"item.vintageimprovements.small_brass_spring": "Small Brass Spring",
+	"item.vintageimprovements.small_electrum_spring": "Small Electrum Spring",
 	
 	"item.vintageimprovements.redstone_module": "Redstone Module",
 	"item.vintageimprovements.incomplete_redstone_module": "Incomplete Redstone Module",
