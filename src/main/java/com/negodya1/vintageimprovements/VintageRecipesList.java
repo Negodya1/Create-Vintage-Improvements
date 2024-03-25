@@ -1,6 +1,5 @@
 package com.negodya1.vintageimprovements;
 
-import com.blamejared.crafttweaker.api.recipe.RecipeList;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.PolishingRecipe;
 import com.simibubi.create.content.equipment.sandPaper.SandPaperPolishingRecipe;
 import com.simibubi.create.foundation.utility.VecHelper;

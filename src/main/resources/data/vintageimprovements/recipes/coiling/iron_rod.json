@@ -1,5 +1,6 @@
 {
 	"type":"vintageimprovements:coiling",
+	"springColor": "828282",
 	"ingredients": [ {
       "tag": "forge:rods/iron"
     }

@@ -1,5 +1,6 @@
 {
 	"type":"vintageimprovements:coiling",
+	"springColor": "5D595E",
 	"ingredients": [ {
       "tag": "forge:wires/steel"
     }

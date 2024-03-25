@@ -44,7 +44,8 @@
         "zinc": "vintageimprovements:trims/color_palettes/zinc",
 		"shadow": "vintageimprovements:trims/color_palettes/shadow",
 		"radiance": "vintageimprovements:trims/color_palettes/radiance",
-		"rose_quartz": "vintageimprovements:trims/color_palettes/rose_quartz"
+		"rose_quartz": "vintageimprovements:trims/color_palettes/rose_quartz",
+		"electrum": "vintageimprovements:trims/color_palettes/electrum"
       }
     }
   ]

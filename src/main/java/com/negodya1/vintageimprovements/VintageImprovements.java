@@ -84,6 +84,8 @@ public class VintageImprovements {
     public static final RegistryObject<Item> COPPER_SPRING = ITEMS.register("copper_spring", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> BRASS_SPRING = ITEMS.register("brass_spring", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> NETHERITE_SPRING = ITEMS.register("netherite_spring", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> ELECTRUM_SPRING = ITEMS.register("electrum_spring", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> BLAZE_SPRING = ITEMS.register("blaze_spring", () -> new Item(new Item.Properties()));
 
     public static final RegistryObject<Item> SMALL_STEEL_SPRING = ITEMS.register("small_steel_spring", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SMALL_CALORITE_SPRING = ITEMS.register("small_calorite_spring", () -> new Item(new Item.Properties()));
@@ -93,7 +95,10 @@ public class VintageImprovements {
     public static final RegistryObject<Item> SMALL_GOLDEN_SPRING = ITEMS.register("small_golden_spring", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SMALL_COPPER_SPRING = ITEMS.register("small_copper_spring", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SMALL_BRASS_SPRING = ITEMS.register("small_brass_spring", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> SMALL_ELECTRUM_SPRING = ITEMS.register("small_electrum_spring", () -> new Item(new Item.Properties()));
+
     public static final RegistryObject<Item> GRINDER_BELT = ITEMS.register("grinder_belt", () -> new Item(new Item.Properties()));
+
     public static final RegistryObject<Item> SPRING_COILING_MACHINE_WHEEL = ITEMS.register("spring_coiling_machine_wheel", () -> new Item(new Item.Properties()));
 
     public static final RegistryObject<Item> SULFUR_CHUNK = ITEMS.register("sulfur_chunk", () -> new Item(new Item.Properties()));
@@ -135,6 +140,8 @@ public class VintageImprovements {
                 output.accept(OSTRUM_SPRING.get());
                 output.accept(DESH_SPRING.get());
                 output.accept(NETHERITE_SPRING.get());
+                output.accept(ELECTRUM_SPRING.get());
+                output.accept(BLAZE_SPRING.get());
 
                 output.accept(SMALL_IRON_SPRING.get());
                 output.accept(SMALL_GOLDEN_SPRING.get());
@@ -144,6 +151,7 @@ public class VintageImprovements {
                 output.accept(SMALL_CALORITE_SPRING.get());
                 output.accept(SMALL_OSTRUM_SPRING.get());
                 output.accept(SMALL_DESH_SPRING.get());
+                output.accept(SMALL_ELECTRUM_SPRING.get());
 
                 output.accept(VintageBlocks.VACUUM_CHAMBER.get());
 
@@ -172,7 +180,16 @@ public class VintageImprovements {
             }).build());
 
     public VintageImprovements() {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        onCtor();
+        MinecraftForge.EVENT_BUS.register(this);
+    }
+
+    public static void onCtor() {
+        ModLoadingContext modLoadingContext = ModLoadingContext.get();
+
+        IEventBus modEventBus = FMLJavaModLoadingContext.get()
+                .getModEventBus();
+        IEventBus forgeEventBus = MinecraftForge.EVENT_BUS;
 
         MY_REGISTRATE.registerEventListeners(modEventBus);
 
@@ -190,21 +207,12 @@ public class VintageImprovements {
         VintageItems.register();
         VintageFluids.register();
 
-        onCtor();
+        modEventBus.addListener(VintageImprovements::commonSetup);
 
-        // Register the commonSetup method for modloading
-        modEventBus.addListener(this::commonSetup);
-
-        // Register ourselves for server and other game events we are interested in
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    public static void onCtor() {
-        ModLoadingContext modLoadingContext = ModLoadingContext.get();
         VintageConfig.register(modLoadingContext);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event) {
+    private static void commonSetup(final FMLCommonSetupEvent event) {
         VintageFluids.registerFluidInteractions();
     }
 

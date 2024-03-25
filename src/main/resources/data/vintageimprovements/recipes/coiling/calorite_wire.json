@@ -1,5 +1,6 @@
 {
 	"type":"vintageimprovements:coiling",
+	"springColor": "CB4E4F",
 	"ingredients": [ {
       "tag": "forge:wires/calorite"
     }

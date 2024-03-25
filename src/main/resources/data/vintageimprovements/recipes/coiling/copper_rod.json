@@ -1,5 +1,6 @@
 {
 	"type":"vintageimprovements:coiling",
+	"springColor": "C15A36",
 	"ingredients": [ {
       "tag": "forge:rods/copper"
     }

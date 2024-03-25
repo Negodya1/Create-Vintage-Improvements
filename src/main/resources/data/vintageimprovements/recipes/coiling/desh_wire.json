@@ -1,5 +1,6 @@
 {
 	"type":"vintageimprovements:coiling",
+	"springColor": "D68D4D",
 	"ingredients": [ {
       "tag": "forge:wires/desh"
     }

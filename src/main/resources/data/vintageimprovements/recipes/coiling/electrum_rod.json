@@ -1,17 +1,17 @@
 {
 	"type":"vintageimprovements:coiling",
-	"springColor": "C15A36",
+	"springColor": "FDF675",
 	"ingredients": [ {
-      "tag": "forge:wires/copper"
+      "tag": "forge:rods/electrum"
     }
   ],
 	"results": [
 		{
-			"item": "vintageimprovements:small_copper_spring",
+			"item": "vintageimprovements:electrum_spring",
 			"count": 1
 		}
 	],
-  "processingTime": 60,
+  "processingTime": 120,
 	"conditions": [ {
 		"type": "forge:mod_loaded",
 		"modid": "createaddition"

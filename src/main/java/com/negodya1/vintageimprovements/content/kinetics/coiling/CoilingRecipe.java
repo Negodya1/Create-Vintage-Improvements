@@ -29,8 +29,11 @@ import net.minecraftforge.items.wrapper.RecipeWrapper;
 @ParametersAreNonnullByDefault
 public class CoilingRecipe extends ProcessingRecipe<RecipeWrapper> implements IAssemblyRecipe {
 
+	public int springColor;
+
 	public CoilingRecipe(ProcessingRecipeParams params) {
 		super(VintageRecipes.COILING, params);
+		springColor = 0x9aa49d;
 	}
 
 
@@ -74,6 +77,27 @@ public class CoilingRecipe extends ProcessingRecipe<RecipeWrapper> implements IA
 	@Override
 	public Supplier<Supplier<SequencedAssemblySubCategory>> getJEISubCategory() {
 		return () -> AssemblyCoiling::new;
+	}
+
+	@Override
+	public void readAdditional(JsonObject json) {
+		if (json.has("springColor")) springColor = Integer.parseInt(json.get("springColor").getAsString(), 16);
+		else springColor = 0x9aa49d;
+	}
+
+	@Override
+	public void readAdditional(FriendlyByteBuf buffer) {
+		springColor = buffer.readInt();
+	}
+
+	@Override
+	public void writeAdditional(JsonObject json) {
+		json.addProperty("springColor", springColor);
+	}
+
+	@Override
+	public void writeAdditional(FriendlyByteBuf buffer) {
+		buffer.writeInt(springColor);
 	}
 
 }

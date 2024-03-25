@@ -3,6 +3,7 @@ package com.negodya1.vintageimprovements.content.kinetics.centrifuge;
 import com.negodya1.vintageimprovements.VintageBlocks;
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintageItems;
+import com.negodya1.vintageimprovements.content.kinetics.helve_hammer.HammeringRecipe;
 import com.negodya1.vintageimprovements.foundation.utility.VintageLang;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
@@ -270,17 +271,36 @@ public class CentrifugeBlockEntity extends KineticBlockEntity implements IHaveGo
 
 		if (lastRecipe == null || !CentrifugationRecipe.match(this, lastRecipe)) {
 
-			Optional<CentrifugationRecipe> assemblyRecipe = SequencedAssemblyRecipe.getRecipe(level, inputInv,
-					VintageRecipes.CENTRIFUGATION.getType(), CentrifugationRecipe.class);
+			for (int i = 0; i < inputInv.getSlots(); i++) {
+				Optional<CentrifugationRecipe> assemblyRecipe = SequencedAssemblyRecipe.
+						getRecipe(level, inputInv.getStackInSlot(i),
+								VintageRecipes.CENTRIFUGATION.getType(), CentrifugationRecipe.class);
+				if (assemblyRecipe.isPresent()) {
+					boolean found = true;
 
-			if (assemblyRecipe.isPresent()) {
-				lastRecipe = assemblyRecipe.get();
-				timer = lastRecipe.getProcessingDuration();
-				if (timer == 0) timer = 100;
-				lastRecipeIsAssembly = true;
+					for (Ingredient cur : assemblyRecipe.get().getIngredients()) {
+						boolean find = false;
 
-				sendData();
-				return;
+						for (ItemStack item : cur.getItems()) {
+							if (item.getCount() <= inputInv.countItem(item.getItem())) {
+								find = true;
+								break;
+							}
+						}
+
+						found = find;
+					}
+
+					if (found) {
+						lastRecipe = assemblyRecipe.get();
+						timer = lastRecipe.getProcessingDuration();
+						if (timer == 0) timer = 100;
+						lastRecipeIsAssembly = true;
+
+						sendData();
+						return;
+					}
+				}
 			}
 
 			lastRecipeIsAssembly = false;

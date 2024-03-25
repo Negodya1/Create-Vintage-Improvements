@@ -1,5 +1,6 @@
 {
 	"type":"vintageimprovements:coiling",
+	"springColor": "4D494D",
 	"ingredients": [ {
       "tag": "forge:rods/netherite"
     }
@@ -10,9 +11,5 @@
 			"count": 1
 		}
 	],
-  "processingTime": 120,
-	"conditions": [ {
-		"type": "forge:mod_loaded",
-		"modid": "createaddition"
-    }]
+  "processingTime": 120
 }
