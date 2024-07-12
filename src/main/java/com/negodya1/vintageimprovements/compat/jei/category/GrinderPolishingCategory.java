@@ -25,7 +25,9 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 
 @ParametersAreNonnullByDefault
 public class GrinderPolishingCategory extends CreateRecipeCategory<PolishingRecipe> {
@@ -64,23 +66,24 @@ public class GrinderPolishingCategory extends CreateRecipeCategory<PolishingReci
 
 		grinder.draw(matrixStack, 72, 42);
 
-		Minecraft.getInstance().font.draw(matrixStack,  Components.translatable(VintageImprovements.MODID + ".jei.text.required_speed"), 40, 75, 0xFFFFFF);
-
 		int speedLimits = recipe.getSpeedLimits();
-		switch (speedLimits) {
-			case 1:
-				Minecraft.getInstance().font.draw(matrixStack,  Components.translatable(VintageImprovements.MODID + ".jei.text.low"), 128, 75, 0x00FF00);
-				break;
-			case 2:
-				Minecraft.getInstance().font.draw(matrixStack,  Components.translatable(VintageImprovements.MODID + ".jei.text.medium"), 128, 75, 0xFFFF00);
-				break;
-			case 3:
-				Minecraft.getInstance().font.draw(matrixStack,  Components.translatable(VintageImprovements.MODID + ".jei.text.high"), 128, 75, 0xFF0000);
-				break;
-			default:
-				Minecraft.getInstance().font.draw(matrixStack,  Components.translatable(VintageImprovements.MODID + ".jei.text.any"), 128, 75, 0xFFFFFF);
-				break;
-		}
+
+		String speedText = 	(speedLimits == 1)? "low":
+							(speedLimits == 2)? "medium":
+							(speedLimits == 3)? "high":
+												"any";
+		ChatFormatting style = 	(speedLimits == 1)? ChatFormatting.GREEN:
+				 				(speedLimits == 2)? ChatFormatting.YELLOW:
+								(speedLimits == 3)? ChatFormatting.RED:
+													ChatFormatting.WHITE;
+
+		MutableComponent text = Components.translatable(VintageImprovements.MODID + ".jei.text.required_speed")
+						.append(Components.translatable(VintageImprovements.MODID + ".jei.text." + speedText).withStyle(style));
+
+		int width = Minecraft.getInstance().font.width(text);
+
+		Minecraft.getInstance().font.draw(matrixStack,  text, (177 - width)/2.0f, 75, 0xFFFFFF);
+
 
 		if (recipe.isFragile()) {
 			VintageGuiTextures.JEI_FRAGILE.render(matrixStack, 2, 62);

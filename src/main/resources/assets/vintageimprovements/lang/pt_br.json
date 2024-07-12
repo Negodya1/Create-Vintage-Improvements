@@ -245,10 +245,11 @@
 	"item.vintageimprovements.copper_sulfate": "Sulfato de Cobre",
 	"item.vintageimprovements.copper_sulfate.tooltip.summary": "Pode ser usado como fertilizante",
 	
-	"item.vintageimprovements.recipe_card": "Recipe Card", //
-	"item.vintageimprovements.incomplete_recipe_card": "Incomplete Recipe Card", //
-	"vintageimprovements.recipe_card.item_slot": "Ingredient slot", //
-	
+
+	"item.vintageimprovements.recipe_card": "Cartão de Receita", //
+	"item.vintageimprovements.incomplete_recipe_card": "Cartão de Receita Incompleto", //
+	"vintageimprovements.recipe_card.item_slot": "Espaço de ingrediente", //
+
 	"item.vintageimprovements.convex_curving_head": "Cabeça de Curvar Convexa",
 	"item.vintageimprovements.convex_curving_head.tooltip.summary": "Pode ser instalada na Prensa de Curvar para produzir receitas em formato de balde",
 	"item.vintageimprovements.convex_curving_head.tooltip.condition1": " █░█",
@@ -271,11 +272,12 @@
 	"vintageimprovements.recipe.assembly.polishing": "Polimento na Lixadeira",
 	"vintageimprovements.recipe.polishing": "Polimento",
 	"vintageimprovements.recipe.grinder_sandpaper_polishing": "Polimento",
-	"vintageimprovements.recipe.assembly.speed": "Speed", //
-	"vintageimprovements.recipe.assembly.low": "Low", //
-	"vintageimprovements.recipe.assembly.medium": "Medium", //
-	"vintageimprovements.recipe.assembly.high": "High", //
-	"vintageimprovements.recipe.assembly.any": "Any", //
+
+	"vintageimprovements.recipe.assembly.speed": "Velocidade", //
+	"vintageimprovements.recipe.assembly.low": "Baixa", //
+	"vintageimprovements.recipe.assembly.medium": "Média", //
+	"vintageimprovements.recipe.assembly.high": "Alta", //
+	"vintageimprovements.recipe.assembly.any": "Qualquer", //
 
 	"block.vintageimprovements.spring_coiling_machine": "Enrolador de Mola",
 	"item.vintageimprovements.spring_coiling_machine_wheel": "Roda de Enrolar Mola",
@@ -302,26 +304,27 @@
 	"vintageimprovements.recipe.assembly.curving": "Processar na Prensa de Curvar",
 	"vintageimprovements.recipe.curving": "Curvar",
 	"vintageimprovements.recipe.auto_curving": "Curvar",
-	"vintageimprovements.recipe.assembly.with_head": "with head:", //
+
+	"vintageimprovements.recipe.assembly.with_head": "com cabeça:", //
 	
 	"block.vintageimprovements.helve_hammer": "Martelo Hidráulico",
 	"vintageimprovements.recipe.assembly.hammering": "Processar com Martelo Hidráulico",
 	"vintageimprovements.recipe.hammering": "Martelar",
 	"vintageimprovements.recipe.auto_smithing": "Ferraria Automática",
 	
-	"block.vintageimprovements.lathe": "Lathe", //
-	"vintageimprovements.recipe.assembly.turning": "Process with Lathe", //
-	"vintageimprovements.recipe.turning": "Turning", //
-	"vintageimprovements.lathe.item_slot": "Current ingredient", //
+
+	"block.vintageimprovements.lathe": "Torno", //
+	"vintageimprovements.recipe.assembly.turning": "Processar com Torno", //
+	"vintageimprovements.recipe.turning": "Tornear", //
+	"vintageimprovements.lathe.item_slot": "Ingrediente atual", //
 	
 	"block.vintageimprovements.laser": "Laser", //
 	"item.vintageimprovements.laser_item": "Laser", //
-	"vintageimprovements.recipe.assembly.laser_cutting": "Process with Laser", //
-	"vintageimprovements.recipe.laser_cutting": "Laser Cutting", //
+	"vintageimprovements.recipe.assembly.laser_cutting": "Processar com Laser", //
+	"vintageimprovements.recipe.laser_cutting": "Corte a Laser", //
 	
-	"vintageimprovements.recipe.with": "com",
-	"vintageimprovements.recipe.and": "&",
-	"vintageimprovements.recipe.assembly.on": "on", //
+
+	"vintageimprovements.recipe.assembly.on": "sobre", //
 	
 	"vintageimprovements.ponder.belt_grinder_processing.header": "Processando Itens na Lixadeira de Correia",
 	"vintageimprovements.ponder.belt_grinder_processing.text_1": "Lixadeiras de Correia podem processar uma variedade de itens",
@@ -390,36 +393,38 @@
 	"vintageimprovements.ponder.helve_hammer.text_8": "Depois de um número de marteladas, o resultado pode ser obtido com clique direito",
 	"vintageimprovements.ponder.helve_hammer.text_9": "Itens também podem ser inseridos/extraidos com automação",
 	
-	"vintageimprovements.ponder.lathe.header": "Processing Items with the Lathe", //
-    "vintageimprovements.ponder.lathe.text_1": "Lathe can process a variety of items", //
-    "vintageimprovements.ponder.lathe.text_2": "They must be powered from the side...", //
-    "vintageimprovements.ponder.lathe.text_3": "...and front using shafts", //
-    "vintageimprovements.ponder.lathe.text_4": "Ingredients can be inserted to front block via Right-click", //
-    "vintageimprovements.ponder.lathe.text_5": "To select a recipe, click on the back block", //
-	"vintageimprovements.ponder.lathe.text_6": "You need to do this every time", //
-    "vintageimprovements.ponder.lathe.text_7": "The result can be obtained via Right-click", //
-    "vintageimprovements.ponder.lathe.text_8": "The items can also be extracted/inserted by automation", //
+
+	"vintageimprovements.ponder.lathe.header": "Processando Itens com o Torno", //
+    "vintageimprovements.ponder.lathe.text_1": "O Torno pode processar uma variedade de itens", //
+    "vintageimprovements.ponder.lathe.text_2": "Eles devem ser energizados pelos lados...", //
+    "vintageimprovements.ponder.lathe.text_3": "...e pela frente usando eixos", //
+    "vintageimprovements.ponder.lathe.text_4": "Ingredientes podem ser inseridos na frente com um clique direito", //
+    "vintageimprovements.ponder.lathe.text_5": "Para selecionar uma receita, clique atrás do bloco", //
+	"vintageimprovements.ponder.lathe.text_6": "Você precisa fazer isso toda vez", //
+    "vintageimprovements.ponder.lathe.text_7": "O resultado pode ser obtido com um clique direito", //
+    "vintageimprovements.ponder.lathe.text_8": "Os itens também podem ser inseridos/extraidos com automação", //
 	
-	"vintageimprovements.ponder.lathe_automation.header": "Automation of the Lathe", //
-    "vintageimprovements.ponder.lathe_automation.text_1": "Lathe can be automated with the Recipe Card", //
-    "vintageimprovements.ponder.lathe_automation.text_2": "Use a Recipe Card via Right-click to define a recipe", //
-    "vintageimprovements.ponder.lathe_automation.text_3": "Then you must put it inside a back Lathe block", //
-    "vintageimprovements.ponder.lathe_automation.text_4": "Lathe will automatically apply chosen recipe", //
+	"vintageimprovements.ponder.lathe_automation.header": "Automação do Torno", //
+    "vintageimprovements.ponder.lathe_automation.text_1": "O Torno pode ser automatizado com um Cartão de Receita", //
+    "vintageimprovements.ponder.lathe_automation.text_2": "Use o Cartão com clique direito para definir a receita", //
+    "vintageimprovements.ponder.lathe_automation.text_3": "Então você deve coloca-lo no bloco traseiro do Torno", //
+    "vintageimprovements.ponder.lathe_automation.text_4": "O Torno vai automaticamente aplicar a receita", //
 	
-	"vintageimprovements.ponder.laser.header": "Processing Items with the Laser", //
-    "vintageimprovements.ponder.laser.text_1": "The Laser consumes energy during works (only if another mod that provides energy is installed)", //
-    "vintageimprovements.ponder.laser.text_2": "Any sources of Forge Energy are supported", //
-    "vintageimprovements.ponder.laser.text_3": "The Laser can process items provided beneath it", //
-    "vintageimprovements.ponder.laser.text_4": "The Input items can be dropped or placed on a Depot under the Laser", //
-    "vintageimprovements.ponder.laser.text_5": "When items are provided by a belt...", //
-    "vintageimprovements.ponder.laser.text_6": "The Laser will hold and process them automatically", //
+	"vintageimprovements.ponder.laser.header": "Processando Itens com o Laser", //
+    "vintageimprovements.ponder.laser.text_1": "O Laser consome energia para funcionar (apenas se outro mod que provém energia está instalado)", //
+    "vintageimprovements.ponder.laser.text_2": "Qualquer fonte de Forge Energy (FE) é aceita", //
+    "vintageimprovements.ponder.laser.text_3": "O Laser pode processar itens abaixo dele", //
+    "vintageimprovements.ponder.laser.text_4": "Os Itens de entrada podem ser jogados or colocados num Depósito debaixo do Laser", //
+    "vintageimprovements.ponder.laser.text_5": "Quando os itens vem por uma esteira...", //
+    "vintageimprovements.ponder.laser.text_6": "O Laser vai segurar e processa-los automaticamente", //
 	
+
 	"vintageimprovements.jei.text.required_speed": "Velocidade Necessária:",
 	"vintageimprovements.jei.text.low": "Baixa",
 	"vintageimprovements.jei.text.medium": "Média",
 	"vintageimprovements.jei.text.high": "Alta",
 	"vintageimprovements.jei.text.any": "Qualquer",
-	"vintageimprovements.jei.text.fragile": "Fragile. Ingredient will be destroyed on wrong speed", //
+	"vintageimprovements.jei.text.fragile": "Frágil. Ingrediente vai ser destruído na velocidade errada", //
 	
 	"vintageimprovements.jei.text.leaves_vibrating.text1": "Você pode vibrar",
 	"vintageimprovements.jei.text.leaves_vibrating.text2": "folhas para pegar",
@@ -444,8 +449,9 @@
 	
 	"vintageimprovements.jei.text.curving_head_damage": "Dano da Cabeça",
 	
-	"vintageimprovements.jei.text.energy": "Energy costs:", //
+	"vintageimprovements.jei.text.energy": "Custo energético:", //
 	
+
 	"vintageimprovements.gui.goggles.low": "Baixa",
 	"vintageimprovements.gui.goggles.medium": "Média",
 	"vintageimprovements.gui.goggles.high": "Alta",
@@ -460,10 +466,11 @@
 	"vintageimprovements.gui.goggles.pressurizing_mode": "Pressurizing",
 	"vintageimprovements.gui.goggles.hammering_mode": "Hammering",
 	"vintageimprovements.gui.goggles.smithing_mode": "Ferraria",
+
 	"vintageimprovements.gui.goggles.manual_mode": "Manual", //
-	"vintageimprovements.gui.goggles.automatic_mode": "Automatic", //
-	"vintageimprovements.gui.goggles.current_recipe": "Current recipe:", //
-	"vintageimprovements.gui.goggles.no_recipe": "No Recipe", //
+	"vintageimprovements.gui.goggles.automatic_mode": "Automático", //
+	"vintageimprovements.gui.goggles.current_recipe": "Receita atual:", //
+	"vintageimprovements.gui.goggles.no_recipe": "Sem Receita", //
 	
 	"vintageimprovements.gui.goggles.no_operating_block": "Coloque uma Bigorna ou uma Bancada de Ferraria sob o Martelo",
 	"vintageimprovements.gui.goggles.hammer_blows": "Marteladas restantes:",
@@ -471,20 +478,21 @@
 	"vintageimprovements.gui.goggles.curving_head": "Cabeça: ",
 	"vintageimprovements.gui.goggles.durability": "Durabilidade da Cabeça",
 	
+
 	"vintageimprovements.gui.goggles.energy": "Energy:", //
 	
 	"vintageimprovements.gui.lathe.title": "Lathe", //
 	
 	"vintageimprovements.item_description.machine_rpm_requirements": "Essa máquina requer RPM mínimo:",
-	"vintageimprovements.item_description.additional_machine_rpm_requirements": "Another part of this machine has a different minimum RPM requirement:", //
-	"vintageimprovements.item_description.recipe_index": "Recipe index:", //
-	"vintageimprovements.item_description.ingredient": "Ingredient:", //
-	"vintageimprovements.item_description.result": "Result:", //
-	
+	"vintageimprovements.item_description.additional_machine_rpm_requirements": "Outra parte dessa máquina tem um RPM mínimo diferente:", //
+	"vintageimprovements.item_description.recipe_index": "Número da receita:", //
+	"vintageimprovements.item_description.ingredient": "Ingrediente:", //
+	"vintageimprovements.item_description.result": "Resultado:", //
+
 	"trim_material.vintageimprovements.vanadium": "Vanádio",
 	"trim_material.vintageimprovements.brass": "Latão",
 	"trim_material.vintageimprovements.andesite": "Andesito",
-	"trim_material.vintageimprovements.rose_quartz": "Rose Quartz",
+	"trim_material.vintageimprovements.rose_quartz": "Quartzo Rosa",
 	"trim_material.vintageimprovements.shadow": "Aço Sombrio",
 	"trim_material.vintageimprovements.radiance": "Luz Refinada",
 	"trim_material.vintageimprovements.zinc": "Zinco"

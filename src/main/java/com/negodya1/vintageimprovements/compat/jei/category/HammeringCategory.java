@@ -24,6 +24,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.Tag;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -83,9 +84,11 @@ public class HammeringCategory extends CreateRecipeCategory<HammeringRecipe> {
 			helve.renderBlock(graphics, 86, 6, recipe.getAnvilBlock());
 		}
 		else helve.draw(graphics, 86, 6,1);
+		MutableComponent text = Components.translatable(VintageImprovements.MODID + ".jei.text.hammer_blows").append(" " + recipe.getHammerBlows());
 
-		Minecraft.getInstance().font.draw(graphics,
-				Components.translatable(VintageImprovements.MODID + ".jei.text.hammer_blows").append(" " + recipe.getHammerBlows()), 40, 75, 0xFFFFFF);
+		int width = Minecraft.getInstance().font.width(text);
+
+		Minecraft.getInstance().font.draw(graphics, text, (177 - width)/2.0f, 75, 0xFFFFFF);
 	}
 
 }
