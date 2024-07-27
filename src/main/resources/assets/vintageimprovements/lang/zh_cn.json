@@ -265,6 +265,8 @@
 	"item.vintageimprovements.v_shaped_curving_head.tooltip.summary": "可安装到冲压机以生产L状的配方",
 	"item.vintageimprovements.v_shaped_curving_head.tooltip.condition1": " █░ 或  ░█",
 	"item.vintageimprovements.v_shaped_curving_head.tooltip.behaviour1": "██     ██",
+	
+	"item.vintageimprovements.helve_hammer_slot_cover": "Helve Hammer Slot Cover", //
 
 	"block.vintageimprovements.belt_grinder": "砂带磨床",
 	"item.vintageimprovements.grinder_belt": "砂带",
@@ -390,6 +392,11 @@
 	"vintageimprovements.ponder.helve_hammer.text_8": "经过所需的锤击次数后,产物可以右键取出",
 	"vintageimprovements.ponder.helve_hammer.text_9": "物品也可以自动化取出或置入",
 	
+	"vintageimprovements.ponder.slots_blocking.header": "Helve Hammer slots blocking", //
+	"vintageimprovements.ponder.slots_blocking.text_1": "Some recipes may require less then 3 ingredients", //
+	"vintageimprovements.ponder.slots_blocking.text_2": "You can block redundant slots with Helve Hammer Slot Cover", //
+	"vintageimprovements.ponder.slots_blocking.text_3": "You can remove Slot Covers via right-click with a Wrench", //
+	
 	"vintageimprovements.ponder.lathe.header": "Processing Items with the Lathe", //
     "vintageimprovements.ponder.lathe.text_1": "Lathe can process a variety of items", //
     "vintageimprovements.ponder.lathe.text_2": "They must be powered from the side...", //
@@ -467,6 +474,7 @@
 
 	"vintageimprovements.gui.goggles.no_operating_block": "在锤子下方放置铁砧或锻造台,以开始工作",
 	"vintageimprovements.gui.goggles.hammer_blows": "剩余锤击次数:",
+	"vintageimprovements.gui.goggles.blocked_slots": "Blocked slots:", //
 	
 	"vintageimprovements.gui.goggles.curving_head": "Head: ", //
 	"vintageimprovements.gui.goggles.durability": "Head's Durability", //
@@ -480,6 +488,40 @@
 	"vintageimprovements.item_description.recipe_index": "Recipe index:", //
 	"vintageimprovements.item_description.ingredient": "Ingredient:", //
 	"vintageimprovements.item_description.result": "Result:", //
+	"vintageimprovements.item_description.spring_stiffness": "Stiffness:", //
+
+	"advancement.vintageimprovements.root": "Welcome to Vintage Improvements", //
+	"advancement.vintageimprovements.root.desc": "Here Be Springs", //
+	"advancement.vintageimprovements.belt_grinder": "To Shine", //
+	"advancement.vintageimprovements.belt_grinder.desc": "Use an Belt Grinder to process materials", //
+	"advancement.vintageimprovements.coiling_machine": "One Small Step", //
+	"advancement.vintageimprovements.coiling_machine.desc": "Use an Spring Coiling Machine to obtain a spring", //
+	"advancement.vintageimprovements.iron_spring": "Springlocked", //
+	"advancement.vintageimprovements.iron_spring.desc": "Obtain Iron Spring, Vintage Improvements's most important resource", //
+	"advancement.vintageimprovements.compressor": "Air Tight", //
+	"advancement.vintageimprovements.compressor.desc": "Use an Compressor to process materials", //
+	"advancement.vintageimprovements.copper_sulfate": "Copper Snack", //
+	"advancement.vintageimprovements.copper_sulfate.desc": "Obtain Copper Sulfate, copper based fertilizer", //
+	"advancement.vintageimprovements.centrifuge": "You Spin my Head", //
+	"advancement.vintageimprovements.centrifuge.desc": "Use an Centrifuge to process materials", //
+	"advancement.vintageimprovements.helve_hammer": "Heavy Bonk!", //
+	"advancement.vintageimprovements.helve_hammer.desc": "Use an Helve Hammer to process materials", //
+	"advancement.vintageimprovements.lathe": "Your Turn Now", //
+	"advancement.vintageimprovements.lathe.desc": "Use an Lathe to process materials", //
+	"advancement.vintageimprovements.laser": "Light Saber", //
+	"advancement.vintageimprovements.laser.desc": "Use an Laser to process materials", //
+	"advancement.vintageimprovements.vibrating": "Shaken, not Stirred", //
+	"advancement.vintageimprovements.vibrating.desc": "Use an Vibrating Table to process materials", //
+	"advancement.vintageimprovements.curving": "Bender Rodriguez", //
+	"advancement.vintageimprovements.curving.desc": "Use an Curving Press to process materials", //
+	"advancement.vintageimprovements.recipe_card": "Card Punch", //
+	"advancement.vintageimprovements.recipe_card.desc": "Obtain Recipe Card, Lathe automation item", //
+	"advancement.vintageimprovements.belt_grinder_skin_change": "Fashion Show", //
+	"advancement.vintageimprovements.belt_grinder_skin_change.desc": "Change Belt Grinder skin via right-click with an Sand Paper", //
+	"advancement.vintageimprovements.vanadium_block": "Silvery-Grey", //
+	"advancement.vintageimprovements.vanadium_block.desc": "Obtain Vanadium Block", //
+	"advancement.vintageimprovements.redstone_module": "Redstonofication", //
+	"advancement.vintageimprovements.redstone_module.desc": "Assemble a Redstone Module", //
 
 	"trim_material.vintageimprovements.vanadium": "钒质",
 	"trim_material.vintageimprovements.brass": "黄铜质",
