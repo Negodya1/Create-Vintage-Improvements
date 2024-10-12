@@ -27,6 +27,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -147,6 +148,7 @@ public class RecipeCardMenu extends GhostItemMenu<ItemStack> {
 
 		startedSearch = startedSearch.stream().filter(RecipeConditions.firstIngredientMatches(ghostInventory.getStackInSlot(0)))
 				.filter(r -> !VintageRecipes.shouldIgnoreInAutomation(r))
+				.sorted(Comparator.comparing(r -> r.getResultItem(level.registryAccess()).getDescriptionId()))
 				.collect(Collectors.toList());
 
 		recipes = startedSearch;

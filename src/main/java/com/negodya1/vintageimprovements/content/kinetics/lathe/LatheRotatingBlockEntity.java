@@ -160,6 +160,7 @@ public class LatheRotatingBlockEntity extends KineticBlockEntity implements IHav
 
 		startedSearch = startedSearch.stream().filter(RecipeConditions.firstIngredientMatches(inputInv.getStackInSlot(0)))
 				.filter(r -> !VintageRecipes.shouldIgnoreInAutomation(r))
+				.sorted(Comparator.comparing(r -> r.getResultItem(getLevel().registryAccess()).getDescriptionId()))
 				.collect(Collectors.toList());
 
 		return startedSearch;
