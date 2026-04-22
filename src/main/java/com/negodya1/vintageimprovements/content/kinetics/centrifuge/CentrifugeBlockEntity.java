@@ -131,9 +131,9 @@ public class CentrifugeBlockEntity extends KineticBlockEntity implements IHaveGo
 		behaviours.add(new DirectBeltInputBehaviour(this));
 		super.addBehaviours(behaviours);
 
-		inputTank = new SmartFluidTankBehaviour(SmartFluidTankBehaviour.INPUT, this, 2, 1000, true)
+		inputTank = new SmartFluidTankBehaviour(SmartFluidTankBehaviour.INPUT, this, 2, 8000, true)
 				.whenFluidUpdates(() -> contentsChanged = true);
-		outputTank = new SmartFluidTankBehaviour(SmartFluidTankBehaviour.OUTPUT, this, 2, 1000, true)
+		outputTank = new SmartFluidTankBehaviour(SmartFluidTankBehaviour.OUTPUT, this, 2, 8000, true)
 				.whenFluidUpdates(() -> contentsChanged = true)
 				.forbidInsertion();
 		behaviours.add(inputTank);
