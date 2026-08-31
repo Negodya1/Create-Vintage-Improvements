@@ -6,10 +6,12 @@ import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
 import com.simibubi.create.content.processing.recipe.ProcessingOutput;
 import com.simibubi.create.foundation.gui.AllGuiTextures;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
@@ -39,7 +41,7 @@ public class CoilingCategory extends CreateRecipeCategory<CoilingRecipe> {
 					.addSlot(RecipeIngredientRole.OUTPUT, 118 + xOffset, 48 + yOffset)
 					.setBackground(getRenderedSlot(output), -1, -1)
 					.addItemStack(output.getStack())
-					.addTooltipCallback(addStochasticTooltip(output));
+					.addRichTooltipCallback(addStochasticTooltip(output));
 			i++;
 		}
 	}
@@ -52,4 +54,12 @@ public class CoilingCategory extends CreateRecipeCategory<CoilingRecipe> {
 		coiling.draw(graphics, 72, 42);
 	}
 
+	@Override
+	public void getTooltip(ITooltipBuilder tooltip, CoilingRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+		if (mouseX > 63 && mouseX < 97 && mouseY > 33 && mouseY < 64) {
+			int duration = recipe.getProcessingDuration();
+			if (duration == 0) duration = 50;
+			tooltip.add(Component.translatable("vintageimprovements.jei.text.processing_duration", duration));
+		}
+	}
 }

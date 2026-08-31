@@ -1,45 +1,20 @@
 package com.negodya1.vintageimprovements.content.kinetics.lathe;
 
-import com.google.common.collect.ImmutableList;
 import com.negodya1.vintageimprovements.*;
-import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugationRecipe;
-import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugeBlock;
-import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderFilterSlot;
-import com.negodya1.vintageimprovements.content.kinetics.grinder.PolishingRecipe;
-import com.negodya1.vintageimprovements.content.kinetics.helve_hammer.HelveBlock;
-import com.negodya1.vintageimprovements.content.kinetics.helve_hammer.HelveKineticBlockEntity;
 import com.negodya1.vintageimprovements.content.kinetics.lathe.recipe_card.RecipeCardItem;
-import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.PressurizingRecipe;
 import com.negodya1.vintageimprovements.foundation.advancement.VintageAdvancementBehaviour;
 import com.negodya1.vintageimprovements.foundation.advancement.VintageAdvancements;
-import com.negodya1.vintageimprovements.foundation.utility.VintageLang;
-import com.negodya1.vintageimprovements.infrastructure.config.VintageConfig;
-import com.simibubi.create.AllBlocks;
-import com.simibubi.create.AllRecipeTypes;
-import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
-import com.simibubi.create.content.equipment.sandPaper.SandPaperPolishingRecipe;
+import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.kinetics.base.IRotate;
-import com.simibubi.create.content.processing.basin.BasinBlockEntity;
-import com.simibubi.create.content.processing.basin.BasinRecipe;
-import com.simibubi.create.content.processing.recipe.ProcessingInventory;
-import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
-import com.simibubi.create.foundation.blockEntity.behaviour.filtering.FilteringBehaviour;
-import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
-import com.simibubi.create.foundation.fluid.CombinedTankWrapper;
-import com.simibubi.create.foundation.fluid.FluidHelper;
-import com.simibubi.create.foundation.fluid.FluidIngredient;
 import com.simibubi.create.foundation.item.TooltipHelper;
 import com.simibubi.create.foundation.recipe.RecipeConditions;
 import com.simibubi.create.foundation.recipe.RecipeFinder;
-import com.simibubi.create.foundation.utility.*;
-import com.simibubi.create.foundation.utility.animation.LerpedFloat;
+import com.simibubi.create.foundation.utility.CreateLang;
 import com.simibubi.create.infrastructure.config.AllConfigs;
-import com.tterrag.registrate.util.entry.RegistryEntry;
+import net.createmod.catnip.lang.FontHelper;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.*;
-import net.minecraft.core.Direction.Axis;
 import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.belt.behaviour.DirectBeltInputBehaviour;
@@ -48,49 +23,21 @@ import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour
 import com.simibubi.create.foundation.item.ItemHelper;
 import com.simibubi.create.foundation.item.SmartInventory;
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ItemParticleOption;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.Container;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.crafting.CraftingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.SmithingRecipe;
-import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.AnvilBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
@@ -102,7 +49,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static net.minecraft.ChatFormatting.GOLD;
-import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -160,6 +106,7 @@ public class LatheRotatingBlockEntity extends KineticBlockEntity implements IHav
 
 		startedSearch = startedSearch.stream().filter(RecipeConditions.firstIngredientMatches(inputInv.getStackInSlot(0)))
 				.filter(r -> !VintageRecipes.shouldIgnoreInAutomation(r))
+				.sorted(Comparator.comparing(r -> r.getResultItem(getLevel().registryAccess()).getDescriptionId()))
 				.collect(Collectors.toList());
 
 		return startedSearch;
@@ -169,11 +116,16 @@ public class LatheRotatingBlockEntity extends KineticBlockEntity implements IHav
 		List<TurningRecipe> recipes = getRecipes();
 		if (recipes.isEmpty()) return Optional.empty();
 
-		LatheMovingBlockEntity be = (LatheMovingBlockEntity) level.getBlockEntity(LatheRotatingBlock.getSlave(level, worldPosition, this.getBlockState()));
+		LatheMovingBlockEntity be = getSlaveBlockEntity();
 		if (be == null)
 			return Optional.empty();
 		if (be.manualMode()) {
-			return be.getTemporaryRecipe();
+			Optional<TurningRecipe> selectedRecipe = be.getTemporaryRecipe();
+			if (selectedRecipe.isPresent())
+				return selectedRecipe;
+			if (recipes.size() == 1)
+				return Optional.of(recipes.get(0));
+			return Optional.empty();
 		}
 		else {
 			int index = be.getIndex(inputInv.getStackInSlot(0));
@@ -185,7 +137,7 @@ public class LatheRotatingBlockEntity extends KineticBlockEntity implements IHav
 	}
 
 	private ItemStack getResultItem() {
-		LatheMovingBlockEntity be = (LatheMovingBlockEntity) level.getBlockEntity(LatheRotatingBlock.getSlave(level, worldPosition, this.getBlockState()));
+		LatheMovingBlockEntity be = getSlaveBlockEntity();
 		if (be == null)
 			return ItemStack.EMPTY;
 		if (!be.recipeSlot.getStackInSlot(0).isEmpty())
@@ -279,7 +231,7 @@ public class LatheRotatingBlockEntity extends KineticBlockEntity implements IHav
 			return;
 		}
 
-		if (inputInv.getStackInSlot(0).isEmpty()) return;
+		if (inputInv.isEmpty()) return;
 
 		if (lastRecipe == null) {
 			Optional<TurningRecipe> recipe = getRecipe();
@@ -308,9 +260,9 @@ public class LatheRotatingBlockEntity extends KineticBlockEntity implements IHav
 		super.destroy();
 		ItemHelper.dropContents(level, worldPosition, inputInv);
 		ItemHelper.dropContents(level, worldPosition, outputInv);
-		LatheMovingBlockEntity be = (LatheMovingBlockEntity) level.getBlockEntity(LatheRotatingBlock.getSlave(level, worldPosition, this.getBlockState()));
+		LatheMovingBlockEntity be = getSlaveBlockEntity();
 		if (be != null)
-			ItemHelper.dropContents(level, LatheRotatingBlock.getSlave(level, worldPosition, this.getBlockState()), be.recipeSlot);
+			ItemHelper.dropContents(level, be.getBlockPos(), be.recipeSlot);
 	}
 
 	@Override
@@ -343,8 +295,15 @@ public class LatheRotatingBlockEntity extends KineticBlockEntity implements IHav
 
 	private void process() {
 		RecipeWrapper inventoryIn = new RecipeWrapper(inputInv);
+		Optional<TurningRecipe> assemblyRecipe = SequencedAssemblyRecipe.getRecipe(level,
+				inputInv.getStackInSlot(0), VintageRecipes.TURNING.getType(), TurningRecipe.class);
 
-		if (lastRecipe == null || !lastRecipe.matches(inventoryIn, level)) {
+		// Manual recipe selection is consumed when processing starts, so only
+		// replace the cached recipe when it is the same sequenced child recipe.
+		if (lastRecipe != null && assemblyRecipe.isPresent()
+				&& lastRecipe.getId().equals(assemblyRecipe.get().getId())) {
+			lastRecipe = assemblyRecipe.get();
+		} else if (lastRecipe == null || !lastRecipe.matches(inventoryIn, level)) {
 			Optional<TurningRecipe> recipe = getRecipe();
 			if (!recipe.isPresent()) return;
 			lastRecipe = recipe.get();
@@ -369,22 +328,29 @@ public class LatheRotatingBlockEntity extends KineticBlockEntity implements IHav
 				+ Mth.clamp((int) ((Math.abs(getSlaveSpeed()) - IRotate.SpeedLevel.MEDIUM.getSpeedValue()) / (256 - IRotate.SpeedLevel.MEDIUM.getSpeedValue())) / 2f, .0f, 0.5f);
 	}
 
+	private LatheMovingBlockEntity getSlaveBlockEntity() {
+		BlockEntity blockEntity = level.getBlockEntity(LatheRotatingBlock.getSlave(level, worldPosition, this.getBlockState()));
+		if (blockEntity instanceof LatheMovingBlockEntity lathe)
+			return lathe;
+		return null;
+	}
+
 	public float getSlaveSpeed() {
-		LatheMovingBlockEntity be = (LatheMovingBlockEntity) level.getBlockEntity(LatheRotatingBlock.getSlave(level, worldPosition, this.getBlockState()));
+		LatheMovingBlockEntity be = getSlaveBlockEntity();
 		if (be != null)
 			return be.getSpeed();
 		return 0;
 	}
 
 	public boolean isSlaveSpeedRequirementFulfilled() {
-		LatheMovingBlockEntity be = (LatheMovingBlockEntity) level.getBlockEntity(LatheRotatingBlock.getSlave(level, worldPosition, this.getBlockState()));
+		LatheMovingBlockEntity be = getSlaveBlockEntity();
 		if (be != null)
 			return be.isSpeedRequirementFulfilled();
 		return true;
 	}
 
 	public float calculateSlaveStressApplied() {
-		LatheMovingBlockEntity be = (LatheMovingBlockEntity) level.getBlockEntity(LatheRotatingBlock.getSlave(level, worldPosition, this.getBlockState()));
+		LatheMovingBlockEntity be = getSlaveBlockEntity();
 		if (be != null)
 			return be.calculateStressApplied();
 		return 0;
@@ -430,13 +396,13 @@ public class LatheRotatingBlockEntity extends KineticBlockEntity implements IHav
 		boolean notFastEnough = !isSlaveSpeedRequirementFulfilled() && getSlaveSpeed() != 0;
 
 		if (overStressed && AllConfigs.client().enableOverstressedTooltip.get()) {
-			Lang.translate("gui.stressometer.overstressed")
+			CreateLang.translate("gui.stressometer.overstressed")
 					.style(GOLD)
 					.forGoggles(tooltip);
-			Component hint = Lang.translateDirect("gui.contraptions.network_overstressed");
-			List<Component> cutString = TooltipHelper.cutTextComponent(hint, TooltipHelper.Palette.GRAY_AND_WHITE);
+			Component hint = CreateLang.translateDirect("gui.contraptions.network_overstressed");
+			List<Component> cutString = TooltipHelper.cutTextComponent(hint, FontHelper.Palette.GRAY_AND_WHITE);
 			for (int i = 0; i < cutString.size(); i++)
-				Lang.builder()
+				CreateLang.builder()
 						.add(cutString.get(i)
 								.copy())
 						.forGoggles(tooltip);
@@ -444,15 +410,15 @@ public class LatheRotatingBlockEntity extends KineticBlockEntity implements IHav
 		}
 
 		if (notFastEnough) {
-			Lang.translate("tooltip.speedRequirement")
+			CreateLang.translate("tooltip.speedRequirement")
 					.style(GOLD)
 					.forGoggles(tooltip);
 			MutableComponent hint =
-					Lang.translateDirect("gui.contraptions.not_fast_enough", I18n.get(getBlockState().getBlock()
+					CreateLang.translateDirect("gui.contraptions.not_fast_enough", I18n.get(getBlockState().getBlock()
 							.getDescriptionId()));
-			List<Component> cutString = TooltipHelper.cutTextComponent(hint, TooltipHelper.Palette.GRAY_AND_WHITE);
+			List<Component> cutString = TooltipHelper.cutTextComponent(hint, FontHelper.Palette.GRAY_AND_WHITE);
 			for (int i = 0; i < cutString.size(); i++)
-				Lang.builder()
+				CreateLang.builder()
 						.add(cutString.get(i)
 								.copy())
 						.forGoggles(tooltip);
@@ -467,40 +433,40 @@ public class LatheRotatingBlockEntity extends KineticBlockEntity implements IHav
 		super.addToGoggleTooltip(tooltip, isPlayerSneaking);
 
 		float stressAtBase = calculateSlaveStressApplied();
-		Lang.translate("gui.goggles.kinetic_stats")
+		CreateLang.translate("gui.goggles.kinetic_stats")
 				.forGoggles(tooltip);
 
 		addStressImpactStats(tooltip, stressAtBase);
 
-		LatheMovingBlockEntity be = (LatheMovingBlockEntity) level.getBlockEntity(LatheRotatingBlock.getSlave(level, worldPosition, this.getBlockState()));
+		LatheMovingBlockEntity be = getSlaveBlockEntity();
 		if (be != null) {
 			if (be.manualMode()) {
 				VintageLang.translate("gui.goggles.current_mode")
-						.add(Lang.text(" ")).add(VintageLang.translate("gui.goggles.manual_mode"))
+						.add(VintageLang.text(" ")).add(VintageLang.translate("gui.goggles.manual_mode"))
 						.style(ChatFormatting.WHITE).forGoggles(tooltip);
 				if (lastRecipe == null)
 					VintageLang.translate("gui.goggles.current_recipe")
-							.add(Lang.text(" ")).add(VintageLang.translate("gui.goggles.no_recipe"))
+							.add(VintageLang.text(" ")).add(VintageLang.translate("gui.goggles.no_recipe"))
 							.style(ChatFormatting.DARK_GRAY).forGoggles(tooltip);
 				else VintageLang.translate("gui.goggles.current_recipe")
-						.add(Lang.text(" ")).add(Components.translatable(lastRecipe.getResultItem(RegistryAccess.EMPTY).getDescriptionId()))
+						.add(VintageLang.text(" ")).add(Component.translatable(lastRecipe.getResultItem(RegistryAccess.EMPTY).getDescriptionId()))
 						.style(ChatFormatting.GREEN).forGoggles(tooltip);
 			}
 			else {
 				VintageLang.translate("gui.goggles.current_mode")
-						.add(Lang.text(" ")).add(VintageLang.translate("gui.goggles.automatic_mode"))
+						.add(VintageLang.text(" ")).add(VintageLang.translate("gui.goggles.automatic_mode"))
 						.style(GOLD).forGoggles(tooltip);
 				if (lastRecipe == null) {
 					if (!getResultItem().is(Items.AIR))
 						VintageLang.translate("gui.goggles.current_recipe")
-							.add(Lang.text(" ")).add(Components.translatable(getResultItem().getDescriptionId()))
-							.style(ChatFormatting.GREEN).forGoggles(tooltip);
+								.add(VintageLang.text(" ")).add(Component.translatable(getResultItem().getDescriptionId()))
+								.style(ChatFormatting.GREEN).forGoggles(tooltip);
 					else VintageLang.translate("gui.goggles.current_recipe")
-							.add(Lang.text(" ")).add(VintageLang.translate("gui.goggles.no_recipe"))
+							.add(VintageLang.text(" ")).add(VintageLang.translate("gui.goggles.no_recipe"))
 							.style(ChatFormatting.DARK_GRAY).forGoggles(tooltip);
 				}
 				else VintageLang.translate("gui.goggles.current_recipe")
-						.add(Lang.text(" ")).add(Components.translatable(lastRecipe.getResultItem(RegistryAccess.EMPTY).getDescriptionId()))
+						.add(VintageLang.text(" ")).add(Component.translatable(lastRecipe.getResultItem(RegistryAccess.EMPTY).getDescriptionId()))
 						.style(ChatFormatting.GREEN).forGoggles(tooltip);
 			}
 

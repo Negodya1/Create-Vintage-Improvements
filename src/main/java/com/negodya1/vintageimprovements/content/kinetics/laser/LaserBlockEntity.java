@@ -3,23 +3,16 @@ package com.negodya1.vintageimprovements.content.kinetics.laser;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
-import com.google.common.collect.ImmutableList;
 import com.negodya1.vintageimprovements.VintageBlocks;
 import com.negodya1.vintageimprovements.VintageImprovements;
+import com.negodya1.vintageimprovements.VintageLang;
 import com.negodya1.vintageimprovements.VintageRecipes;
 import com.negodya1.vintageimprovements.content.energy.base.ElectricKineticBlockEntity;
-import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingRecipe;
-import com.negodya1.vintageimprovements.content.kinetics.curving_press.CurvingRecipe;
-import com.negodya1.vintageimprovements.content.kinetics.laser.LaserCuttingRecipe;
 import com.negodya1.vintageimprovements.foundation.advancement.VintageAdvancementBehaviour;
 import com.negodya1.vintageimprovements.foundation.advancement.VintageAdvancements;
-import com.negodya1.vintageimprovements.foundation.utility.VintageLang;
-import com.negodya1.vintageimprovements.infrastructure.config.VCEnergy;
 import com.negodya1.vintageimprovements.infrastructure.config.VintageConfig;
-import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
+import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.kinetics.belt.behaviour.BeltProcessingBehaviour;
 import com.simibubi.create.content.kinetics.belt.behaviour.TransportedItemStackHandlerBehaviour;
 import com.simibubi.create.content.kinetics.belt.transport.TransportedItemStack;
@@ -27,32 +20,21 @@ import com.simibubi.create.content.processing.sequenced.SequencedAssemblyRecipe;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
 
 import com.simibubi.create.foundation.recipe.RecipeApplier;
-import com.simibubi.create.foundation.recipe.RecipeConditions;
-import com.simibubi.create.foundation.recipe.RecipeFinder;
-import com.simibubi.create.foundation.utility.Lang;
-import com.simibubi.create.foundation.utility.VecHelper;
+import com.simibubi.create.foundation.utility.CreateLang;
+import net.createmod.catnip.math.VecHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
@@ -184,9 +166,8 @@ public class LaserBlockEntity extends ElectricKineticBlockEntity implements IHav
 	private boolean laserRecipe(ItemStack stack, TransportedItemStack transported, TransportedItemStackHandlerBehaviour handler) {
 		if(this.getLevel() == null) return false;
 		if (Mth.abs(getSpeed()) == 0) return false;
-		if(!inputInv.getStackInSlot(0).is(stack.getItem())) {
-			inputInv.setStackInSlot(0, stack);
-			recipeCache = find(new RecipeWrapper(inputInv), this.getLevel());
+		if(!inputInv.getStackInSlot(0).equals(stack, true)) {
+			recipeCache = findCurrentRecipe(stack);
 			chargeAccumulator = 0;
 		}
 		if(recipeCache.isPresent()) {
@@ -201,15 +182,26 @@ public class LaserBlockEntity extends ElectricKineticBlockEntity implements IHav
 
 			chargeAccumulator += energyRemoved;
 			if(chargeAccumulator >= recipe.getEnergy()) {
-				TransportedItemStack remainingStack = transported.copy();
-				TransportedItemStack result = transported.copy();
-				List<ItemStack> outputs = RecipeApplier.applyRecipeOn(level,
-						ItemHandlerHelper.copyStackWithSize(transported.stack, 1), recipe);
+				recipeCache = findCurrentRecipe(transported.stack);
+				if (recipeCache.isEmpty()) {
+					chargeAccumulator = 0;
+					return false;
+				}
+				recipe = recipeCache.get();
+				if (chargeAccumulator < recipe.getEnergy())
+					return true;
 
-				result.stack = outputs.get(0);
-				remainingStack.stack.shrink(1);
+				TransportedItemStack remainingStack = transported.copy();
+				int inputCount = recipe.getIngredients().get(0).getItems()[0].getCount();
+				List<ItemStack> outputs = RecipeApplier.applyRecipeOn(level,
+						ItemHandlerHelper.copyStackWithSize(transported.stack, inputCount), recipe, true);
 				List<TransportedItemStack> outList = new ArrayList<>();
-				outList.add(result);
+				outputs.forEach(itemStack -> {
+					TransportedItemStack tmp = transported.copy();
+					tmp.stack = itemStack;
+					outList.add(tmp);
+				});
+				remainingStack.stack.shrink(inputCount);
 				handler.handleProcessingOnItem(transported, TransportedItemStackHandlerBehaviour.TransportedResult.convertToAndLeaveHeld(outList, remainingStack));
 				chargeAccumulator = 0;
 				advancementBehaviour.awardVintageAdvancement(VintageAdvancements.USE_LASER);
@@ -224,9 +216,8 @@ public class LaserBlockEntity extends ElectricKineticBlockEntity implements IHav
 
 		if(this.getLevel() == null) return false;
 		if (Mth.abs(getSpeed()) == 0) return false;
-		if(!inputInv.getStackInSlot(0).is(item.getItem())) {
-			inputInv.setStackInSlot(0, item);
-			recipeCache = find(new RecipeWrapper(inputInv), this.getLevel());
+		if(!inputInv.getStackInSlot(0).equals(item, true)) {
+			recipeCache = findCurrentRecipe(item);
 			chargeAccumulator = 0;
 		}
 		if(recipeCache.isPresent()) {
@@ -241,9 +232,18 @@ public class LaserBlockEntity extends ElectricKineticBlockEntity implements IHav
 
 			chargeAccumulator += energyRemoved;
 			if(chargeAccumulator >= recipe.getEnergy()) {
+				recipeCache = findCurrentRecipe(item);
+				if (recipeCache.isEmpty()) {
+					chargeAccumulator = 0;
+					return false;
+				}
+				recipe = recipeCache.get();
+				if (chargeAccumulator < recipe.getEnergy())
+					return true;
+
 				ItemStack itemCreated = ItemStack.EMPTY;
 				for (ItemStack result : RecipeApplier.applyRecipeOn(level, ItemHandlerHelper.copyStackWithSize(item, 1),
-						recipe)) {
+						recipe, true)) {
 					if (itemCreated.isEmpty())
 						itemCreated = result.copy();
 					ItemEntity created =
@@ -262,6 +262,11 @@ public class LaserBlockEntity extends ElectricKineticBlockEntity implements IHav
 		}
 
 		return false;
+	}
+
+	private Optional<LaserCuttingRecipe> findCurrentRecipe(ItemStack stack) {
+		inputInv.setStackInSlot(0, stack);
+		return find(new RecipeWrapper(inputInv), level);
 	}
 
 	public Optional<LaserCuttingRecipe> find(RecipeWrapper wrapper, Level world) {
@@ -283,10 +288,12 @@ public class LaserBlockEntity extends ElectricKineticBlockEntity implements IHav
 	public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
 		super.addToGoggleTooltip(tooltip, isPlayerSneaking);
 
-		if (VintageImprovements.useEnergy || VintageConfig.server().energy.forceEnergy.get())
+		if (VintageImprovements.useEnergy || VintageConfig.server().energy.forceEnergy.get()) {
 			VintageLang.translate("gui.goggles.energy").add(Component.literal(" " + localEnergy.getEnergyStored() +
-						"/" + localEnergy.getMaxEnergyStored() + "fe"))
-				.style(ChatFormatting.YELLOW).forGoggles(tooltip);
+							"/" + localEnergy.getMaxEnergyStored() + "fe"))
+					.style(ChatFormatting.YELLOW).forGoggles(tooltip);
+
+		}
 
 		return true;
 	}

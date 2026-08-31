@@ -15,8 +15,8 @@ import com.simibubi.create.content.kinetics.simpleRelays.ICogWheel;
 import com.simibubi.create.foundation.block.IBE;
 
 import com.simibubi.create.foundation.fluid.FluidHelper;
-import com.simibubi.create.foundation.utility.Iterate;
-import com.simibubi.create.foundation.utility.VoxelShaper;
+import net.createmod.catnip.data.Iterate;
+import net.createmod.catnip.math.VoxelShaper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
@@ -134,6 +134,14 @@ public class HelveBlock extends HorizontalDirectionalBlock implements IBE<HelveB
 		IBE.onRemove(pState, pLevel, pPos, pNewState);
 		pLevel.removeBlockEntity(pPos);
 	}
+
+    @Override
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
+        super.neighborChanged(state, level, pos, block, fromPos, isMoving);
+        if (fromPos.equals(pos.below())) {
+            withBlockEntityDo(level, pos, HelveBlockEntity::updateAnvilState);
+        }
+    }
 
 	@Override
 	public void tick(BlockState pState, ServerLevel pLevel, BlockPos pPos, RandomSource pRandom) {

@@ -23,7 +23,6 @@ import com.negodya1.vintageimprovements.content.kinetics.laser.LaserCuttingRecip
 import com.negodya1.vintageimprovements.content.kinetics.lathe.TurningRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.LeavesVibratingRecipe;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingRecipe;
-import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingTableBlockEntity;
 import com.negodya1.vintageimprovements.infrastructure.config.VCRecipes;
 import com.negodya1.vintageimprovements.infrastructure.config.VintageConfig;
 import com.simibubi.create.AllBlocks;
@@ -36,7 +35,6 @@ import com.simibubi.create.compat.jei.EmptyBackground;
 import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
 import com.simibubi.create.content.equipment.sandPaper.SandPaperPolishingRecipe;
 import com.simibubi.create.content.processing.basin.BasinRecipe;
-import com.simibubi.create.foundation.config.ConfigBase;
 import com.simibubi.create.infrastructure.config.AllConfigs;
 import com.simibubi.create.infrastructure.config.CRecipes;
 import mezz.jei.api.IModPlugin;
@@ -47,6 +45,7 @@ import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.runtime.IIngredientManager;
+import net.createmod.catnip.config.ConfigBase;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -158,10 +157,11 @@ public class VintageJEI implements IModPlugin {
 
 		ALL.add(builder(CraftingRecipe.class)
 				.enableWhen(c -> c.allowUnpackingOnVibratingTable)
-				.addAllRecipesIf(r -> r instanceof CraftingRecipe && !(r instanceof IShapedRecipe<?>)
-						&& r.getIngredients()
-						.size() == 1
-						&& VibratingTableBlockEntity.canUnpack(r) && !AllRecipeTypes.shouldIgnoreInAutomation(r))
+				.addRecipeListConsumer(recipes -> {
+					List<Recipe<?>> allRecipes = new ArrayList<>();
+					consumeAllRecipes(allRecipes::add);
+					recipes.addAll(VintageRecipesList.findUnpackingRecipes(allRecipes, RegistryAccess.EMPTY));
+				})
 				.catalyst(VintageBlocks.VIBRATING_TABLE::get)
 				.doubleItemIcon(VintageBlocks.VIBRATING_TABLE.get(), Blocks.IRON_BLOCK)
 				.emptyBackground(177, 70)
@@ -225,7 +225,7 @@ public class VintageJEI implements IModPlugin {
 	public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
 		ALL.forEach(c -> c.registerCatalysts(registration));
 
-		registration.getJeiHelpers().getRecipeType(new ResourceLocation("minecraft", "smithing")).ifPresent(type -> {
+		registration.getJeiHelpers().getRecipeType(new ResourceLocation("minecraft", "smithing"), SmithingRecipe.class).ifPresent(type -> {
 			registration.addRecipeCatalyst(new ItemStack(VintageBlocks.HELVE.get()), type);
 		});
 	}

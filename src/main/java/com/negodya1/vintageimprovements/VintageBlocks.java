@@ -16,25 +16,35 @@ import com.negodya1.vintageimprovements.content.kinetics.lathe.LatheRotatingBloc
 import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.VacuumChamberBlock;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingTableBlock;
 import com.negodya1.vintageimprovements.content.kinetics.vibration.VibratingTableGenerator;
+import com.negodya1.vintageimprovements.infrastructure.config.VCStress;
 import com.simibubi.create.AllTags;
-import com.simibubi.create.content.kinetics.BlockStressDefaults;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderBlock;
 import com.negodya1.vintageimprovements.content.kinetics.grinder.GrinderGenerator;
+import com.simibubi.create.api.stress.BlockStressValues;
 import com.simibubi.create.content.processing.AssemblyOperatorBlockItem;
 import com.simibubi.create.foundation.data.AssetLookup;
 import com.simibubi.create.foundation.data.BlockStateGen;
 import com.simibubi.create.foundation.data.SharedProperties;
 
+import static com.simibubi.create.AllTags.NameSpace.FORGE;
 import static com.simibubi.create.foundation.data.ModelGen.customItemModel;
 
+import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.util.entry.BlockEntry;
+import com.tterrag.registrate.util.nullness.NonNullUnaryOperator;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.data.ForgeBlockTagsProvider;
+import net.minecraftforge.common.data.ForgeItemTagsProvider;
+
+import java.util.LinkedList;
 
 import static com.negodya1.vintageimprovements.VintageImprovements.MY_REGISTRATE;
 import static com.simibubi.create.foundation.data.TagGen.*;
@@ -45,6 +55,8 @@ public class VintageBlocks {
         MY_REGISTRATE.setCreativeTab(VintageImprovements.VINTAGE_IMPROVEMENT_TAB);
     }
 
+
+
     //Machines
     public static final BlockEntry<GrinderBlock> BELT_GRINDER = MY_REGISTRATE.block("belt_grinder", GrinderBlock::new)
             .initialProperties(SharedProperties::stone)
@@ -52,7 +64,7 @@ public class VintageBlocks {
             .properties(p -> p.mapColor(MapColor.SAND))
             .transform(axeOrPickaxe())
             .blockstate(new GrinderGenerator()::generate)
-            .transform(BlockStressDefaults.setImpact(4.0))
+            .transform(VCStress.setImpact(4.0))
             .item()
             .tag(AllTags.AllItemTags.CONTRAPTION_CONTROLLED.tag)
             .transform(customItemModel())
@@ -64,7 +76,7 @@ public class VintageBlocks {
             .properties(p -> p.mapColor(MapColor.PODZOL))
             .transform(axeOrPickaxe())
             .blockstate(new CoilingGenerator()::generate)
-            .transform(BlockStressDefaults.setImpact(4.0))
+            .transform(VCStress.setImpact(4.0))
             .item()
             .tag(AllTags.AllItemTags.CONTRAPTION_CONTROLLED.tag)
             .transform(customItemModel())
@@ -76,7 +88,7 @@ public class VintageBlocks {
                     .transform(axeOrPickaxe())
                     .blockstate((c, p) -> p.simpleBlock(c.getEntry(), AssetLookup.partialBaseModel(c, p)))
                     .addLayer(() -> RenderType::cutoutMipped)
-                    .transform(BlockStressDefaults.setImpact(4.0))
+                    .transform(VCStress.setImpact(4.0))
                     .item(AssemblyOperatorBlockItem::new)
                     .transform(customItemModel())
                     .register();
@@ -87,7 +99,7 @@ public class VintageBlocks {
             .properties(p -> p.mapColor(MapColor.PODZOL))
             .transform(axeOrPickaxe())
             .blockstate(new VibratingTableGenerator()::generate)
-            .transform(BlockStressDefaults.setImpact(2.0))
+            .transform(VCStress.setImpact(2.0))
             .item()
             .tag(AllTags.AllItemTags.CONTRAPTION_CONTROLLED.tag)
             .transform(customItemModel())
@@ -99,7 +111,7 @@ public class VintageBlocks {
             .properties(p -> p.mapColor(MapColor.DIRT))
             .transform(axeOrPickaxe())
             .blockstate(new CentrifugeGenerator()::generate)
-            .transform(BlockStressDefaults.setImpact(2.0))
+            .transform(VCStress.setImpact(2.0))
             .item(CentrifugeItem::new)
             .tag(AllTags.AllItemTags.CONTRAPTION_CONTROLLED.tag)
             .transform(customItemModel())
@@ -122,7 +134,7 @@ public class VintageBlocks {
                     .properties(p -> p.noOcclusion().mapColor(MapColor.PODZOL))
                     .transform(axeOrPickaxe())
                     .blockstate(BlockStateGen.horizontalBlockProvider(true))
-                    .transform(BlockStressDefaults.setImpact(8.0))
+                    .transform(VCStress.setImpact(8.0))
                     .item(AssemblyOperatorBlockItem::new)
                     .transform(customItemModel())
                     .register();
@@ -155,7 +167,7 @@ public class VintageBlocks {
                             .forAllStatesExcept(BlockStateGen.mapToAir(p), HelveKineticBlock.FACING))
                     .properties(p -> p.noOcclusion().mapColor(MapColor.DIRT))
                     .transform(axeOrPickaxe())
-                    .transform(BlockStressDefaults.setImpact(8.0))
+                    .transform(VCStress.setImpact(8.0))
                     .lang("Helve Hammer")
                     .register();
 
@@ -168,7 +180,7 @@ public class VintageBlocks {
             .item(LatheItem::new)
             .tag(AllTags.AllItemTags.CONTRAPTION_CONTROLLED.tag)
             .transform(customItemModel())
-            .transform(BlockStressDefaults.setImpact(2.0))
+            .transform(VCStress.setImpact(2.0))
             .register();
 
     public static final BlockEntry<LatheMovingBlock> LATHE_MOVING =
@@ -178,7 +190,7 @@ public class VintageBlocks {
                             .forAllStatesExcept(BlockStateGen.mapToAir(p), LatheMovingBlock.FACING))
                     .properties(p -> p.noOcclusion().mapColor(MapColor.DIRT))
                     .transform(axeOrPickaxe())
-                    .transform(BlockStressDefaults.setImpact(4.0))
+                    .transform(VCStress.setImpact(4.0))
                     .lang("Lathe")
                     .register();
 
@@ -189,7 +201,7 @@ public class VintageBlocks {
                     .properties(p -> p.noOcclusion().mapColor(MapColor.PODZOL))
                     .transform(axeOrPickaxe())
                     .blockstate(BlockStateGen.horizontalBlockProvider(true))
-                    .transform(BlockStressDefaults.setImpact(2.0))
+                    .transform(VCStress.setImpact(2.0))
                     .item(AssemblyOperatorBlockItem::new)
                     .transform(customItemModel())
                     .register();
@@ -202,7 +214,7 @@ public class VintageBlocks {
             .tag(BlockTags.NEEDS_IRON_TOOL)
             .tag(Tags.Blocks.STORAGE_BLOCKS)
             .tag(BlockTags.BEACON_BASE_BLOCKS)
-            .transform(tagBlockAndItem("storage_blocks/vanadium"))
+            .transform(tagBlockAndItem(AllTags.forgeBlockTag("storage_blocks/vanadium"), AllTags.forgeItemTag("storage_blocks/vanadium")))
             .tag(Tags.Items.STORAGE_BLOCKS)
             .build()
             .lang("Block of Vanadium")
@@ -214,7 +226,7 @@ public class VintageBlocks {
             .transform(pickaxeOnly())
             .tag(BlockTags.NEEDS_STONE_TOOL)
             .tag(Tags.Blocks.STORAGE_BLOCKS)
-            .transform(tagBlockAndItem("storage_blocks/sulfur"))
+            .transform(tagBlockAndItem(AllTags.forgeBlockTag("storage_blocks/sulfur"), AllTags.forgeItemTag("storage_blocks/sulfur")))
             .tag(Tags.Items.STORAGE_BLOCKS)
             .build()
             .lang("Block of Sulfur")

@@ -12,12 +12,14 @@ import com.simibubi.create.content.processing.recipe.ProcessingOutput;
 import com.simibubi.create.foundation.gui.AllGuiTextures;
 
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 
@@ -46,10 +48,20 @@ public class GrinderSandpaperPolishingCategory extends CreateRecipeCategory<Sand
 					.addSlot(RecipeIngredientRole.OUTPUT, 118 + xOffset, 48 + yOffset)
 					.setBackground(getRenderedSlot(output), -1, -1)
 					.addItemStack(output.getStack())
-					.addTooltipCallback(addStochasticTooltip(output));
+					.addRichTooltipCallback(addStochasticTooltip(output));
 			i++;
 		}
 	}
+
+    @Override
+    public ResourceLocation getRegistryName(SandPaperPolishingRecipe recipe) {
+        ResourceLocation id = super.getRegistryName(recipe);
+        if (id != null) {
+            return new ResourceLocation(id.getNamespace(),
+                    "grinder_" + id.getPath());
+        }
+        return id;
+    }
 
 	@Override
 	public void draw(SandPaperPolishingRecipe recipe, IRecipeSlotsView iRecipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
@@ -78,4 +90,11 @@ public class GrinderSandpaperPolishingCategory extends CreateRecipeCategory<Sand
 		}
 	}
 
+	@Override
+	public void getTooltip(ITooltipBuilder tooltip, SandPaperPolishingRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+		if (mouseX > 63 && mouseX < 97 && mouseY > 33 && mouseY < 64) {
+			int duration = 50;
+			tooltip.add(Component.translatable("vintageimprovements.jei.text.processing_duration", duration));
+		}
+	}
 }

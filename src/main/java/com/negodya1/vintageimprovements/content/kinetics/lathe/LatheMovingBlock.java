@@ -1,61 +1,24 @@
 package com.negodya1.vintageimprovements.content.kinetics.lathe;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
 
 import com.negodya1.vintageimprovements.*;
 import com.negodya1.vintageimprovements.content.kinetics.lathe.recipe_card.RecipeCardItem;
-import com.negodya1.vintageimprovements.foundation.advancement.VintageAdvancementBehaviour;
-import com.negodya1.vintageimprovements.foundation.advancement.VintageAdvancements;
-import com.negodya1.vintageimprovements.foundation.utility.VintageLang;
-import com.simibubi.create.Create;
-import com.simibubi.create.content.fluids.transfer.GenericItemEmptying;
-import com.simibubi.create.content.fluids.transfer.GenericItemFilling;
+import com.simibubi.create.api.equipment.goggles.IProxyHoveringInformation;
 import com.simibubi.create.content.kinetics.base.DirectionalKineticBlock;
 import com.simibubi.create.content.kinetics.deployer.DeployerFakePlayer;
-import com.simibubi.create.content.redstone.thresholdSwitch.ThresholdSwitchBlockEntity;
 import com.simibubi.create.foundation.block.IBE;
-import com.simibubi.create.foundation.fluid.FluidHelper;
-import com.simibubi.create.foundation.gui.ScreenOpener;
-import com.simibubi.create.foundation.item.ItemHelper;
-import com.simibubi.create.foundation.utility.Iterate;
-import com.simibubi.create.foundation.utility.VoxelShaper;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.SimpleMenuProvider;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.StonecutterMenu;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-import com.simibubi.create.AllBlocks;
-import com.simibubi.create.content.equipment.goggles.IProxyHoveringInformation;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import com.simibubi.create.foundation.block.render.MultiPosDestructionHandler;
 
@@ -74,7 +37,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -92,12 +54,16 @@ public class LatheMovingBlock extends DirectionalKineticBlock implements IWrench
 
 	@Override
 	public Direction.Axis getRotationAxis(BlockState state) {
-		return state.getValue(FACING).getClockWise().getAxis();
+		Direction facing = state.getValue(FACING);
+		if (!isHorizontal(facing))
+			return Direction.Axis.X;
+		return facing.getClockWise().getAxis();
 	}
 
 	@Override
 	public boolean hasShaftTowards(LevelReader world, BlockPos pos, BlockState state, Direction face) {
-		return face.getAxis() == state.getValue(FACING).getClockWise().getAxis();
+		Direction facing = state.getValue(FACING);
+		return isHorizontal(facing) && face.getAxis() == facing.getClockWise().getAxis();
 	}
 
 	@Override
@@ -118,6 +84,24 @@ public class LatheMovingBlock extends DirectionalKineticBlock implements IWrench
 	@Override
 	public InteractionResult onWrenched(BlockState state, UseOnContext context) {
 		return InteractionResult.PASS;
+	}
+
+	@Override
+	public BlockState getRotatedBlockState(BlockState state, Direction targetedFace) {
+		Direction facing = state.getValue(FACING);
+		if (!isHorizontal(facing) || facing.getAxis() == targetedFace.getAxis())
+			return state;
+		Direction rotated = facing.getClockWise(targetedFace.getAxis());
+		return isHorizontal(rotated) ? state.setValue(FACING, rotated) : state;
+	}
+
+	@Override
+	public BlockState rotate(BlockState state, Rotation rotation) {
+		Direction facing = state.getValue(FACING);
+		if (!isHorizontal(facing))
+			return state;
+		Direction rotated = rotation.rotate(facing);
+		return isHorizontal(rotated) ? state.setValue(FACING, rotated) : state;
 	}
 
 	@Override
@@ -190,12 +174,19 @@ public class LatheMovingBlock extends DirectionalKineticBlock implements IWrench
 			return false;
 
 		Direction direction = state.getValue(FACING);
+		if (!isHorizontal(direction))
+			return false;
 		BlockPos targetedPos = pos.relative(direction);
 		BlockState targetedState = level.getBlockState(targetedPos);
 
 		if (!directlyAdjacent && stillValid(level, targetedPos, targetedState, true))
 			return true;
-		return targetedState.getBlock() instanceof LatheRotatingBlock;
+		return targetedState.getBlock() instanceof LatheRotatingBlock
+				&& targetedState.getValue(LatheRotatingBlock.HORIZONTAL_FACING) == direction;
+	}
+
+	private static boolean isHorizontal(Direction direction) {
+		return direction.getAxis() != Direction.Axis.Y;
 	}
 
 	@Override
@@ -264,8 +255,9 @@ public class LatheMovingBlock extends DirectionalKineticBlock implements IWrench
 					lathe.currentRecipe = null;
 					lathe.resetRecipe();
 					if (worldIn.isClientSide) return;
-					if (player instanceof DeployerFakePlayer);
-					else NetworkHooks.openScreen((ServerPlayer) player, lathe, lathe::sendToMenu);
+					if (player instanceof DeployerFakePlayer) return;
+					if (lathe.getRecipes().size() == 1) return;
+					NetworkHooks.openScreen((ServerPlayer) player, lathe, lathe::sendToMenu);
 				}
 				else {
 					lathe.resetRecipe();
@@ -283,7 +275,6 @@ public class LatheMovingBlock extends DirectionalKineticBlock implements IWrench
 				lathe.resetRecipe();
 				if (worldIn.isClientSide) return;
 				player.setItemInHand(handIn, lathe.recipeSlot.insertItem(0, player.getItemInHand(handIn), false));
-
 				lathe.setChanged();
 				lathe.sendData();
 			});

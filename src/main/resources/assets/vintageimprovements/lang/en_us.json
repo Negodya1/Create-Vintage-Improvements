@@ -347,7 +347,7 @@
 	
 	"vintageimprovements.ponder.vibrating_table.header": "Processing Items on the Vibrating Table",
 	"vintageimprovements.ponder.vibrating_table.text_1": "The Vibrating Table can process a variety of items",
-	"vintageimprovements.ponder.vibrating_table.text_2": "It can also unpack storage blocks",
+	"vintageimprovements.ponder.vibrating_table.text_2": "It can unpack reversible 4-to-1 and 9-to-1 packing recipes",
 	"vintageimprovements.ponder.vibrating_table.text_3": "Or vibrate leaves to get matched drops, drop rates being the same as using Hoe with Fortune III",
 	"vintageimprovements.ponder.vibrating_table.text_4": "It can be powered from the side using shafts",
 	"vintageimprovements.ponder.vibrating_table.text_5": "Throw or Insert items on the top",
@@ -393,7 +393,7 @@
 	"vintageimprovements.ponder.helve_hammer.text_9": "Items can also be extracted/inserted by automation",
 	
 	"vintageimprovements.ponder.slots_blocking.header": "Helve Hammer slots blocking",
-	"vintageimprovements.ponder.slots_blocking.text_1": "Some recipes may require less then 3 ingredients",
+	"vintageimprovements.ponder.slots_blocking.text_1": "Some recipes may require less than 3 ingredients",
 	"vintageimprovements.ponder.slots_blocking.text_2": "You can block redundant slots with Helve Hammer Slot Cover",
 	"vintageimprovements.ponder.slots_blocking.text_3": "You can remove Slot Covers via right-click with a Wrench",
 	
@@ -452,7 +452,9 @@
 	"vintageimprovements.jei.text.curving_head_damage": "Head Damage",
 	
 	"vintageimprovements.jei.text.energy": "Energy costs:",
-	
+
+	"vintageimprovements.jei.text.processing_duration":  "Processing duration: %s",
+
 	"vintageimprovements.gui.goggles.low": "Low",
 	"vintageimprovements.gui.goggles.medium": "Medium",
 	"vintageimprovements.gui.goggles.high": "High",

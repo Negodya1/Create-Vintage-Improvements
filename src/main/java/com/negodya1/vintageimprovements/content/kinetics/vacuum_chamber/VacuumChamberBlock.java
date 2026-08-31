@@ -5,31 +5,27 @@ import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.VintageShapes;
 import com.negodya1.vintageimprovements.foundation.advancement.VintageAdvancementBehaviour;
 import com.simibubi.create.AllBlocks;
-import com.simibubi.create.AllItems;
 import com.simibubi.create.AllSoundEvents;
 import com.simibubi.create.content.kinetics.base.KineticBlock;
 import com.simibubi.create.content.kinetics.simpleRelays.ICogWheel;
 import com.simibubi.create.foundation.block.IBE;
-
-import com.simibubi.create.foundation.utility.VoxelShaper;
+import net.createmod.catnip.math.VoxelShaper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
@@ -97,20 +93,23 @@ public class VacuumChamberBlock extends KineticBlock implements IBE<VacuumChambe
 		list.add(Component.translatable(VintageImprovements.MODID + ".item_description.machine_rpm_requirements").append(" " + SpeedLevel.MEDIUM.getSpeedValue()).withStyle(ChatFormatting.GOLD));
 	}
 
-	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn,
-								 BlockHitResult hit) {
-		ItemStack heldItem = player.getItemInHand(handIn);
+	@Override
+	public InteractionResult onWrenched(BlockState state, UseOnContext context)
+	{
+		var worldIn = context.getLevel();
+		var pos = context.getClickedPos();
 
-		return onBlockEntityUse(worldIn, pos, be -> {
-			if (!heldItem.isEmpty()) {
-				if (heldItem.getItem() == AllItems.WRENCH.asItem() && be.runningTicks == 0) {
-					be.mode = !be.mode;
-					if (worldIn.isClientSide())
-						AllSoundEvents.WRENCH_ROTATE.playAt(worldIn, pos, 3, 1,true);
-				}
+		var be = this.getBlockEntity(worldIn, pos);
+		if (be != null && be.runningTicks == 0)
+		{
+			be.changeMode();
+			be.sendData();
+			if (worldIn.isClientSide()) {
+				AllSoundEvents.WRENCH_ROTATE.playAt(worldIn, pos, 3, 1, true);
 			}
+			return InteractionResult.SUCCESS;
+		}
+		return InteractionResult.PASS;
 
-			return InteractionResult.PASS;
-		});
 	}
 }

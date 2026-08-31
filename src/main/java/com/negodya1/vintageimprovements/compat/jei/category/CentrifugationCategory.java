@@ -2,20 +2,14 @@ package com.negodya1.vintageimprovements.compat.jei.category;
 
 import com.negodya1.vintageimprovements.VintageImprovements;
 import com.negodya1.vintageimprovements.compat.jei.category.animations.AnimatedCentrifuge;
-import com.negodya1.vintageimprovements.compat.jei.category.animations.AnimatedVacuumChamber;
 import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugationRecipe;
-import com.negodya1.vintageimprovements.content.kinetics.coiling.CoilingRecipe;
-import com.negodya1.vintageimprovements.content.kinetics.grinder.PolishingRecipe;
-import com.simibubi.create.compat.jei.category.BasinCategory;
 import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
-import com.simibubi.create.content.processing.basin.BasinRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingOutput;
 import com.simibubi.create.foundation.fluid.FluidIngredient;
 import com.simibubi.create.foundation.gui.AllGuiTextures;
-import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
-import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import net.minecraft.client.Minecraft;
@@ -52,11 +46,7 @@ public class CentrifugationCategory extends CreateRecipeCategory<CentrifugationR
 		for (FluidIngredient input : recipe.getFluidIngredients()) {
 			int xOffset = i % 3 * 19;
 			int yOffset = (i / 3) * 19;
-			builder
-					.addSlot(RecipeIngredientRole.INPUT, 10 + xOffset, 5 + yOffset)
-					.setBackground(getRenderedSlot(), -1, -1)
-					.addIngredients(ForgeTypes.FLUID_STACK, withImprovedVisibility(input.getMatchingFluidStacks()))
-					.addTooltipCallback(addFluidTooltip(input.getRequiredAmount()));
+			CreateRecipeCategory.addFluidSlot(builder, 10 + xOffset, 5 + yOffset * 16, input);
 			i++;
 		}
 
@@ -70,17 +60,13 @@ public class CentrifugationCategory extends CreateRecipeCategory<CentrifugationR
 					.addSlot(RecipeIngredientRole.OUTPUT, 128 + xOffset, 56 + yOffset)
 					.setBackground(getRenderedSlot(output), -1, -1)
 					.addItemStack(output.getStack())
-					.addTooltipCallback(addStochasticTooltip(output));
+					.addRichTooltipCallback(addStochasticTooltip(output));
 			i++;
 		}
 		for (FluidStack output : recipe.getFluidResults()) {
 			int xOffset = i % 2 * 19;
 			int yOffset = (i / 2) * 19;
-			builder
-					.addSlot(RecipeIngredientRole.OUTPUT, 128 + xOffset, 56 + yOffset)
-					.setBackground(getRenderedSlot(), -1, -1)
-					.addIngredient(ForgeTypes.FLUID_STACK, withImprovedVisibility(output))
-					.addTooltipCallback(addFluidTooltip(output.getAmount()));
+			CreateRecipeCategory.addFluidSlot(builder, 128 + xOffset, 56 + yOffset, output);
 			i++;
 		}
 	}
@@ -97,4 +83,12 @@ public class CentrifugationCategory extends CreateRecipeCategory<CentrifugationR
 				88, 103, 0xFFFF00);
 	}
 
+	@Override
+	public void getTooltip(ITooltipBuilder tooltip, CentrifugationRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+		if (mouseX > 23 && mouseX < 105 && mouseY > 47 && mouseY < 97) {
+			int duration = recipe.getProcessingDuration();
+			if (duration == 0) duration = 100;
+			tooltip.add(Component.translatable("vintageimprovements.jei.text.processing_duration", duration));
+		}
+	}
 }

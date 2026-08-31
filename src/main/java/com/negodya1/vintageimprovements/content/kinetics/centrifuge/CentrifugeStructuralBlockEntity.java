@@ -14,8 +14,6 @@ import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTank
 import com.simibubi.create.foundation.fluid.CombinedTankWrapper;
 import com.simibubi.create.foundation.item.ItemHelper;
 import com.simibubi.create.foundation.item.SmartInventory;
-import com.simibubi.create.foundation.utility.Couple;
-import com.simibubi.create.foundation.utility.Iterate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -55,13 +53,18 @@ public class CentrifugeStructuralBlockEntity extends SmartBlockEntity {
         super.tick();
 
         if (cbe == null) {
+            // 获取结构主方块前检查，避免无限递归
+            if (!(getBlockState().getBlock() instanceof CentrifugeStructuralBlock structuralBlock))
+                return;
+            if (!structuralBlock.stillValid(getLevel(), getBlockPos(), getBlockState(), false))
+                return;
             if (level.getBlockEntity(CentrifugeStructuralBlock.getMaster(level, getBlockPos(), getBlockState())) instanceof CentrifugeBlockEntity be) {
                 cbe = be;
             }
         }
 
-        sendData();
-        setChanged();
+        //sendData();
+        //setChanged();
     }
 
     @Override
@@ -87,7 +90,7 @@ public class CentrifugeStructuralBlockEntity extends SmartBlockEntity {
     }
 
     public boolean canProcess() {
-        if (cbe != null) return  cbe.canProcess();
+        if (cbe != null) return cbe.canProcess();
         return false;
     }
 

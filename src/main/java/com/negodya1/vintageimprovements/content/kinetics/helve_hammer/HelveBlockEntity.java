@@ -1,36 +1,16 @@
 package com.negodya1.vintageimprovements.content.kinetics.helve_hammer;
 
-import com.google.common.collect.ImmutableList;
 import com.negodya1.vintageimprovements.*;
-import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugationRecipe;
-import com.negodya1.vintageimprovements.content.kinetics.centrifuge.CentrifugeBlock;
-import com.negodya1.vintageimprovements.content.kinetics.vacuum_chamber.PressurizingRecipe;
 import com.negodya1.vintageimprovements.foundation.advancement.VintageAdvancementBehaviour;
 import com.negodya1.vintageimprovements.foundation.advancement.VintageAdvancements;
-import com.negodya1.vintageimprovements.foundation.utility.VintageLang;
 import com.negodya1.vintageimprovements.infrastructure.config.VintageConfig;
-import com.simibubi.create.AllBlocks;
-import com.simibubi.create.AllItems;
-import com.simibubi.create.AllRecipeTypes;
-import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
-import com.simibubi.create.content.kinetics.base.IRotate;
-import com.simibubi.create.content.processing.basin.BasinBlockEntity;
-import com.simibubi.create.content.processing.basin.BasinRecipe;
+import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
-import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
-import com.simibubi.create.foundation.fluid.CombinedTankWrapper;
-import com.simibubi.create.foundation.fluid.FluidHelper;
-import com.simibubi.create.foundation.fluid.FluidIngredient;
-import com.simibubi.create.foundation.recipe.RecipeConditions;
 import com.simibubi.create.foundation.recipe.RecipeFinder;
-import com.simibubi.create.foundation.utility.*;
-import com.simibubi.create.foundation.utility.animation.LerpedFloat;
-import com.tterrag.registrate.util.entry.RegistryEntry;
+import com.simibubi.create.foundation.utility.CreateLang;
+import net.createmod.catnip.math.VecHelper;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.Direction.Axis;
 import com.simibubi.create.AllSoundEvents;
-import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.belt.behaviour.DirectBeltInputBehaviour;
 import com.simibubi.create.content.processing.sequenced.SequencedAssemblyRecipe;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
@@ -39,15 +19,11 @@ import com.simibubi.create.foundation.item.SmartInventory;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
@@ -59,34 +35,23 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.SmithingRecipe;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.AnvilBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
-import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @ParametersAreNonnullByDefault
@@ -101,12 +66,13 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 	private SmithingRecipe lastSmithingRecipe;
 	private HammeringRecipe lastHammeringRecipe;
 	boolean lastRecipeIsAssembly;
-	private boolean contentsChanged;
+	private boolean recipesDirty;
 	private static final Object hammeringRecipesKey = new Object();
 	private int operatingMode;
 	Block anvilBlock;
 	VintageAdvancementBehaviour advancementBehaviour;
 	private int blockedSlots;
+	private boolean needsAnvilUpdate = true;
 
 	public static final TagKey<Item> customAnvilTag =
 			ItemTags.create(new ResourceLocation("vintageimprovements", "custom_hammering_blocks"));
@@ -116,14 +82,15 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 	public HelveBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
 		super(type, pos, state);
 
-		inputInv = new SmartInventory(3, this);
+		inputInv = new SmartInventory(3, this).whenContentsChanged(slot -> recipesDirty = true);
 		bufInv = new SmartInventory(3, this);
-		outputInv = new SmartInventory(3, this);
+		outputInv = new SmartInventory(3, this).whenContentsChanged(slot -> recipesDirty = true);
 		capability = LazyOptional.of(() -> new HelveInventoryHandler(inputInv, outputInv));
 		operatingMode = 0;
 		hammerBlows = 0;
 		anvilBlock = Blocks.AIR;
 		blockedSlots = 0;
+		recipesDirty = true;
 	}
 
 	public void resetRecipes() {
@@ -148,6 +115,7 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 		compound.put("OutputInventory", outputInv.serializeNBT());
 		compound.putBoolean("LastRecipeIsAssembly", lastRecipeIsAssembly);
 		compound.putInt("BlockedSlots", blockedSlots);
+		compound.putInt("OperatingMode", operatingMode);
 		super.write(compound, clientPacket);
 	}
 
@@ -160,15 +128,18 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 		outputInv.deserializeNBT(compound.getCompound("OutputInventory"));
 		lastRecipeIsAssembly = compound.getBoolean("LastRecipeIsAssembly");
 		blockedSlots = compound.getInt("BlockedSlots");
+		operatingMode = compound.getInt("OperatingMode");
 	}
 
 	public boolean addBlockedSlots() {
 		if (blockedSlots >= 2) return false;
 		blockedSlots += 1;
 		ItemHelper.dropContents(level, worldPosition, inputInv);
-		inputInv = new SmartInventory(3 - blockedSlots, this);
+		inputInv = new SmartInventory(3 - blockedSlots, this).whenContentsChanged(slot -> recipesDirty = true);
 		capability = LazyOptional.of(() -> new HelveInventoryHandler(inputInv, outputInv));
+		recipesDirty = true;
 		resetRecipes();
+        notifyUpdate();
 		return true;
 	}
 
@@ -182,9 +153,11 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 		ItemStack itemStack = new ItemStack(VintageItems.HELVE_HAMMER_SLOT_COVER.get(), blockedSlots);
 		blockedSlots = 0;
 		ItemHelper.dropContents(level, worldPosition, inputInv);
-		inputInv = new SmartInventory(3, this);
+		inputInv = new SmartInventory(3, this).whenContentsChanged(slot -> recipesDirty = true);
 		capability = LazyOptional.of(() -> new HelveInventoryHandler(inputInv, outputInv));
+		recipesDirty = true;
 		resetRecipes();
+        notifyUpdate();
 		return itemStack;
 	}
 
@@ -209,17 +182,19 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 			inputInv.clearContent();
 			outputInv.clearContent();
 		}
+
+		if (!level.isClientSide) {
+			sendData();
+		}
 	}
 
 	public float getHammerAngle() {
 		if (timer <= 0) return 0.0f;
 
-		if (operatingMode > 0) {
-			if ((operatingMode == 2 && lastSmithingRecipe != null) || (operatingMode == 1 && lastHammeringRecipe != null)) {
-				if (timer > 25)
-					return -25f + (timer / 20f);
-				return timer * -1f;
-			}
+		if (operatingMode == 1 && hammerBlows > 0 || operatingMode == 2) {
+			if (timer > 25)
+				return -25f + (timer / 20f);
+			return timer * -1f;
 		}
 
 		return 0.0f;
@@ -245,20 +220,22 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 		}
 	}
 
-	@Override
-	public void tick() {
-		super.tick();
+	public void updateAnvilState() {
+		if (level == null) return;
+		needsAnvilUpdate = false;
+		recipesDirty = true;
 
-		if (level.getBlockState(worldPosition.below()).getBlock() instanceof AnvilBlock ||
-				level.getBlockState(worldPosition.below()).getBlock().asItem().getDefaultInstance().is(anvilTag)) {
+		Block blockBelow = level.getBlockState(worldPosition.below()).getBlock();
+		if (blockBelow instanceof AnvilBlock ||
+				blockBelow.asItem().getDefaultInstance().is(anvilTag)) {
 			changeMode(1);
 			anvilBlock = Blocks.AIR;
 		}
-		else if (level.getBlockState(worldPosition.below()).getBlock().asItem().getDefaultInstance().is(customAnvilTag)) {
+		else if (blockBelow.asItem().getDefaultInstance().is(customAnvilTag)) {
 			changeMode(1);
-			anvilBlock = level.getBlockState(worldPosition.below()).getBlock();
+			anvilBlock = blockBelow;
 		}
-		else if (level.getBlockState(worldPosition.below()).is(Blocks.SMITHING_TABLE)) {
+		else if (blockBelow == Blocks.SMITHING_TABLE) {
 			changeMode(2);
 			anvilBlock = Blocks.AIR;
 		}
@@ -266,33 +243,82 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 			changeMode(0);
 			anvilBlock = Blocks.AIR;
 		}
+	}
+
+	@Override
+	public void tick() {
+		super.tick();
+
+		if (level.isClientSide) {
+			tickClient();
+		} else {
+			if (needsAnvilUpdate) {
+				updateAnvilState();
+			}
+			tickServer();
+		}
+	}
+
+	private void tickClient() {
+		float speed = getSpeed();
+		int processingSpeed = getProcessingSpeed(speed);
+
+		if (speed == 0) {
+			timer = 0;
+			return;
+		}
+
+		if (operatingMode == 1 && timer > 0 && hammerBlows > 0) {
+			timer -= processingSpeed;
+			if (timer > 0 && timer - processingSpeed <= 0) {
+				spawnEventParticles(inputInv.getStackInSlot(0));
+				AllSoundEvents.MECHANICAL_PRESS_ACTIVATION.playAt(level, worldPosition, 3, 1, true);
+			}
+			if (timer <= 0) {
+				timer = 500;
+			}
+		}
+		else if (operatingMode == 2 && timer > 0) {
+			timer -= processingSpeed;
+			if (timer > 0 && timer - processingSpeed * 2 <= 0) {
+				spawnEventParticles(inputInv.getStackInSlot(0));
+				AllSoundEvents.MECHANICAL_PRESS_ACTIVATION.playAt(level, worldPosition, 3, 1, true);
+			}
+		}
+	}
+
+	private void tickServer() {
+		float speed = getSpeed();
+		int processingSpeed = getProcessingSpeed(speed);
 
 		if (operatingMode == 1) {
-			for (int i = 0; i < outputInv.getSlots(); i++)
-				if (outputInv.getStackInSlot(i)
-						.getCount() == outputInv.getSlotLimit(i))
-					return;
+			boolean outputFull = true;
+			for (int i = 0; i < outputInv.getSlots(); i++) {
+				if (outputInv.getStackInSlot(i).getCount() < outputInv.getSlotLimit(i)) {
+					outputFull = false;
+					break;
+				}
+			}
+			if (outputFull) return;
 
 			if (timer > 0) {
-				if (getSpeed() == 0) {
+				if (speed == 0) {
 					timer = 0;
 					lastHammeringRecipe = null;
+					recipesDirty = true;
+					sendData();
 				}
 
 				if (lastHammeringRecipe != null) {
-					timer -= getProcessingSpeed();
+					timer -= processingSpeed;
 
-					if (level.isClientSide && timer > 0 && timer - getProcessingSpeed() <= 0) {
-						spawnEventParticles(inputInv.getStackInSlot(0));
-						AllSoundEvents.MECHANICAL_PRESS_ACTIVATION.playAt(level, worldPosition, 3, 1, true);
-						return;
-					}
 					if (timer <= 0) {
 						hammerBlows--;
 
 						if (hammerBlows <= 0) {
 							process();
 							lastHammeringRecipe = null;
+							recipesDirty = true;
 							sendData();
 						} else timer = 500;
 					}
@@ -300,7 +326,11 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 				}
 			}
 
-			if (inputInv.getStackInSlot(0).isEmpty()) return;
+			if (!recipesDirty) return;
+			if (speed == 0) return;
+			if (inputInv.isEmpty() && outputInv.isEmpty()) return;
+
+			recipesDirty = false;
 
 			if (lastHammeringRecipe == null || !HammeringRecipe.match(this, lastHammeringRecipe)) {
 
@@ -308,7 +338,7 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 					Optional<HammeringRecipe> assemblyRecipe = SequencedAssemblyRecipe.
 							getRecipe(level, inputInv.getStackInSlot(i),
 									VintageRecipes.HAMMERING.getType(), HammeringRecipe.class);
-					if (assemblyRecipe.isPresent()) {
+					if (assemblyRecipe.isPresent() && HammeringRecipe.match(this, assemblyRecipe.get())) {
 						boolean found = true;
 
 						for (Ingredient cur : assemblyRecipe.get().getIngredients()) {
@@ -338,8 +368,9 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 
 				lastRecipeIsAssembly = false;
 
-				if (!getRecipes().isEmpty()) {
-					if (getRecipes().get(0) instanceof HammeringRecipe hammering) {
+				List<Recipe<?>> recipes = getRecipes();
+				if (!recipes.isEmpty()) {
+					if (recipes.get(0) instanceof HammeringRecipe hammering) {
 						lastHammeringRecipe = hammering;
 						timer = 500;
 						hammerBlows = hammering.hammerBlows;
@@ -351,16 +382,12 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 
 		}
 		else if (operatingMode == 2) {
-			if (level.isClientSide && timer > 0 && timer - getProcessingSpeed() * 2 <= 0) {
-				spawnEventParticles(inputInv.getStackInSlot(0));
-				AllSoundEvents.MECHANICAL_PRESS_ACTIVATION.playAt(level, worldPosition, 3, 1, true);
-			}
-
 			int slots = 0;
 			for (int i = 0; i < inputInv.getSlots(); i++)
 				if (!inputInv.getStackInSlot(i).isEmpty()) slots++;
 
-			if (lastSmithingRecipe == null && slots >= (VintageConfig.server().recipes.allowTemplatelessRecipes.get() ? 2 : 3) && getSpeed() != 0) {
+			if (lastSmithingRecipe == null && recipesDirty && slots >= (VintageConfig.server().recipes.allowTemplatelessRecipes.get() ? 2 : 3) && speed != 0) {
+				recipesDirty = false;
 				for (SmithingRecipe recipe : VintageRecipesList.getSmithing()) {
 					boolean template = false;
 					boolean base = false;
@@ -378,25 +405,26 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 					if (template && base && addition) {
 						lastSmithingRecipe = recipe;
 						timer = 500;
+						sendData();
 						break;
 					}
 				}
 			}
 
-			if (lastSmithingRecipe != null && (slots < (VintageConfig.server().recipes.allowTemplatelessRecipes.get() ? 2 : 3) || getSpeed() == 0)) {
+			if (lastSmithingRecipe != null && (slots < (VintageConfig.server().recipes.allowTemplatelessRecipes.get() ? 2 : 3) || speed == 0)) {
 				lastSmithingRecipe = null;
 				timer = 0;
+				sendData();
 			}
 
 			if (timer > 0) {
 				if (lastSmithingRecipe != null) {
-					timer -= getProcessingSpeed();
-
-					if (level.isClientSide) return;
+					timer -= processingSpeed;
 
 					if (timer <= 0) {
 						processSmith();
 						lastSmithingRecipe = null;
+						recipesDirty = true;
 						sendData();
 					}
 					return;
@@ -428,17 +456,26 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 	}
 
 	private void process() {
+		// Sequenced assembly binds the next result to a shared recipe instance.
+		// Refresh it at completion so another machine cannot overwrite that result.
+		if (lastRecipeIsAssembly)
+			lastHammeringRecipe = null;
+
 		if (lastHammeringRecipe == null || !HammeringRecipe.match(this, lastHammeringRecipe)) {
 			boolean found = false;
-			Optional<HammeringRecipe> assemblyRecipe = SequencedAssemblyRecipe.getRecipe(level, inputInv,
-					VintageRecipes.HAMMERING.getType(), HammeringRecipe.class);
-			if (assemblyRecipe.isPresent()) {
-				lastHammeringRecipe = assemblyRecipe.get();
-				lastRecipeIsAssembly = true;
-				found = true;
+			for (int i = 0; i < inputInv.getSlots(); i++) {
+				Optional<HammeringRecipe> assemblyRecipe = SequencedAssemblyRecipe.getRecipe(level,
+						inputInv.getStackInSlot(i), VintageRecipes.HAMMERING.getType(), HammeringRecipe.class);
+				if (assemblyRecipe.isPresent() && HammeringRecipe.match(this, assemblyRecipe.get())) {
+					lastHammeringRecipe = assemblyRecipe.get();
+					lastRecipeIsAssembly = true;
+					found = true;
+					break;
+				}
 			}
 
 			if (!found) {
+				lastRecipeIsAssembly = false;
 				List<Recipe<?>> recipes = getRecipes();
 				if (!recipes.isEmpty()) {
 					lastHammeringRecipe = (HammeringRecipe) recipes.get(0);
@@ -517,6 +554,12 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 
 			bufInv.clearContent();
 		}
+	}
+
+	@Override
+	public void setChanged() {
+		super.setChanged();
+		recipesDirty = true;
 	}
 
 	@Override
@@ -618,8 +661,8 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 		return 0;
 	}
 
-	public int getProcessingSpeed() {
-		return Mth.clamp((int) Math.abs(getSpeed() / 16f), 1, 512);
+	public int getProcessingSpeed(float speed) {
+		return Mth.clamp((int) Math.abs(speed / 16f), 1, 512);
 	}
 
 	private class HelveInventoryHandler extends CombinedInvWrapper {
@@ -658,24 +701,24 @@ public class HelveBlockEntity extends SmartBlockEntity implements IHaveGoggleInf
 
 		switch (operatingMode) {
 			case 1 -> VintageLang.translate("gui.goggles.current_mode")
-						.add(Lang.text(" ")).add(VintageLang.translate("gui.goggles.hammering_mode"))
-						.style(ChatFormatting.DARK_AQUA).forGoggles(tooltip);
+					.add(com.simibubi.create.foundation.utility.CreateLang.text(" ")).add(VintageLang.translate("gui.goggles.hammering_mode"))
+					.style(ChatFormatting.DARK_AQUA).forGoggles(tooltip);
 			case 2 -> VintageLang.translate("gui.goggles.current_mode")
-					.add(Lang.text(" ")).add(VintageLang.translate("gui.goggles.smithing_mode"))
+					.add(com.simibubi.create.foundation.utility.CreateLang.text(" ")).add(VintageLang.translate("gui.goggles.smithing_mode"))
 					.style(ChatFormatting.DARK_PURPLE).forGoggles(tooltip);
 			default -> VintageLang.translate("gui.goggles.no_operating_block")
-							.style(ChatFormatting.DARK_RED).forGoggles(tooltip);
+					.style(ChatFormatting.DARK_RED).forGoggles(tooltip);
 
 		}
 
 		if (blockedSlots > 0) {
 			VintageLang.translate("gui.goggles.blocked_slots")
-					.add(Lang.text(" " + blockedSlots)).style(ChatFormatting.GOLD).forGoggles(tooltip);
+					.add(CreateLang.text(" " + blockedSlots)).style(ChatFormatting.GOLD).forGoggles(tooltip);
 		}
 
 		if (operatingMode == 1 && hammerBlows > 0 && lastHammeringRecipe != null)
 			VintageLang.translate("gui.goggles.hammer_blows")
-					.add(Lang.text(" ")).add(VintageLang.number(hammerBlows))
+					.add(CreateLang.text(" ")).add(CreateLang.number(hammerBlows))
 					.forGoggles(tooltip);
 
 		return true;
